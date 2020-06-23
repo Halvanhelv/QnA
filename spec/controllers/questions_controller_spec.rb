@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
@@ -7,7 +9,6 @@ RSpec.describe QuestionsController, type: :controller do
     let(:questions) { create_list(:question, 3) }
 
     before { get :index }
-
 
     it 'populates an array of all questions' do
       expect(assigns(:questions)).to match_array(questions)
@@ -61,7 +62,6 @@ RSpec.describe QuestionsController, type: :controller do
         expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
       end
 
-
       it 're-renders new view' do
         post :create, params: { question: attributes_for(:question, :invalid) }
         expect(response).to render_template :new
@@ -109,15 +109,16 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     let!(:question) { create(:question) }
-
+    let!(:answer) { question.answers.create(attributes_for(:answer)) }
     it 'deletes the question' do
       expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
     end
-
+    it 'deletes the question answers' do
+      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-Question.count) # не знал какую функцию использовать для определения того что все ответы у вопроса были удалены
+    end
     it 'redirects to index' do
       delete :destroy, params: { id: question }
       expect(response).to redirect_to questions_path
     end
   end
-
 end

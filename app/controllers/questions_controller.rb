@@ -1,6 +1,6 @@
+# frozen_string_literal: true
+
 class QuestionsController < ApplicationController
-
-
   def index
     @questions = Question.all
   end
@@ -36,6 +36,7 @@ class QuestionsController < ApplicationController
   end
 
   private
+
   def question
     @question ||= params[:id] ? Question.find(params[:id]) : Question.new
   end
