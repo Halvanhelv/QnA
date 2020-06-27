@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, except: %i[index show] #except за исключением
   def create
     @answer = question.answers.new(answer_params)
     if @answer.save
