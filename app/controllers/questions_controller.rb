@@ -8,6 +8,7 @@ class QuestionsController < ApplicationController
 
   def show
     question
+
   end
 
   def new
@@ -19,7 +20,7 @@ class QuestionsController < ApplicationController
   def create
     @question = Question.new(question_params)
     if @question.save
-      redirect_to @question, notice: "Your question successfully created."
+      redirect_to @question, notice: 'Your question successfully created.'
     else
       render :new
     end
@@ -49,9 +50,7 @@ class QuestionsController < ApplicationController
   # def load_question
   #   @question = Question.find(params[:id])
   # end
-  def current_controller
-    self.class
-  end
+
   def question_params
     params.require(:question).permit(:title, :body)
   end
