@@ -1,19 +1,13 @@
 -if @answer
   = render 'shared/errors',resource: @answer
-
-- if @question
-  - question = @question
-
+-if @answer
+  -question = @answer.question
+-else
+  -question = self.question
 h1= question.title
 p= question.body
 br=
 -question.answers.each do |f|
   ul= li= f.body
 
-=form_with url: question_answers_path(question),local: true do |f|
-
-  = f.label :body
-  = f.text_field 'answer[body]', id: :body
-
-  = f.submit 'Send an answer'
-
+=render 'answers/form',question:  question
