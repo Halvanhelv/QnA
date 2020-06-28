@@ -6,11 +6,12 @@ class QuestionsController < ApplicationController
     @questions = Question.all
   end
 
-  def show; end
+  def show
+    question
+  end
 
   def new
     question
-    2.days
   end
 
   def edit; end
@@ -48,7 +49,9 @@ class QuestionsController < ApplicationController
   # def load_question
   #   @question = Question.find(params[:id])
   # end
-
+  def current_controller
+    self.class
+  end
   def question_params
     params.require(:question).permit(:title, :body)
   end

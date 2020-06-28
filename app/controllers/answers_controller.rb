@@ -3,11 +3,15 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[index show] #except за исключением
   def create
+
     @answer = question.answers.new(answer_params)
     if @answer.save
-      redirect_to answer_path(@answer)
+      redirect_to @answer.question
     else
-      render :new
+      # redirect_to @answer.question
+      @question = @answer.question # если отправить пустой ответ то нужно как то передать обьект самого вопроса для редиректа обратно на ту же страницу и вывода ошибок
+      render 'questions/show'
+
     end
   end
 
@@ -40,8 +44,8 @@ class AnswersController < ApplicationController
   def answer_params
     params.require(:answer).permit(:body)
   end
-
   def question
+
     @question = Question.find(params[:question_id])
   end
 end

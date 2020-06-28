@@ -7,4 +7,5 @@ module FeatureHelpers
     visit questions_path
     click_on 'Ask question'
   end
+
 end
