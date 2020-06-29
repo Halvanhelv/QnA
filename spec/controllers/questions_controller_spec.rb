@@ -3,10 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
   let(:user) { create(:user) }
+  let(:question) { create(:question, user: user) }
+  let(:user_2) { create(:user) }
   describe 'GET #index' do
-    let(:questions) { create_list(:question, 3) }
+    let(:questions) { create_list(:question, 3, user: user) }
     before { get :index }
     it 'populates an array of all questions' do
       expect(assigns(:questions)).to match_array(questions)
@@ -111,17 +112,23 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     before { login(user) }
-    let!(:question) { create(:question) }
+    let!(:question) { create(:question, user: user) }
     let!(:answer) { question.answers.create(attributes_for(:answer)) }
-    it 'deletes the question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+    context 'delete user created question' do
+      it 'deletes the question' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+      it 'deletes the question answers cascade' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-Question.count) # не знал какую функцию использовать для определения того что все ответы у вопроса были удалены
+      end
+      it 'redirects to index' do
+        delete :destroy, params: { id: question }
+        expect(response).to redirect_to questions_path
+      end
     end
-    it 'deletes the question answers' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-Question.count) # не знал какую функцию использовать для определения того что все ответы у вопроса были удалены
-    end
-    it 'redirects to index' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
+    it 'Attempting to delete a question from a non-current user' do
+      login(user_2)
+      expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
     end
   end
 end

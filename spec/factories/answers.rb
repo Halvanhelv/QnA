@@ -3,7 +3,8 @@
 FactoryBot.define do
   factory :answer do
     body { 'MyAnswer' }
-    question_id { 10 }
+    question_id { nil }
+    user_id { nil }
     trait :invalid do
       body { nil }
     end
