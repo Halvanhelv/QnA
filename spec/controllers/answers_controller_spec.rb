@@ -4,16 +4,16 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
-  let(:question) { create(:question) }
-  let(:answer) { question.answers.create(attributes_for(:answer)) }
-
+  let(:question) { create(:question, user: user) }
+  let(:answer) { create(:answer, user: user, question: question) }
+  let(:user_2) { create(:user) }
   describe 'POST #create' do
     before { login(user) }
     context 'with valid attributes' do
       before { post :create, params: { answer: attributes_for(:answer), question_id: question } }
 
       it 'saves a new answer in the database' do
-        expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }.to change(question.answers, :count).by(1)
+        expect { post :create, params: { answer: attributes_for(:answer), question_id: question, user: user } }.to change(question.answers, :count).by(1)
       end
 
       it 'assigns the requested answer to @answer' do
@@ -70,27 +70,31 @@ RSpec.describe AnswersController, type: :controller do
   end
   describe 'GET #show' do
     it 'renders show view' do
-      get :show, params: { id: question.answers.create(attributes_for(:answer)) }
+      get :show, params: { id: answer }
       expect(response).to render_template :show
     end
   end
   describe 'GET #edit' do
     before { login(user) }
     it 'renders edit view' do
-      get :edit, params: { id: question.answers.create(attributes_for(:answer)) }
+      get :edit, params: { id: answer }
       expect(response).to render_template :edit
     end
   end
 
   describe 'DELETE #destroy' do
     before { login(user) }
-    let!(:answer) { question.answers.create(attributes_for(:answer)) }
+    let!(:answer) { create(:answer, user: user, question: question) }
     it 'deletes the answer' do
       expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
     end
     it 'deletes the answer' do
       delete :destroy, params: { id: answer }
       expect(response).to redirect_to question
+    end
+    it 'Attempting to delete a answer from a non-current user' do
+      login(user_2)
+      expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
     end
   end
 end

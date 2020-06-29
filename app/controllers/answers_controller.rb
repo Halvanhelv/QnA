@@ -5,6 +5,7 @@ class AnswersController < ApplicationController
   def create
 
     @answer = question.answers.new(answer_params)
+    @answer.user = current_user
     if @answer.save
       redirect_to @answer.question
     else # если отправить пустой ответ то нужно как то передать обьект самого вопроса для редиректа обратно на ту же страницу и вывода ошибок
@@ -30,9 +31,14 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    redirect_to answer.question if answer.destroy
+    if current_user == answer.user
+      answer.destroy
+      flash[:delete] = 'Answer successfully deleted.'
+    else
+      flash[:question] = "You cannot delete someone else's answer"
+    end
+    redirect_to answer.question
   end
-
   private
 
   def answer
