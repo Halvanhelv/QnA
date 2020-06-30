@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show] #except за исключением
+  before_action :authenticate_user!, except: %i[index show] # except за исключением
   def index
     @questions = Question.all
   end
 
   def show
-    question
-
+    @answer = question.answers.new
   end
 
   def new
@@ -35,9 +34,9 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user == question.user
-    question.destroy
-    flash[:delete] = 'Question successfully deleted.'
+    if current_user.author_of?(question)
+      question.destroy
+      flash[:delete] = 'Question successfully deleted.'
     else
       flash[:question] = "You cannot delete someone else's question"
     end
@@ -49,9 +48,7 @@ class QuestionsController < ApplicationController
   def question
     @question ||= params[:id] ? Question.find(params[:id]) : Question.new
   end
-
   helper_method :question
-
   # def load_question
   #   @question = Question.find(params[:id])
   # end

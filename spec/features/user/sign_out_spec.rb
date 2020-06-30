@@ -9,6 +9,7 @@ feature 'User can sign out',
     visit new_user_session_path
     sign_in(user)
   end
+
   scenario 'Authenticated user try sign out' do
     click_on 'Log out'
     expect(page).to have_content 'Signed out successfully.'

@@ -11,6 +11,7 @@ I'd like to be able to ask the question
     background do
       sign_in(user)
     end
+
     scenario 'asks a question' do
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'text text text'
@@ -25,6 +26,7 @@ I'd like to be able to ask the question
       expect(page).to have_content "Title can't be blank"
     end
   end
+
   scenario 'Unauthenticated user tries to ask a question' do
     visit questions_path
     click_on 'Ask question'

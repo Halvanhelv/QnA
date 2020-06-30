@@ -5,6 +5,7 @@ require 'rails_helper'
 feature 'User can register',
         "In order to be able to log in
 I would like to be able to register" do
+
   scenario 'User try sign_up' do
     visit new_user_registration_path
     fill_in 'Email', with: 'test@gmail.com'
@@ -13,6 +14,7 @@ I would like to be able to register" do
     click_on 'Sign up'
     expect(page).to have_content 'Welcome! You have signed up successfully.'
   end
+
   scenario 'User try sign_up with empty password' do
     visit new_user_registration_path
     fill_in 'Email', with: 'test@gmail.com'
@@ -21,6 +23,7 @@ I would like to be able to register" do
     click_on 'Sign up'
     expect(page).to have_content "Password can't be blank"
   end
+
   scenario 'User try sign_up with empty password' do
     visit new_user_registration_path
     fill_in 'Email', with: 'test@gmail.com'
@@ -29,6 +32,7 @@ I would like to be able to register" do
     click_on 'Sign up'
     expect(page).to have_content "Password confirmation doesn't match Password"
   end
+
   scenario 'User try sign_up with empty password' do
     visit new_user_registration_path
     fill_in 'Email', with: 'test@gmail.com'
