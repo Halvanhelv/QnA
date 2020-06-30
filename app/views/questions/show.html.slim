@@ -5,6 +5,6 @@ p= question.body
 br=
 -answers.each do |f|
   ul= li= f.body
-  / -if current_user &&  current_user.author_of?(f)
-  /   = button_to 'Delete Answer',answer_path(f),method: :delete
+  -if current_user &&  current_user.author_of?(f)
+    = button_to 'Delete Answer',answer_path(f),method: :delete
 = render 'answers/form'

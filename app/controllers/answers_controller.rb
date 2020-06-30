@@ -3,7 +3,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[index show] # except за исключением
   def create
-    answer.question = question
     answer.user = current_user
     if answer.save
       redirect_to answer.question
@@ -42,7 +41,7 @@ class AnswersController < ApplicationController
   private
 
   def answer
-    @answer ||= params[:id] ? Answer.find(params[:id]) : Answer.new(answer_params)
+    @answer ||= params[:id] ? Answer.find(params[:id]) : question.answers.new(answer_params)
   end
   helper_method :answer
 
