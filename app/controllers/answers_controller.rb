@@ -41,7 +41,7 @@ class AnswersController < ApplicationController
   private
 
   def answer
-    @answer ||= params[:id] ? Answer.find(params[:id]) : question.answers.new(answer_params)
+    @answer ||= params[:id] ? Answer.find(params[:id]) : answers.build(answer_params)
   end
   helper_method :answer
 

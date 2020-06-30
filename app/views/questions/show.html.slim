@@ -3,7 +3,7 @@ p= question.body
 -if current_user && current_user.author_of?(question)
   = button_to 'Delete',question_path(question),method: :delete
 br=
--answers.each do |f|
+-answers.reload.each do |f|
   ul= li= f.body
   -if current_user &&  current_user.author_of?(f)
     = button_to 'Delete Answer',answer_path(f),method: :delete
