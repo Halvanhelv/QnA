@@ -5,8 +5,8 @@ feature 'User can delete his question', "
 The user should be able to delete his question
 but not someone else’s
 " do
-  given(:user) { create(:user) }
-  given(:user_2) { create(:user) }
+  given(:user)     { create(:user) }
+  given(:user_2)   { create(:user) }
   given(:question) { user.questions.create(attributes_for(:question)) }
   background do
     sign_in(user)
@@ -17,5 +17,4 @@ but not someone else’s
     click_on 'Delete'
     expect(page).to have_content 'Question successfully deleted.'
   end
-
 end

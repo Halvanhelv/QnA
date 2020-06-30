@@ -2,7 +2,6 @@
 
 require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
-
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let(:user_2) { create(:user) }
@@ -53,7 +52,6 @@ RSpec.describe QuestionsController, type: :controller do
     before { login(user) }
 
     context 'with valid attributes' do
-
       it 'Verification of the author of the question' do
         post :create, params: { question: attributes_for(:question), user: user }
         expect(assigns(:question).user_id).to eq(user.id)
@@ -70,7 +68,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'with invalid attributes' do
-
       it 'does not save the question' do
         expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
       end
@@ -86,7 +83,6 @@ RSpec.describe QuestionsController, type: :controller do
     before { login(user) }
 
     context 'with valid attributes' do
-
       it 'assigns the requested question to @question' do
         patch :update, params: { id: question, question: attributes_for(:question) }
         expect(assigns(:question)).to eq question
@@ -121,13 +117,11 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-
     before { login(user) }
     let!(:question) { create(:question, user: user) }
     let!(:answer) { question.answers.create(attributes_for(:answer)) }
 
     context 'delete question from author' do
-
       it 'deletes the question' do
         expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
       end
@@ -139,7 +133,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'Delete another author’s question' do
-
       it 'Trying to delete question' do
         login(user_2)
         expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)

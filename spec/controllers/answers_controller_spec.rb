@@ -3,17 +3,15 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:user) { create(:user) }
+  let(:user)     { create(:user) }
   let(:question) { create(:question, user: user) }
-  let(:answer) { create(:answer, user: user, question: question) }
-  let(:user_2) { create(:user) }
+  let(:answer)   { create(:answer, user: user, question: question) }
+  let(:user_2)   { create(:user) }
 
   describe 'POST #create' do
-
     before { login(user) }
 
     context 'with valid attributes' do
-
       before { post :create, params: { answer: attributes_for(:answer), question_id: question, user: user } }
 
       it 'Verification of the author of the answer' do
@@ -31,7 +29,6 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
-
       it 'does not save the answer' do
         expect { post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question } }.to_not change(Answer, :count)
       end
@@ -43,11 +40,9 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
   describe 'PATCH #update' do
-
     before { login(user) }
 
     context 'with valid attributes' do
-
       it 'assigns the requested answer to @answer' do
         patch :update, params: { id: answer, answer: attributes_for(:answer) }
         expect(assigns(:answer)).to eq answer
@@ -66,7 +61,6 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
-
       before { patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) } }
 
       it 'does not change answer' do
@@ -81,7 +75,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #show' do
-
     it 'renders show view' do
       get :show, params: { id: answer }
       expect(response).to render_template :show
@@ -89,7 +82,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #edit' do
-
     before { login(user) }
 
     it 'renders edit view' do
@@ -99,7 +91,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-
     context 'Correct User try delete '
     before { login(user) }
 

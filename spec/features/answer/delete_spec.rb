@@ -21,5 +21,4 @@ but not someone else’s
     click_on 'Delete Answer'
     expect(page).to have_content 'Answer successfully deleted.'
   end
-
 end
