@@ -2,12 +2,14 @@
 
 require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
-
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
+
   let(:user_2) { create(:user) }
+  let(:questions) { create_list(:question, 3, user: user) }
+
   describe 'GET #index' do
-    let(:questions) { create_list(:question, 3, user: user) }
+
     before { get :index }
 
     it 'populates an array of all questions' do
@@ -20,6 +22,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
+
     before { get :show, params: { id: question } }
 
     it 'renders show view' do
@@ -28,7 +31,8 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    before { login(user) } # метод из модуля в папке support для автоматической авторизации в тесте
+
+    before { login(user) } # method from the module in the support folder for automatic authorization in the test
     before { get :new }
 
     it 'assigns a new Question to @question' do
@@ -41,6 +45,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #edit' do
+
     before { login(user) }
     before { get :edit, params: { id: question } }
 
@@ -50,39 +55,51 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    before { login(user) }
 
-    context 'with valid attributes' do
+    context 'User is authorized' do
 
-      it 'Verification of the author of the question' do
-        post :create, params: { question: attributes_for(:question), user: user }
-        expect(assigns(:question).user_id).to eq(user.id)
+      before { login(user) }
+
+      context 'with valid attributes' do
+
+        it 'Verification of the author of the question' do
+          post :create, params: { question: attributes_for(:question) }
+          expect(assigns(:question).user_id).to eq(user.id)
+        end
+
+        it 'saves a new question in the database' do
+          expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+        end
+
+        it 'redirects to show view' do
+          post :create, params: { question: attributes_for(:question) }
+          expect(response).to redirect_to assigns(:question)
+        end
       end
 
-      it 'saves a new question in the database' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
-      end
+      context 'with invalid attributes' do
 
-      it 'redirects to show view' do
-        post :create, params: { question: attributes_for(:question) }
-        expect(response).to redirect_to assigns(:question)
+        it 'does not save the question' do
+          expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
+        end
+
+        it 're-renders new view' do
+          post :create, params: { question: attributes_for(:question, :invalid) }
+          expect(response).to render_template :new
+        end
       end
     end
+    context 'User not authorized' do
 
-    context 'with invalid attributes' do
-
-      it 'does not save the question' do
-        expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
-      end
-
-      it 're-renders new view' do
-        post :create, params: { question: attributes_for(:question, :invalid) }
-        expect(response).to render_template :new
+      it 'redirects to sign_in page' do
+        post :create, params: { question: attributes_for(:question) }
+        expect(response).to redirect_to new_user_session_path
       end
     end
   end
 
   describe 'PATCH #update' do
+
     before { login(user) }
 
     context 'with valid attributes' do
@@ -106,12 +123,13 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'with invalid attributes' do
+
       before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
 
       it 'does not change question' do
         question.reload
-        expect(question.title).to eq 'MyTitle'
-        expect(question.body).to eq 'MyBody'
+        expect(question.title).to eq question.title
+        expect(question.body).to eq question.body
       end
 
       it 're-renders edit view' do
@@ -123,8 +141,9 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'DELETE #destroy' do
 
     before { login(user) }
+
     let!(:question) { create(:question, user: user) }
-    let!(:answer) { question.answers.create(attributes_for(:answer)) }
+    let!(:answer) { create(:answer, question: question, user: user) }
 
     context 'delete question from author' do
 

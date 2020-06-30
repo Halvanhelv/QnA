@@ -7,7 +7,9 @@ As an authenticated user
 I'd like to be able to ask the question
 " do
   given(:user) { create(:user) }
+
   describe 'Authernticated user ' do
+
     background do
       sign_in(user)
     end

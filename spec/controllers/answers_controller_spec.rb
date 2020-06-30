@@ -3,45 +3,56 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:user) { create(:user) }
-  let(:question) { create(:question, user: user) }
-  let(:answer) { create(:answer, user: user, question: question) }
-  let(:user_2) { create(:user) }
+  let(:user)          { create(:user) }
+  let(:question)      { create(:question) }
+  let!(:answer) { create(:answer) }
+  let(:user_2)        { create(:user) }
+  let(:answer_3)      { create(:answer) }
 
   describe 'POST #create' do
 
-    before { login(user) }
+    context 'User is authorized' do
 
-    context 'with valid attributes' do
+      before { login(user) }
 
-      before { post :create, params: { answer: attributes_for(:answer), question_id: question, user: user } }
+      context 'with valid attributes' do
 
-      it 'Verification of the author of the answer' do
-        post :create, params: { answer: attributes_for(:answer), question_id: question }
-        expect(assigns(:answer).user_id).to eq(user.id)
+        it 'Verification of the author of the answer' do
+          post :create, params: { answer: attributes_for(:answer), question_id: question }
+          expect(assigns(:answer).user_id).to eq(user.id)
+        end
+
+        it 'saves a new answer in the database' do
+          expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }.to change(question.answers, :count).by(1)
+        end
+
+        it 'redirects to show view' do
+          post :create, params: { answer: attributes_for(:answer), question_id: question }
+          expect(response).to redirect_to question_path(assigns(:question))
+        end
       end
 
-      it 'saves a new answer in the database' do
-        expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }.to change(question.answers, :count).by(1)
-      end
+      context 'with invalid attributes' do
 
-      it 'redirects to show view' do
-        expect(response).to redirect_to question_path(assigns(:question))
+        it 'does not save the answer' do
+          expect { post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question } }.to_not change(Answer, :count)
+        end
+
+        it 're-renders new view' do
+          post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question }
+          expect(response).to render_template 'questions/show'
+        end
       end
     end
+    context 'User not authorized' do
 
-    context 'with invalid attributes' do
-
-      it 'does not save the answer' do
-        expect { post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question } }.to_not change(Answer, :count)
-      end
-
-      it 're-renders new view' do
-        post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question }
-        expect(response).to render_template 'questions/show'
+      it 'Redirect to sign_in_page' do
+        post :create, params: { answer: attributes_for(:answer), question_id: question }
+        expect(response).to redirect_to new_user_session_path
       end
     end
   end
+
   describe 'PATCH #update' do
 
     before { login(user) }
@@ -67,24 +78,18 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid attributes' do
 
-      before { patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) } }
+      let(:answer_static) { create(:answer, body: 'Answer_body_text') }
+
+      before { patch :update, params: { id: answer_static, answer: attributes_for(:answer, :invalid) } }
 
       it 'does not change answer' do
-        answer.reload
-        expect(answer.body).to eq 'MyAnswer'
+        answer_static.reload
+        expect(answer_static.body).to eq 'Answer_body_text'
       end
 
       it 're-renders edit view' do
         expect(response).to render_template :edit
       end
-    end
-  end
-
-  describe 'GET #show' do
-
-    it 'renders show view' do
-      get :show, params: { id: answer }
-      expect(response).to render_template :show
     end
   end
 
@@ -100,23 +105,25 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'DELETE #destroy' do
 
-    context 'Correct User try delete '
     before { login(user) }
 
-    let!(:answer) { create(:answer, user: user, question: question) }
+    context 'Correct User try delete ' do
 
-    it 'deletes the answer' do
-      expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+      let!(:answer) { create(:answer, user: user, question: question) }
+
+      it 'deletes the answer' do
+        expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+      end
+
+      it 'deletes the answer' do
+        delete :destroy, params: { id: answer }
+        expect(response).to redirect_to question
+      end
     end
 
-    it 'deletes the answer' do
-      delete :destroy, params: { id: answer }
-      expect(response).to redirect_to question
+    it 'Attempting to delete a answer from a non-current user' do
+      login(user_2)
+      expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
     end
-  end
-
-  it 'Attempting to delete a answer from a non-current user' do
-    login(user_2)
-    expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
   end
 end

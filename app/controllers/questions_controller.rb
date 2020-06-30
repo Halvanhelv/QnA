@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show] # except за исключением
+  before_action :authenticate_user!, except: %i[index show] # except is the opposite: only
+
   def index
     @questions = Question.all
   end
 
-  def show
-    @answer = question.answers.new
-  end
+  def show; end
 
   def new
     question
@@ -17,6 +16,7 @@ class QuestionsController < ApplicationController
   def edit; end
 
   def create
+    redirect_to new_user_session_path unless current_user
     @question = current_user.questions.new(question_params)
     if @question.save
       redirect_to @question, notice: 'Your question successfully created.'
@@ -45,10 +45,22 @@ class QuestionsController < ApplicationController
 
   private
 
+  def answer
+    @answer ||= question.answers.new
+  end
+  helper_method :answer
+
   def question
     @question ||= params[:id] ? Question.find(params[:id]) : Question.new
   end
+
   helper_method :question
+
+  def answers
+    @answers ||= question.reload.answers
+  end
+
+  helper_method :answers
   # def load_question
   #   @question = Question.find(params[:id])
   # end

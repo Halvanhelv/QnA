@@ -7,7 +7,9 @@ I would like to write an answer to the question
 " do
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
+
   describe 'Authernticated user ' do
+
     background do
       sign_in(user)
     end

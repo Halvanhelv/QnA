@@ -14,6 +14,8 @@ module FeatureHelpers
     fill_in 'Title', with: question.title
     fill_in 'Body', with: question.body
     click_on 'Ask'
+
+    visit question_path(question)
   end
 
   def create_answer(answer)
