@@ -14,8 +14,8 @@ I would like to be able to select a question
 
   scenario ' Authenticated user try show a questions' do
     sign_in(user)
+    questions
     visit questions_path
-    expect(page).to have_content 'MyTitle'
     expect(page).to have_content questions.first.title
     expect(page).to have_content questions.last.title
     # expect(page).to have_content 'Question_title_number2'
@@ -24,19 +24,19 @@ I would like to be able to select a question
 
   scenario ' Unauthenticated user try show a questions' do
     visit questions_path
-    expect(page).to have_content 'MyTitle'
+    expect(page).to have_content question.title
   end
 
   scenario 'user try show a question' do
     visit questions_path
-    click_on 'MyTitle'
-    expect(page).to have_content 'MyTitle'
+    click_on question.title
+    expect(page).to have_content question.title
   end
 
   scenario 'user try show a question answers' do
     answers
     visit questions_path
-    click_on 'MyTitle'
+    click_on question.title
     expect(page).to have_content question.answers.first.body
     expect(page).to have_content question.answers.last.body
   end

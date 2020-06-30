@@ -6,7 +6,7 @@ FactoryBot.define do
   end
 
   factory :question do
-    title { 'MyTitle' }
+    title
     body { 'MyBody' }
 
     trait :invalid do
