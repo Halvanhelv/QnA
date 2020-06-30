@@ -5,14 +5,13 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:user)     { create(:user) }
   let(:question) { create(:question, user: user) }
-  let(:answer)   { create(:answer, user: user, question: question) }
+  let!(:answer)   { create(:answer, user: user, question: question) }
   let(:user_2)   { create(:user) }
 
   describe 'POST #create' do
     before { login(user) }
 
     context 'with valid attributes' do
-      before { post :create, params: { answer: attributes_for(:answer), question_id: question, user: user } }
 
       it 'Verification of the author of the answer' do
         post :create, params: { answer: attributes_for(:answer), question_id: question }
@@ -24,6 +23,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'redirects to show view' do
+        post :create, params: { answer: attributes_for(:answer), question_id: question }
         expect(response).to redirect_to question_path(assigns(:question))
       end
     end
@@ -65,19 +65,12 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'does not change answer' do
         answer.reload
-        expect(answer.body).to eq 'MyAnswer'
+        expect(answer.body).to eq 'Answer_number14'
       end
 
       it 're-renders edit view' do
         expect(response).to render_template :edit
       end
-    end
-  end
-
-  describe 'GET #show' do
-    it 'renders show view' do
-      get :show, params: { id: answer }
-      expect(response).to render_template :show
     end
   end
 
@@ -91,9 +84,8 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    context 'Correct User try delete '
     before { login(user) }
-
+    context 'Correct User try delete ' do
     let!(:answer) { create(:answer, user: user, question: question) }
 
     it 'deletes the answer' do
@@ -104,10 +96,11 @@ RSpec.describe AnswersController, type: :controller do
       delete :destroy, params: { id: answer }
       expect(response).to redirect_to question
     end
-  end
+    end
 
-  it 'Attempting to delete a answer from a non-current user' do
-    login(user_2)
-    expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+    it 'Attempting to delete a answer from a non-current user' do
+      login(user_2)
+      expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
+    end
   end
 end

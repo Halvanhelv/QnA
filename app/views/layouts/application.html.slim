@@ -10,6 +10,7 @@ html
   body
     p.notice
     p.alert
+    =current_user
     = render 'shared/flash'
     - if current_user
       = button_to 'Log out', destroy_user_session_path, method: :delete
