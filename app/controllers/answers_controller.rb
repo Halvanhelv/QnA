@@ -3,10 +3,10 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[index show] # except за исключением
   def create
-    @answer = question.answers.new(answer_params)
-    @answer.user = current_user
-    if @answer.save
-      redirect_to @answer.question
+    answer.question = question
+    answer.user = current_user
+    if answer.save
+      redirect_to answer.question
     else # если отправить пустой ответ то нужно как то передать обьект самого вопроса для редиректа обратно на ту же страницу и вывода ошибок
       # redirect_to @answer.question
 
@@ -42,10 +42,14 @@ class AnswersController < ApplicationController
   private
 
   def answer
-    @answer ||= params[:id] ? Answer.find(params[:id]) : Answer.new
+    @answer ||= params[:id] ? Answer.find(params[:id]) : Answer.new(answer_params)
   end
-
   helper_method :answer
+
+  def answers
+    @answers ||= question.reload.answers
+  end
+  helper_method :answers
 
   def answer_params
     params.require(:answer).permit(:body)

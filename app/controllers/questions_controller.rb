@@ -7,7 +7,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answer = question.answers.new
+
   end
 
   def new
@@ -45,10 +45,22 @@ class QuestionsController < ApplicationController
 
   private
 
+  def answer
+    @answer ||= question.answers.new
+  end
+  helper_method :answer
+
   def question
     @question ||= params[:id] ? Question.find(params[:id]) : Question.new
   end
+
   helper_method :question
+
+  def answers
+    @answers ||= question.reload.answers
+  end
+
+  helper_method :answers
   # def load_question
   #   @question = Question.find(params[:id])
   # end
