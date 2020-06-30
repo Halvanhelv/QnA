@@ -12,15 +12,10 @@ but not someone else’s
     sign_in(user)
     create_question(question)
   end
+
   scenario 'User try delete his question' do
     click_on 'Delete'
     expect(page).to have_content 'Question successfully deleted.'
   end
-  scenario 'User try delete not your question' do
-    click_on 'Log out'
-    sign_in(user_2)
-    visit question_path(question)
-    click_on 'Delete'
-    expect(page).to have_content "You cannot delete someone else's question"
-  end
+
 end

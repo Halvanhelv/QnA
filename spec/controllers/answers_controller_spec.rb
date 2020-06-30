@@ -7,24 +7,31 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question, user: user) }
   let(:answer) { create(:answer, user: user, question: question) }
   let(:user_2) { create(:user) }
-  describe 'POST #create' do
-    before { login(user) }
-    context 'with valid attributes' do
-      before { post :create, params: { answer: attributes_for(:answer), question_id: question } }
 
-      it 'saves a new answer in the database' do
-        expect { post :create, params: { answer: attributes_for(:answer), question_id: question, user: user } }.to change(question.answers, :count).by(1)
+  describe 'POST #create' do
+
+    before { login(user) }
+
+    context 'with valid attributes' do
+
+      before { post :create, params: { answer: attributes_for(:answer), question_id: question, user: user } }
+
+      it 'Verification of the author of the answer' do
+        post :create, params: { answer: attributes_for(:answer), question_id: question }
+        expect(assigns(:answer).user_id).to eq(user.id)
       end
 
-      it 'assigns the requested answer to @answer' do
-        expect(assigns(:answer)).to eq question.answers.last
+      it 'saves a new answer in the database' do
+        expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }.to change(question.answers, :count).by(1)
       end
 
       it 'redirects to show view' do
         expect(response).to redirect_to question_path(assigns(:question))
       end
     end
+
     context 'with invalid attributes' do
+
       it 'does not save the answer' do
         expect { post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question } }.to_not change(Answer, :count)
       end
@@ -36,8 +43,11 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
   describe 'PATCH #update' do
+
     before { login(user) }
+
     context 'with valid attributes' do
+
       it 'assigns the requested answer to @answer' do
         patch :update, params: { id: answer, answer: attributes_for(:answer) }
         expect(assigns(:answer)).to eq answer
@@ -56,6 +66,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
+
       before { patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) } }
 
       it 'does not change answer' do
@@ -68,14 +79,19 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
   describe 'GET #show' do
+
     it 'renders show view' do
       get :show, params: { id: answer }
       expect(response).to render_template :show
     end
   end
+
   describe 'GET #edit' do
+
     before { login(user) }
+
     it 'renders edit view' do
       get :edit, params: { id: answer }
       expect(response).to render_template :edit
@@ -83,18 +99,24 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+
+    context 'Correct User try delete '
     before { login(user) }
+
     let!(:answer) { create(:answer, user: user, question: question) }
+
     it 'deletes the answer' do
       expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
     end
+
     it 'deletes the answer' do
       delete :destroy, params: { id: answer }
       expect(response).to redirect_to question
     end
-    it 'Attempting to delete a answer from a non-current user' do
-      login(user_2)
-      expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
-    end
+  end
+
+  it 'Attempting to delete a answer from a non-current user' do
+    login(user_2)
+    expect { delete :destroy, params: { id: answer } }.to_not change(Answer, :count)
   end
 end

@@ -1,15 +1,14 @@
--if @answer
-  = render 'shared/errors',resource: @answer
--if @answer
-  -question = @answer.question
--else
-  -question = self.question #Если не писать else блок то question почему то всегда nil
 h1= question.title
 p= question.body
-=button_to 'Delete',question_path(question),method: :delete
-br=
--question.answers.each do |f|
-  ul= li= f.body
-  =button_to 'Delete Answer',answer_path(f),method: :delete
+-if current_user
+  -if current_user.author_of?(question)
+    =button_to 'Delete',question_path(question),method: :delete
 
-=render 'answers/form',question:  question
+br=
+-question.reload.answers.each do |f|
+  ul= li= f.body
+  -if current_user
+    -if current_user.author_of?(f)
+      =button_to 'Delete Answer',answer_path(f),method: :delete
+
+=render 'answers/form'

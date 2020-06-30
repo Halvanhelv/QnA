@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show] #except за исключением
+  before_action :authenticate_user!, except: %i[index show] # except за исключением
   def create
-
     @answer = question.answers.new(answer_params)
     @answer.user = current_user
     if @answer.save
@@ -31,7 +30,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user == answer.user
+    if current_user.author_of?(answer)
       answer.destroy
       flash[:delete] = 'Answer successfully deleted.'
     else
@@ -39,6 +38,7 @@ class AnswersController < ApplicationController
     end
     redirect_to answer.question
   end
+
   private
 
   def answer
@@ -52,9 +52,7 @@ class AnswersController < ApplicationController
   end
 
   def question
-
     @question = Question.find(params[:question_id])
   end
-
-
+  helper_method :question
 end

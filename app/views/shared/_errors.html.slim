@@ -1,5 +1,6 @@
--if resource.errors.present?
-  b= "#{resource.errors.count} error(s) deteceted:  "
+-if resource
+ -if resource.errors.present?
+  b= "#{resource.errors.count} error(s) detected:  "
   ul
-    -resource.errors.full_messages.each do |message|
-      li= message
+  -resource.errors.full_messages.each do |message|
+   li= message

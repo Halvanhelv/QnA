@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-
 RSpec.describe QuestionsController, type: :controller do
+
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let(:user_2) { create(:user) }
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3, user: user) }
     before { get :index }
+
     it 'populates an array of all questions' do
       expect(assigns(:questions)).to match_array(questions)
     end
@@ -20,6 +21,7 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'GET #show' do
     before { get :show, params: { id: question } }
+
     it 'renders show view' do
       expect(response).to render_template :show
     end
@@ -41,6 +43,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #edit' do
     before { login(user) }
     before { get :edit, params: { id: question } }
+
     it 'renders edit view' do
       expect(response).to render_template :edit
     end
@@ -48,7 +51,14 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'POST #create' do
     before { login(user) }
+
     context 'with valid attributes' do
+
+      it 'Verification of the author of the question' do
+        post :create, params: { question: attributes_for(:question), user: user }
+        expect(assigns(:question).user_id).to eq(user.id)
+      end
+
       it 'saves a new question in the database' do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
       end
@@ -60,6 +70,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     context 'with invalid attributes' do
+
       it 'does not save the question' do
         expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
       end
@@ -73,7 +84,9 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'PATCH #update' do
     before { login(user) }
+
     context 'with valid attributes' do
+
       it 'assigns the requested question to @question' do
         patch :update, params: { id: question, question: attributes_for(:question) }
         expect(assigns(:question)).to eq question
@@ -81,9 +94,7 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'changes question attributes' do
         patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
-
         question.reload
-
         expect(question.title).to eq 'new title'
         expect(question.body).to eq 'new body'
       end
@@ -99,9 +110,8 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'does not change question' do
         question.reload
-
-        expect(question.title).to eq 'MyString'
-        expect(question.body).to eq 'MyText'
+        expect(question.title).to eq 'MyTitle'
+        expect(question.body).to eq 'MyBody'
       end
 
       it 're-renders edit view' do
@@ -111,24 +121,29 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+
     before { login(user) }
     let!(:question) { create(:question, user: user) }
     let!(:answer) { question.answers.create(attributes_for(:answer)) }
-    context 'delete user created question' do
+
+    context 'delete question from author' do
+
       it 'deletes the question' do
         expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
       end
-      it 'deletes the question answers cascade' do
-        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-Question.count) # не знал какую функцию использовать для определения того что все ответы у вопроса были удалены
-      end
+
       it 'redirects to index' do
         delete :destroy, params: { id: question }
         expect(response).to redirect_to questions_path
       end
     end
-    it 'Attempting to delete a question from a non-current user' do
-      login(user_2)
-      expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+
+    context 'Delete another author’s question' do
+
+      it 'Trying to delete question' do
+        login(user_2)
+        expect { delete :destroy, params: { id: question } }.to_not change(Question, :count)
+      end
     end
   end
 end
