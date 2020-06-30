@@ -5,8 +5,9 @@ RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
   let(:user_2) { create(:user) }
+  let(:questions) { create_list(:question, 3, user: user) }
   describe 'GET #index' do
-    let(:questions) { create_list(:question, 3, user: user) }
+
     before { get :index }
 
     it 'populates an array of all questions' do
