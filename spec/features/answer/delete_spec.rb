@@ -20,5 +20,6 @@ but not someone else’s
     expect(page).to have_content answer.body
     click_on 'Delete Answer'
     expect(page).to have_content 'Answer successfully deleted.'
+    expect(page).to_not have_content answer.body
   end
 end

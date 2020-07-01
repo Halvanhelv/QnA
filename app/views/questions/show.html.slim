@@ -1,10 +1,10 @@
 h1= question.title
 p= question.body
--if current_user && current_user.author_of?(question)
-  = button_to 'Delete',question_path(question),method: :delete
+-if current_user&.author_of?(question)
+  = button_to 'Delete', question_path(question), method: :delete
 br=
--answers.reload.each do |f|
-  ul= li= f.body
-  -if current_user &&  current_user.author_of?(f)
-    = button_to 'Delete Answer',answer_path(f),method: :delete
+- answers.select(&:persisted?).each do |answer|
+  ul= li= answer.body
+  -if current_user&.author_of?(answer) # analogue of current_user && current_user.author_of? but there are nuances
+    = button_to 'Delete Answer', answer_path(answer), method: :delete
 = render 'answers/form'

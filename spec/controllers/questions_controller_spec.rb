@@ -8,7 +8,6 @@ RSpec.describe QuestionsController, type: :controller do
   let(:user_2) { create(:user) }
   let(:questions) { create_list(:question, 3, user: user) }
   describe 'GET #index' do
-
     before { get :index }
 
     it 'populates an array of all questions' do
@@ -120,7 +119,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'DELETE #destroy' do
     before { login(user) }
     let!(:question) { create(:question, user: user) }
-    let!(:answer) { question.answers.create(attributes_for(:answer)) }
+    let!(:answer) { create(:answer, question: question, user: user) }
 
     context 'delete question from author' do
       it 'deletes the question' do

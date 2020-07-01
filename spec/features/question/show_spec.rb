@@ -16,10 +16,9 @@ I would like to be able to select a question
     sign_in(user)
     questions
     visit questions_path
-    expect(page).to have_content questions.first.title
-    expect(page).to have_content questions.last.title
-    # expect(page).to have_content 'Question_title_number2'
-    # expect(page).to have_content 'Question_title_number3'
+    questions.each do |question|
+      expect(page).to have_content question.title
+    end
   end
 
   scenario ' Unauthenticated user try show a questions' do
@@ -37,7 +36,7 @@ I would like to be able to select a question
     visit questions_path
     click_on answers.first.question.title
     answers.each do |answer|
-    expect(page).to have_content answer.body
+      expect(page).to have_content answer.body
     end
   end
 end

@@ -2,15 +2,13 @@
 
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[index show] # except за исключением
+
   def create
     answer.user = current_user
     if answer.save
       redirect_to answer.question
     else # если отправить пустой ответ то нужно как то передать обьект самого вопроса для редиректа обратно на ту же страницу и вывода ошибок
-      # redirect_to @answer.question
-
       render 'questions/show'
-
     end
   end
 

@@ -6,12 +6,11 @@ FactoryBot.define do
   end
 
   factory :answer do
+    association :user
+    association :question
     body
     trait :invalid do
       body { nil }
-    end
-    trait :static do
-      body { 'TEXT11' }
     end
   end
 end

@@ -2,6 +2,7 @@
 
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show] # except за исключением
+
   def index
     @questions = Question.all
   end
