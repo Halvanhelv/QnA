@@ -3,8 +3,9 @@ p= question.body
 -if current_user&.author_of?(question)
   = button_to 'Delete', question_path(question), method: :delete
 br=
-- answers.select(&:persisted?).each do |answer|
-  ul= li= answer.body
-  -if current_user&.author_of?(answer) # analogue of current_user && current_user.author_of? but there are nuances
+- answers.each do |answer|
+  -if answer.persisted?
+    ul= li= answer.body
+    -if current_user&.author_of?(answer) # analogue of current_user && current_user.author_of? but there are nuances
     = button_to 'Delete Answer', answer_path(answer), method: :delete
 = render 'answers/form'
