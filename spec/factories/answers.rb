@@ -10,5 +10,8 @@ FactoryBot.define do
     trait :invalid do
       body { nil }
     end
+    trait :static do
+      body { 'TEXT11' }
+    end
   end
 end

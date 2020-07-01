@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:user)     { create(:user) }
   let(:question) { create(:question, user: user) }
+  let(:answer_static) { create(:answer, :static, user: user, question: question) }
   let!(:answer)   { create(:answer, user: user, question: question) }
   let(:user_2)   { create(:user) }
 
@@ -61,11 +62,11 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      before { patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) } }
+      before { patch :update, params: { id: answer_static, answer: attributes_for(:answer, :invalid) } }
 
       it 'does not change answer' do
-        answer.reload
-        expect(answer.body).to eq 'Answer_number14'
+        answer_static.reload
+        expect(answer_static.body).to eq 'TEXT11'
       end
 
       it 're-renders edit view' do
