@@ -10,35 +10,44 @@ RSpec.describe AnswersController, type: :controller do
   let(:user_2) { create(:user) }
 
   describe 'POST #create' do
-    before { login(user) }
+    context 'User is authorized' do
+      before { login(user) }
 
-    context 'with valid attributes' do
-      it 'Verification of the author of the answer' do
-        post :create, params: { answer: attributes_for(:answer), question_id: question }
-        expect(assigns(:answer).user_id).to eq(user.id)
+      context 'with valid attributes' do
+        it 'Verification of the author of the answer' do
+          post :create, params: { answer: attributes_for(:answer), question_id: question }
+          expect(assigns(:answer).user_id).to eq(user.id)
+        end
+
+        it 'saves a new answer in the database' do
+          expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }.to change(question.answers, :count).by(1)
+        end
+
+        it 'redirects to show view' do
+          post :create, params: { answer: attributes_for(:answer), question_id: question }
+          expect(response).to redirect_to question_path(assigns(:question))
+        end
       end
 
-      it 'saves a new answer in the database' do
-        expect { post :create, params: { answer: attributes_for(:answer), question_id: question } }.to change(question.answers, :count).by(1)
-      end
+      context 'with invalid attributes' do
+        it 'does not save the answer' do
+          expect { post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question } }.to_not change(Answer, :count)
+        end
 
-      it 'redirects to show view' do
-        post :create, params: { answer: attributes_for(:answer), question_id: question }
-        expect(response).to redirect_to question_path(assigns(:question))
+        it 're-renders new view' do
+          post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question }
+          expect(response).to render_template 'questions/show'
+        end
       end
     end
-
-    context 'with invalid attributes' do
-      it 'does not save the answer' do
-        expect { post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question } }.to_not change(Answer, :count)
-      end
-
-      it 're-renders new view' do
-        post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question }
-        expect(response).to render_template 'questions/show'
+    context 'User not authorized' do
+      it 'Redirect to sign_in_page' do
+        post :create, params: { answer: attributes_for(:answer), question_id: question, user: user }
+        expect(response).to redirect_to  new_user_session_path
       end
     end
   end
+
   describe 'PATCH #update' do
     before { login(user) }
 

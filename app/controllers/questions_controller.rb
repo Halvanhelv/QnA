@@ -16,13 +16,17 @@ class QuestionsController < ApplicationController
   def edit; end
 
   def create
-    @question = current_user.questions.new(question_params)
-    if @question.save
-      redirect_to @question, notice: 'Your question successfully created.'
+    if current_user
+      @question = current_user.questions.new(question_params)
+      if @question.save
+        redirect_to @question, notice: 'Your question successfully created.'
+      else
+        render :new
+      end
     else
-      render :new
-    end
+      redirect_to new_user_session_path
   end
+    end
 
   def update
     if question.update(question_params)

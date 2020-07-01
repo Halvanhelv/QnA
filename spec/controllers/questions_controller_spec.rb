@@ -50,33 +50,44 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    before { login(user) }
 
-    context 'with valid attributes' do
-      it 'Verification of the author of the question' do
-        post :create, params: { question: attributes_for(:question), user: user }
-        expect(assigns(:question).user_id).to eq(user.id)
+
+    context 'User is authorized' do
+      before { login(user) }
+      context 'with valid attributes' do
+
+        it 'Verification of the author of the question' do
+          post :create, params: { question: attributes_for(:question), user: user }
+          expect(assigns(:question).user_id).to eq(user.id)
+        end
+
+        it 'saves a new question in the database' do
+          expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+        end
+
+        it 'redirects to show view' do
+          post :create, params: { question: attributes_for(:question) }
+          expect(response).to redirect_to assigns(:question)
+        end
       end
 
-      it 'saves a new question in the database' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
-      end
+      context 'with invalid attributes' do
+        it 'does not save the question' do
+          expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
+        end
 
-      it 'redirects to show view' do
-        post :create, params: { question: attributes_for(:question) }
-        expect(response).to redirect_to assigns(:question)
+        it 're-renders new view' do
+          post :create, params: { question: attributes_for(:question, :invalid) }
+          expect(response).to render_template :new
+        end
       end
     end
-
-    context 'with invalid attributes' do
-      it 'does not save the question' do
-        expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
+    context 'User not authorized' do
+      it 'redirects to sign_in page' do
+        post :create, params: { question: attributes_for(:question) }
+        expect(response).to redirect_to  new_user_session_path
       end
 
-      it 're-renders new view' do
-        post :create, params: { question: attributes_for(:question, :invalid) }
-        expect(response).to render_template :new
-      end
     end
   end
 
