@@ -10,7 +10,7 @@ I'd like to be able to sign in
   given(:user) { create(:user) }
   background { visit new_user_session_path }
 
-  scenario 'Registred user tries to sign in' do # аналог it
+  scenario 'Register user tries to sign in' do # analog of it in unit tests
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user.password
     click_on 'Log in'

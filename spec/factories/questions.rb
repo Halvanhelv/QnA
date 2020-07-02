@@ -6,10 +6,9 @@ FactoryBot.define do
   end
 
   factory :question do
-    association :user
-    title
+    user
+    title # Same as `title { generate(:title) }`
     body { 'MyBody' }
-
     trait :invalid do
       title { nil }
     end

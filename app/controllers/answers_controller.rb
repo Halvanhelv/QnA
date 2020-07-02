@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show] # except за исключением
+  before_action :authenticate_user!, except: %i[index show] # except is the opposite: only
 
   def create
     answer.user = current_user

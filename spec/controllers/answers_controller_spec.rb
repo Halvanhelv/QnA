@@ -4,10 +4,10 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user)          { create(:user) }
-  let(:question)      { create(:question, user: user) }
-  let(:answer_static) { create(:answer, body: 'Answer_body_text', user: user, question: question) }
-  let!(:answer)  { create(:answer, user: user, question: question) }
-  let(:user_2) { create(:user) }
+  let(:question)      { create(:question) }
+  let!(:answer) { create(:answer) }
+  let(:user_2)        { create(:user) }
+  let(:answer_3)      { create(:answer) }
 
   describe 'POST #create' do
     context 'User is authorized' do
@@ -42,8 +42,8 @@ RSpec.describe AnswersController, type: :controller do
     end
     context 'User not authorized' do
       it 'Redirect to sign_in_page' do
-        post :create, params: { answer: attributes_for(:answer), question_id: question, user: user }
-        expect(response).to redirect_to  new_user_session_path
+        post :create, params: { answer: attributes_for(:answer), question_id: question }
+        expect(response).to redirect_to new_user_session_path
       end
     end
   end
@@ -70,6 +70,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
+      let(:answer_static) { create(:answer, body: 'Answer_body_text') }
       before { patch :update, params: { id: answer_static, answer: attributes_for(:answer, :invalid) } }
 
       it 'does not change answer' do
@@ -94,6 +95,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'DELETE #destroy' do
     before { login(user) }
+
     context 'Correct User try delete ' do
       let!(:answer) { create(:answer, user: user, question: question) }
 

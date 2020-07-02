@@ -28,7 +28,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    before { login(user) } # метод из модуля в папке support для автоматической авторизации в тесте
+    before { login(user) } # method from the module in the support folder for automatic authorization in the test
     before { get :new }
 
     it 'assigns a new Question to @question' do
@@ -50,14 +50,11 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-
-
     context 'User is authorized' do
       before { login(user) }
       context 'with valid attributes' do
-
         it 'Verification of the author of the question' do
-          post :create, params: { question: attributes_for(:question), user: user }
+          post :create, params: { question: attributes_for(:question) }
           expect(assigns(:question).user_id).to eq(user.id)
         end
 
@@ -85,9 +82,8 @@ RSpec.describe QuestionsController, type: :controller do
     context 'User not authorized' do
       it 'redirects to sign_in page' do
         post :create, params: { question: attributes_for(:question) }
-        expect(response).to redirect_to  new_user_session_path
+        expect(response).to redirect_to new_user_session_path
       end
-
     end
   end
 
