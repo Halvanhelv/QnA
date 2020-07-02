@@ -6,17 +6,16 @@ feature 'User can delete his answer', "
 The user should be able to delete his answer
 but not someone else’s
 " do
-  given(:user)       { create(:user) }
   given(:other_user) { create(:user) }
-  given(:question)   { user.questions.create(attributes_for(:question)) }
   given(:answer)     { create(:answer) }
+
   background do
-    sign_in(user)
-    visit question_path(question)
-    create_answer(answer)
+    sign_in(answer.user)
   end
+
   describe 'Authenticated user' do
     scenario 'trying to delete his answer' do
+      visit question_path(answer.question)
       expect(page).to have_content answer.body
       click_on 'Delete Answer'
       expect(page).to have_content 'Answer successfully deleted.'

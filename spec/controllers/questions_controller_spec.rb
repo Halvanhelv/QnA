@@ -7,6 +7,7 @@ RSpec.describe QuestionsController, type: :controller do
 
   let(:user_2) { create(:user) }
   let(:questions) { create_list(:question, 3, user: user) }
+
   describe 'GET #index' do
     before { get :index }
 

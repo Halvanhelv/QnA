@@ -5,15 +5,16 @@ feature 'User can delete his question', "
 The user should be able to delete his question
 but not someone else’s
 " do
-  given(:user)         { create(:user) }
-  given(:other_user)   { create(:user) }
-  given(:question)     { user.questions.create(attributes_for(:question)) }
+  given(:other_user) { create(:user) }
+  given(:question) { create(:question) }
+
   background do
-    sign_in(user)
-    create_question(question)
+    sign_in(question.user)
   end
+
   describe 'Authenticated user' do
     scenario 'trying to delete his question' do
+      visit question_path(question)
       click_on 'Delete'
       expect(page).to have_content 'Question successfully deleted.'
     end

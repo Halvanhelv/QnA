@@ -8,6 +8,7 @@ As an unauthenticated user
 I'd like to be able to sign in
 " do
   given(:user) { create(:user) }
+
   background { visit new_user_session_path }
 
   scenario 'Register user tries to sign in' do # analog of it in unit tests
