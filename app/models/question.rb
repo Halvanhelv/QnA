@@ -5,4 +5,8 @@ class Question < ApplicationRecord
   belongs_to :user
 
   validates :body, :title, presence: true
+
+  def best_answer
+    answers.best.first
+  end
 end

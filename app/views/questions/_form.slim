@@ -1,0 +1,6 @@
+= form_with model: question, class: 'hidden', html: {id: "edit-question"} do |f|
+  = f.label :body
+  = f.text_area :body
+  = f.label :title
+  =f.text_area :title
+  = f.submit 'Save'

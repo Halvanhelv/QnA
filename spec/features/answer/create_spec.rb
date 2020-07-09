@@ -14,14 +14,14 @@ I would like to write an answer to the question
       sign_in(user)
     end
 
-    scenario 'create answer for question' do
+    scenario 'create answer for question', js: true do
       visit question_path(question)
       fill_in 'Body', with: 'Answer body'
       click_on 'Send an answer'
       expect(page).to have_content 'Answer body'
     end
 
-    scenario 'create answer for question with errors' do
+    scenario 'create answer for question with errors', js: true do
       visit question_path(question)
       fill_in 'Body', with: ''
       click_on 'Send an answer'

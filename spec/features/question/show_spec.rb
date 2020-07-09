@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'rails_helper'
 feature 'User can show questions', "
 To see all the questions
@@ -12,7 +10,7 @@ I would like to be able to select a question
   given!(:answer)   { create(:answer, user: user, question: question) }
   given(:answers)   { create_list(:answer, 5, user: user, question: question) }
 
-  scenario ' Authenticated user try show a questions' do
+  scenario ' Auth user try show a questions' do
     sign_in(user)
     questions
     visit questions_path
@@ -22,7 +20,7 @@ I would like to be able to select a question
     end
   end
 
-  scenario ' Unauthenticated user try show a questions' do
+  scenario ' Unauth user try show a questions' do
     visit questions_path
     expect(page).to have_content question.title
   end
@@ -36,6 +34,7 @@ I would like to be able to select a question
   scenario 'user try show a question answers' do
     visit questions_path
     click_on answers.first.question.title
+
     answers.each do |answer|
       expect(page).to have_content answer.body
     end

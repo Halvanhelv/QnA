@@ -5,11 +5,12 @@ class AnswersController < ApplicationController
 
   def create
     answer.user = current_user
-    if answer.save
-      redirect_to answer.question
-    else # если отправить пустой ответ то нужно как то передать обьект самого вопроса для редиректа обратно на ту же страницу и вывода ошибок
-      render 'questions/show'
-    end
+    answer.save
+    # if answer.save
+    #   redirect_to answer.question
+    # else # если отправить пустой ответ то нужно как то передать обьект самого вопроса для редиректа обратно на ту же страницу и вывода ошибок
+    #   render 'questions/show'
+    # end
   end
 
   def new; end
@@ -19,11 +20,7 @@ class AnswersController < ApplicationController
   def edit; end
 
   def update
-    if answer.update(answer_params)
-      redirect_to answer
-    else
-      render :edit
-    end
+    answer.update(answer_params) if current_user.author_of?(answer)
   end
 
   def destroy
@@ -33,7 +30,10 @@ class AnswersController < ApplicationController
     else
       flash[:question] = "You cannot delete someone else's answer"
     end
-    redirect_to answer.question
+  end
+
+  def best_answer
+    answer.make_best_answer if current_user.author_of?(answer.question)
   end
 
   private

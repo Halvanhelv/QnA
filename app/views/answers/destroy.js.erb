@@ -1,0 +1,4 @@
+<% unless answer.persisted? %>
+$('.notice').html('<%= render 'shared/flash' %>')
+$("#answer-id-<%= answer.id %>").fadeOut("slow").remove()
+<%end %>

@@ -24,13 +24,13 @@ but not someone else’s
       click_on 'Log out'
       sign_in(other_user)
       visit question_path(question)
-      expect(page).to_not have_content 'Delete'
+      expect(page).not_to have_content 'Delete'
     end
   end
 
   scenario 'Unauthenticated user try delete question' do
     click_on 'Log out'
     visit question_path(question)
-    expect(page).to_not have_content 'Delete'
+    expect(page).not_to have_content 'Delete'
   end
 end

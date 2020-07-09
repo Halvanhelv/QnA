@@ -1,0 +1,4 @@
+$('<%= "#answer-id-#{answer.id} .answer-errors" %>').html('<%= render 'shared/errors', resource: answer %>');
+<% unless answer.errors.present? %>
+$('<%= "#answer-id-#{answer.id}" %>').replaceWith('<%= j render answer %>');
+<% end %>

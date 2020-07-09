@@ -13,8 +13,6 @@ class QuestionsController < ApplicationController
     question
   end
 
-  def edit; end
-
   def create
     redirect_to new_user_session_path unless current_user
     @question = current_user.questions.new(question_params)
@@ -26,11 +24,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if question.update(question_params)
-      redirect_to question
-    else
-      render :edit
-    end
+    question.update(question_params) if current_user.author_of?(question)
   end
 
   def destroy
