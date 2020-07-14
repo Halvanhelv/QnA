@@ -1,8 +1,15 @@
 h1= question.title
 p= question.body
 p= question.user.email
-- if current_user&.author_of?(question)
-     = button_to 'Delete', question_path(question), method: :delete
-     p= link_to 'Edit', '#', class: 'edit-question-link'
-     =render 'form'
+-if question.files.attached?
+ul
+   -question.files.each do |file|
+      li class="attachment-id-#{file.id}"
+         = link_to file.filename, url_for(file)
+      end
+
+-if current_user&.author_of?(question)
+   = button_to 'Delete', question_path(question), method: :delete
+   p= link_to 'Edit', '#', class: 'edit-question-link'
+   =render 'form'
 #question-errors

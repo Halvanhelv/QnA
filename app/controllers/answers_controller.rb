@@ -21,6 +21,7 @@ class AnswersController < ApplicationController
 
   def update
     answer.update(answer_params) if current_user.author_of?(answer)
+    files_params
   end
 
   def destroy
@@ -39,7 +40,7 @@ class AnswersController < ApplicationController
   private
 
   def answer
-    @answer ||= params[:id] ? Answer.find(params[:id]) : answers.build(answer_params)
+    @answer ||= params[:id] ? Answer.with_attached_files.find(params[:id]) : answers.build(answer_params)
   end
   helper_method :answer
 
@@ -49,11 +50,19 @@ class AnswersController < ApplicationController
   helper_method :answers
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, files: [])
   end
 
   def question
-    @question = Question.find(params[:question_id])
+    @question = Question.with_attached_files.find(params[:question_id])
   end
   helper_method :question
+
+  def files_params
+    if params[:answer][:files].present?
+      params[:answer][:files].each do |file|
+        answer.files.attach(file)
+      end
+    end
+  end
 end

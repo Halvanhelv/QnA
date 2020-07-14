@@ -11,8 +11,6 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
 
-
-
     context 'User is authorized' do
 
       subject { post :create, params: { question_id: question, answer: answer_params, format: :js } }

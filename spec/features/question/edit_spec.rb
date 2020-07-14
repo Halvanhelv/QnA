@@ -10,7 +10,6 @@ I'd like to ba able to edit the question
   describe 'Authenticated user ', js: true do
 
     context 'own answer' do
-
       background { sign_in(user) }
       background { visit question_path(question) }
 
@@ -64,6 +63,51 @@ I'd like to ba able to edit the question
 
           within '#question-errors' do
             expect(page).to have_content "Title can't be blank"
+          end
+        end
+      end
+
+      context 'try delete attachment' do
+        given!(:question) { create(:question, :with_file, user: user) }
+
+        scenario 'attached file' do
+
+          within '#question' do
+            click_on 'Edit'
+
+            within '.attachments' do
+              expect(page).to have_content(question.files.first.filename)
+
+              click_on 'Delete attachment'
+
+              expect(page).to_not have_content(question.files.first.filename)
+            end
+          end
+        end
+      end
+
+      context 'can delete current attachment from several' do
+        given!(:question) { create(:question, :with_files, user: user) }
+        given(:attachment_first) { question.files.first }
+        given(:attachment_second) { question.files.last }
+
+        scenario 'attached file' do
+
+          within '#question' do
+            click_on 'Edit'
+
+            within '.attachments' do
+
+              expect(page).to have_content(attachment_first.filename)
+              expect(page).to have_content(attachment_second.filename)
+
+              within ".attachment-id-#{attachment_first.id}" do
+                click_on 'Delete attachment'
+              end
+
+              expect(page).to_not have_content(attachment_first.filename)
+              expect(page).to have_content(attachment_second.filename)
+            end
           end
         end
       end

@@ -40,7 +40,6 @@ feature 'User can choose best answer for  question', "
           background { visit question_path(question) }
 
           scenario 'try change best answer' do
-
             within '.answers' do
 
               within '#best-answer' do

@@ -56,7 +56,7 @@ RSpec.describe QuestionsController, type: :controller do
         end
 
         it 'saves a new question in the database' do
-          expect {   subject }.to change(Question, :count).by(1)
+          expect { subject }.to change(Question, :count).by(1)
         end
 
         it 'redirects to show view' do

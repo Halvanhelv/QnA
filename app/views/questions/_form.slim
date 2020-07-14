@@ -1,6 +1,15 @@
 = form_with model: question, class: 'hidden', html: {id: "edit-question"} do |f|
-  = f.label :body
-  = f.text_area :body
-  = f.label :title
-  =f.text_area :title
+  p
+    = f.label :title
+    = f.text_area :title
+    p
+      = f.label :body
+      = f.text_area :body
+
+    ul.attachments
+
+      =render question.files
+    p
+      = f.label :files
+      = f.file_field :files, multiple: true, direct_upload: true
   = f.submit 'Save'

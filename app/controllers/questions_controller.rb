@@ -15,7 +15,11 @@ class QuestionsController < ApplicationController
 
   def create
     redirect_to new_user_session_path unless current_user
+
     @question = current_user.questions.new(question_params)
+
+    files_params
+
     if @question.save
       redirect_to @question, notice: 'Your question successfully created.'
     else
@@ -24,7 +28,9 @@ class QuestionsController < ApplicationController
   end
 
   def update
+
     question.update(question_params) if current_user.author_of?(question)
+    files_params
   end
 
   def destroy
@@ -45,7 +51,7 @@ class QuestionsController < ApplicationController
   helper_method :answer
 
   def question
-    @question ||= params[:id] ? Question.find(params[:id]) : Question.new
+    @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
   end
 
   helper_method :question
@@ -62,4 +68,13 @@ class QuestionsController < ApplicationController
   def question_params
     params.require(:question).permit(:title, :body)
   end
+
+  def files_params
+    if params[:question][:files].present?
+      params[:question][:files].each do |file|
+        question.files.attach(file)
+      end
+      end
+  end
+
 end

@@ -16,10 +16,17 @@ I would like to write an answer to the question
 
     scenario 'create answer for question', js: true do
       visit question_path(question)
+      within '.new-answer' do
       fill_in 'Body', with: 'Answer body'
+      attach_file 'Files', Rails.root.join('spec', 'rails_helper.rb')
       click_on 'Send an answer'
+
+      end
+      within '.answers' do
       expect(page).to have_content 'Answer body'
-    end
+      expect(page).to have_link('rails_helper.rb')
+      end
+      end
 
     scenario 'create answer for question with errors', js: true do
       visit question_path(question)
