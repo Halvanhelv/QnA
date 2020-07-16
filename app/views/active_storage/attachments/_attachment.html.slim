@@ -2,4 +2,4 @@
    li class="attachment-id-#{attachment.id}"
       = link_to attachment.filename, url_for(attachment)
       - if current_user&.author_of?(attachment.record)
-         = link_to 'Delete attachment', attachment_path(attachment), method: :delete, remote: true
+         = link_to t('delete_attachment'), attachment_path(attachment), method: :delete, remote: true

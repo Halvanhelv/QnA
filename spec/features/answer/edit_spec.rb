@@ -17,11 +17,11 @@ I'd like ot be able to edit my answer
       within '.answers' do
 
         within "#answer-id-#{answer.id}" do
-          click_on 'Edit'
+          click_on I18n.t('edit_answer')
 
           fill_in 'Your answer', with: 'edited answer'
 
-          click_on 'Save'
+          click_on I18n.t('helpers.submit.answer.update')
 
           expect(page).not_to have_content answer.body
           expect(page).to have_content 'edited answer'
@@ -35,9 +35,9 @@ I'd like ot be able to edit my answer
       within '.answers' do
 
         within "#answer-id-#{answer.id}" do
-          click_on 'Edit'
+          click_on I18n.t('edit_answer')
           attach_file 'Files', Rails.root.join('spec', 'rails_helper.rb')
-          click_on 'Save'
+          click_on I18n.t('helpers.submit.answer.update')
           expect(page).to have_link('rails_helper.rb')
         end
       end
@@ -48,14 +48,14 @@ I'd like ot be able to edit my answer
       within '.answers' do
 
         within "#answer-id-#{answer.id}" do
-          click_on 'Edit'
+          click_on I18n.t('edit_answer')
 
           attach_file 'Files', [
             Rails.root.join('spec', 'rails_helper.rb'),
             Rails.root.join('spec', 'spec_helper.rb')
           ]
 
-          click_on 'Save'
+          click_on I18n.t('helpers.submit.answer.update')
           expect(page).to have_link('rails_helper.rb')
           expect(page).to have_link('spec_helper.rb')
         end
@@ -70,12 +70,12 @@ I'd like ot be able to edit my answer
         within '.answers' do
 
           within "#answer-id-#{answer.id}" do
-            click_on 'Edit'
+            click_on I18n.t('edit_answer')
 
             within '.attachments' do
-              click_on 'Delete attachment'
+              click_on I18n.t('delete_attachment')
             end
-            click_on 'Save'
+            click_on I18n.t('helpers.submit.answer.update')
             expect(page).to_not have_content have_content(attachment.filename)
           end
         end
@@ -92,14 +92,14 @@ I'd like ot be able to edit my answer
         within '.answers' do
 
           within "#answer-id-#{answer.id}" do
-            click_on 'Edit'
+            click_on I18n.t('edit_answer')
 
             within '.attachments' do
               expect(page).to have_content(attachment_first.filename)
               expect(page).to have_content(attachment_second.filename)
 
               within ".attachment-id-#{attachment_first.id}" do
-                click_on 'Delete attachment'
+                click_on I18n.t('delete_attachment')
               end
 
               expect(page).to_not have_content(attachment_first.filename)
@@ -117,7 +117,7 @@ I'd like ot be able to edit my answer
         within '.answers' do
           click_on 'Edit'
           fill_in 'Body', with: ''
-          click_on 'Save'
+          click_on I18n.t('helpers.submit.answer.update')
           expect(page).to have_content "Body can't be blank"
         end
       end

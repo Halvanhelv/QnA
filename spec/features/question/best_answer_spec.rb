@@ -24,7 +24,7 @@ feature 'User can choose best answer for  question', "
         scenario 'try choose best answer' do
 
           within '.answers' do
-            click_on 'Best'
+            click_on I18n.t('answers.answer.best')
           end
 
           within '#best-answer' do
@@ -49,7 +49,7 @@ feature 'User can choose best answer for  question', "
               expect(page).to have_content(second_answer.body)
 
               within "#answer-id-#{second_answer.id}" do
-                click_on 'Best'
+                click_on I18n.t('answers.answer.best')
               end
 
               within '#best-answer' do
@@ -71,7 +71,7 @@ feature 'User can choose best answer for  question', "
           visit question_path(question)
 
           within '.answers' do
-            expect(page).to_not have_link 'Best'
+            expect(page).to_not have_link I18n.t('answers.answer.best')
           end
         end
       end
@@ -86,7 +86,7 @@ feature 'User can choose best answer for  question', "
         visit question_path(question)
 
         within '.answers' do
-          expect(page).to_not have_link 'Best'
+          expect(page).to_not have_link I18n.t('answers.answer.best')
         end
       end
     end

@@ -36,6 +36,6 @@ but not someone else’s
     click_on 'Log out'
     visit question_path(answer.question)
     expect(page).to have_content answer.body
-    expect(page).not_to have_content 'Delete Answer'
+    expect(page).not_to have_content I18n.t('delete_answer')
   end
 end

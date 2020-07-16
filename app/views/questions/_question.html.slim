@@ -9,7 +9,7 @@ ul
       end
 
 -if current_user&.author_of?(question)
-   = button_to 'Delete', question_path(question), method: :delete
-   p= link_to 'Edit', '#', class: 'edit-question-link'
+   = button_to t('.delete'), question_path(question), method: :delete
+   p= link_to t('.edit'), '#', class: 'edit-question-link'
    =render 'form'
 #question-errors

@@ -19,7 +19,7 @@ I would like to write an answer to the question
       within '.new-answer' do
       fill_in 'Body', with: 'Answer body'
       attach_file 'Files', Rails.root.join('spec', 'rails_helper.rb')
-      click_on 'Send an answer'
+      click_on I18n.t('helpers.submit.answer.create')
 
       end
       within '.answers' do
@@ -31,7 +31,7 @@ I would like to write an answer to the question
     scenario 'create answer for question with errors', js: true do
       visit question_path(question)
       fill_in 'Body', with: ''
-      click_on 'Send an answer'
+      click_on I18n.t('helpers.submit.answer.create')
       expect(page).to have_content "Body can't be blank"
     end
   end
@@ -39,7 +39,7 @@ I would like to write an answer to the question
   scenario 'Unauthenticated user try create answer' do
     visit question_path(question)
     fill_in 'Body', with: ''
-    click_on 'Send an answer'
+    click_on I18n.t('helpers.submit.answer.create')
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 end

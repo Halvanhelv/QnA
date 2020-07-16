@@ -16,7 +16,7 @@ but not someone else’s
 
     scenario 'trying to delete his question' do
       visit question_path(question)
-      click_on 'Delete'
+      click_on I18n.t('questions.question.delete')
       expect(page).to have_content 'Question successfully deleted.'
     end
 
@@ -24,7 +24,7 @@ but not someone else’s
       click_on 'Log out'
       sign_in(other_user)
       visit question_path(question)
-      expect(page).not_to have_content 'Delete'
+      expect(page).not_to have_content I18n.t('questions.question.delete')
     end
   end
 

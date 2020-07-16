@@ -16,12 +16,12 @@ I'd like to ba able to edit the question
       scenario 'edit his question' do
 
         within '#question' do
-          click_on 'Edit'
+          click_on I18n.t('questions.question.edit')
 
           fill_in 'Body', with: 'edited question body'
           fill_in 'Title', with: 'edited question title'
 
-          click_on 'Save'
+          click_on I18n.t('helpers.submit.question.update')
 
           expect(page).not_to have_content question.body
           expect(page).not_to have_content question.title
@@ -39,7 +39,7 @@ I'd like to ba able to edit the question
           fill_in 'Body', with: ''
           fill_in 'Title', with: 'edited question title'
 
-          click_on 'Save'
+          click_on I18n.t('helpers.submit.question.update')
           expect(page).to have_content question.body
           expect(page).to have_content question.title
 
@@ -52,12 +52,12 @@ I'd like to ba able to edit the question
       scenario ' user try edit question with empty Body' do
 
         within '#question' do
-          click_on 'Edit'
+          click_on  I18n.t('questions.question.edit')
 
           fill_in 'Body', with: 'edited question body'
           fill_in 'Title', with: ''
 
-          click_on 'Save'
+          click_on I18n.t('helpers.submit.question.update')
           expect(page).to have_content question.body
           expect(page).to have_content question.title
 
@@ -73,12 +73,12 @@ I'd like to ba able to edit the question
         scenario 'attached file' do
 
           within '#question' do
-            click_on 'Edit'
+            click_on  I18n.t('questions.question.edit')
 
             within '.attachments' do
               expect(page).to have_content(question.files.first.filename)
 
-              click_on 'Delete attachment'
+              click_on I18n.t('delete_attachment')
 
               expect(page).to_not have_content(question.files.first.filename)
             end
@@ -102,7 +102,7 @@ I'd like to ba able to edit the question
               expect(page).to have_content(attachment_second.filename)
 
               within ".attachment-id-#{attachment_first.id}" do
-                click_on 'Delete attachment'
+                click_on I18n.t('delete_attachment')
               end
 
               expect(page).to_not have_content(attachment_first.filename)
