@@ -16,11 +16,16 @@ FactoryBot.define do
     end
 
     trait :with_file do
-      files { [fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'), 'rails_helper/rb')] }
+      before :create do |question|
+        question.files.attach fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'))
+      end
     end
 
     trait :with_files do
-      files { [fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'), 'rails_helper/rb'), fixture_file_upload(Rails.root.join('spec', 'spec_helper.rb'), 'spec_helper/rb')] }
+      before :create do |question|
+        question.files.attach fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'))
+        question.files.attach fixture_file_upload(Rails.root.join('spec', 'spec_helper.rb'))
+      end
     end
 
   end
