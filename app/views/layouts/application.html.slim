@@ -8,12 +8,9 @@ html
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   body
-    p.notice
-    p.alert
+    div.container-fluid
+      p.notice
+      p.alert
       = render 'shared/flash'
-    - if current_user
-      = current_user.email
-      = button_to 'Log out', destroy_user_session_path, method: :delete
-    -else
-      = button_to'Login', new_user_session_path,method: :get
-  = yield
+      = render 'layouts/shared/navbar'
+      = yield

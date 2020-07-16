@@ -1,5 +1,6 @@
 - if attachment.present?
-   li class="attachment-id-#{attachment.id}"
-      = link_to attachment.filename, url_for(attachment)
+  ul.list-group
+    li class="attachment-id-#{attachment.id} list-group-item list-group-item-action"
+      =' link_to attachment.filename, url_for(attachment)
       - if current_user&.author_of?(attachment.record)
-         = link_to t('delete_attachment'), attachment_path(attachment), method: :delete, remote: true
+        = link_to t('delete_attachment'), attachment_path(attachment), method: :delete, remote: true

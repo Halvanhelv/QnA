@@ -1,15 +1,17 @@
+
 = form_with model: question, class: 'hidden', html: {id: "edit-question"} do |f|
-  p
+  div.form-group
+    p
     = f.label :title
-    = f.text_area :title
+    = f.text_area :title, class: 'form-control'
     p
       = f.label :body
-      = f.text_area :body
+      = f.text_area :body, class: 'form-control'
 
     ul.attachments
 
       =render question.files
     p
       = f.label :files
-      = f.file_field :files, multiple: true
-  = f.submit
+      = f.file_field :files, multiple: true, class: 'form-control-file'
+  = f.submit class: "btn btn-primary"

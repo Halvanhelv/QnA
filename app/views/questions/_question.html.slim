@@ -2,14 +2,14 @@ h1= question.title
 p= question.body
 p= question.user.email
 -if question.files.attached?
-ul
+ul.list-group
    -question.files.each do |file|
-      li class="attachment-id-#{file.id}"
+      li class="attachment-id-#{file.id} form-control"
          = link_to file.filename, url_for(file)
-      end
+
 
 -if current_user&.author_of?(question)
-   = button_to t('.delete'), question_path(question), method: :delete
-   p= link_to t('.edit'), '#', class: 'edit-question-link'
+   = button_to t('.delete'), question_path(question), method: :delete, class: "btn btn-outline-danger"
+   p= link_to t('.edit'), '#', class: 'edit-question-link btn btn-outline-warning'
    =render 'form'
 #question-errors
