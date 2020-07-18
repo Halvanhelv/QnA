@@ -11,6 +11,7 @@ class QuestionsController < ApplicationController
 
   def new
     question
+    question.links.new # build создаем связанный объект
   end
 
   def create
@@ -66,7 +67,8 @@ class QuestionsController < ApplicationController
   # end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body,
+                                     links_attributes: [:name, :url])
   end
 
   def files_params

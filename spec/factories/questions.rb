@@ -26,7 +26,7 @@ FactoryBot.define do
         question.files.attach fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'))
         question.files.attach fixture_file_upload(Rails.root.join('spec', 'spec_helper.rb'))
       end
-    end
+    end 
 
   end
 end
