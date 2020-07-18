@@ -9,4 +9,7 @@
     p
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true, class: 'form-control-file'
+
+    =render 'shared/nested_links_form', resource: f
+
     = f.submit class: "btn btn-primary"

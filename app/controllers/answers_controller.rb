@@ -6,6 +6,7 @@ class AnswersController < ApplicationController
   def create
     answer.user = current_user
     answer.save
+    files_params
     # if answer.save
     #   redirect_to answer.question
     # else # если отправить пустой ответ то нужно как то передать обьект самого вопроса для редиректа обратно на ту же страницу и вывода ошибок
@@ -50,7 +51,8 @@ class AnswersController < ApplicationController
   helper_method :answers
 
   def answer_params
-    params.require(:answer).permit(:body, files: [])
+    params.require(:answer).permit(:body,
+                                   links_attributes: [:name, :url])
   end
 
   def question

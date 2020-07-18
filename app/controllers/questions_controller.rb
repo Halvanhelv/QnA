@@ -7,7 +7,9 @@ class QuestionsController < ApplicationController
     @questions = Question.all
   end
 
-  def show; end
+  def show
+    answer.links.new # build создаем связанный объект
+  end
 
   def new
     question

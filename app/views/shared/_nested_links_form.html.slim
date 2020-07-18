@@ -1,0 +1,9 @@
+p Links:
+p
+   = resource.fields_for :links do |link|
+      p
+         = link.label :name, 'Link name'
+         = link.text_field :name
+      p
+         = link.label :url
+         = link.text_field :url
