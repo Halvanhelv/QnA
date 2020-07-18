@@ -8,14 +8,6 @@
     = f.label :files
     = f.file_field :files, multiple: true, class: 'form-control-file'
 
-    p Links:
-    p
-      = f.fields_for :links  do |link|
-        p
-          = link.label :name, 'Link name'
-          = link.text_field :name
-        p
-          = link.label :url
-          = link.text_field :url
+    =render 'shared/nested_links_form', resource: f
 
     = f.submit class: "btn btn-primary"

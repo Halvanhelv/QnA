@@ -6,6 +6,11 @@ ul.list-group id="answer-id-#{answer.id}"
   - else
     div
       = answer.body
+  .links
+    p Links:
+    ul
+      - answer.links.each do |link|
+        li= link_to link.name, link.url
   ul.list-group
     -answer.files.each do |file|
       li class="attachment-id-#{file.id} list-group-item list-group-item-action"
