@@ -6,6 +6,12 @@ ul.list-group
    -question.files.each do |file|
       li class="attachment-id-#{file.id} form-control"
          = link_to file.filename, url_for(file)
+.links
+   p Links:
+   ul
+      -question.links.each do |link|
+         li= link_to link.name, link.url
+
 
 
 -if current_user&.author_of?(question)
