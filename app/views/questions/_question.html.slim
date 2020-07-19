@@ -10,7 +10,8 @@ ul.list-group
    p Links:
    ul
       -question.links.each do |link|
-         li= link_to link.name, link.url
+         li class="link-id-#{link.id}"
+            = link_to link.name, link.url
 
 
 

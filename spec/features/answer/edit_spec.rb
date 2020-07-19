@@ -13,9 +13,7 @@ I'd like ot be able to edit my answer
     background { visit question_path(question) }
 
     scenario 'edits his answer' do
-
       within '.answers' do
-
         within "#answer-id-#{answer.id}" do
           click_on I18n.t('edit_answer')
 
@@ -29,6 +27,62 @@ I'd like ot be able to edit my answer
         end
       end
     end
+    context 'Links'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     scenario 'with attached file' do
 
@@ -44,9 +98,7 @@ I'd like ot be able to edit my answer
     end
 
     scenario 'with attached files' do
-
       within '.answers' do
-
         within "#answer-id-#{answer.id}" do
           click_on I18n.t('edit_answer')
 
@@ -61,6 +113,7 @@ I'd like ot be able to edit my answer
         end
       end
     end
+
     context 'delete attachment' do
       given!(:answer) { create(:answer, :with_file, question: question, user: user) }
       given!(:attachment) { answer.files.first }
@@ -113,7 +166,6 @@ I'd like ot be able to edit my answer
     describe 'edits his answer with errors' do
 
       scenario 'type empty Body' do
-
         within '.answers' do
           click_on 'Edit'
           fill_in 'Body', with: ''

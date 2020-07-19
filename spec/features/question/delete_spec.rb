@@ -13,7 +13,6 @@ but not someone else’s
   end
 
   describe 'Authenticated user' do
-
     scenario 'trying to delete his question' do
       visit question_path(question)
       click_on I18n.t('questions.question.delete')

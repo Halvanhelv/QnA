@@ -52,7 +52,6 @@ RSpec.describe QuestionsController, type: :controller do
       before { login(user) }
 
       context 'with valid attributes' do
-
         subject { post :create, params: { question: attributes_for(:question) } }
 
         it 'Verification of the author of the question' do
@@ -71,7 +70,6 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       context 'with invalid attributes' do
-
         subject { post :create, params: { question: attributes_for(:question, :invalid) } }
 
         it 'does not save the question' do
@@ -97,7 +95,6 @@ RSpec.describe QuestionsController, type: :controller do
     before { login(user) }
 
     context 'with valid attributes' do
-
       subject { patch :update, params: { id: question, question: attributes_for(:question), format: :js } }
 
       it 'assigns the requested question to @question' do
@@ -136,7 +133,6 @@ RSpec.describe QuestionsController, type: :controller do
     let!(:answer) { create(:answer, question: question, user: user) }
 
     context 'delete question from author' do
-
       subject { delete :destroy, params: { id: question } }
 
       it 'deletes the question' do

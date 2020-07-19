@@ -10,7 +10,8 @@ ul.list-group id="answer-id-#{answer.id}"
     p Links:
     ul
       - answer.links.each do |link|
-        li= link_to link.name, link.url
+        li class="link-id-#{link.id}"
+          =link_to link.name, link.url
   ul.list-group
     -answer.files.each do |file|
       li class="attachment-id-#{file.id} list-group-item list-group-item-action"
@@ -31,6 +32,13 @@ ul.list-group id="answer-id-#{answer.id}"
         = render answer.files
       = f.label :files
       = f.file_field :files, multiple: true
+      ul.links
+
+        = render answer.links
+      p
+        = link_to_add_association t('add_link'), f, :links, partial: 'shared/nested_links_form', 'data-association-insertion-method' => 'after', form_name: 'link'
+        ul.links
+
       = f.submit class: "btn btn-primary"
 
   -if current_user&.author_of?(answer.question)

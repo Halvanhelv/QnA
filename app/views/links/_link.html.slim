@@ -1,0 +1,4 @@
+li class="link-id-#{link.id}"
+  = link.name
+  = link.url
+  = link_to t('.delete_link'), link_path(link), method: :delete, class: "btn btn-outline-danger", remote: true

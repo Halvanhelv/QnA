@@ -7,22 +7,18 @@ feature 'User can choose best answer for  question', "
   I want to choose the best answer
 " do
   describe 'User try choose best answer', js: true do
-
     context 'Authenticated user' do
-
       given(:user) { create(:user) }
 
       background { sign_in(user) }
 
       context 'Question author' do
-
         given(:question) { create(:question, user: user) }
         given!(:answer) { create(:answer, question: question, user: user) }
 
         background { visit question_path(question) }
 
         scenario 'try choose best answer' do
-
           within '.answers' do
             click_on I18n.t('answers.answer.best')
           end
@@ -32,7 +28,6 @@ feature 'User can choose best answer for  question', "
           end
         end
         context 'best answer already exist' do
-
           given(:question) { create(:question, user: user) }
           given!(:answer) { create(:answer, question: question, body: 'Answer one', best_answer: true) }
           given!(:second_answer) { create(:answer, question: question, body: 'Answer two') }
@@ -41,7 +36,6 @@ feature 'User can choose best answer for  question', "
 
           scenario 'try change best answer' do
             within '.answers' do
-
               within '#best-answer' do
                 expect(page).to have_content(answer.body)
               end
@@ -63,7 +57,6 @@ feature 'User can choose best answer for  question', "
         end
       end
       context 'is not question owner' do
-
         given(:question) { create(:question) }
         given!(:answer) { create(:answer, question: question) }
 
@@ -78,7 +71,6 @@ feature 'User can choose best answer for  question', "
     end
 
     context 'Unauthenticated user' do
-
       given(:question) { create(:question) }
       given!(:answer) { create(:answer, question: question) }
 

@@ -11,7 +11,14 @@
     ul.attachments
 
       =render question.files
+
+    ul.links
+
+      =render question.links
     p
       = f.label :files
       = f.file_field :files, multiple: true, class: 'form-control-file'
+    p
+      = link_to_add_association t('add_link'), f, :links, partial: 'shared/nested_links_form', 'data-association-insertion-method' => 'after', form_name: 'link'
   = f.submit class: "btn btn-primary"
+

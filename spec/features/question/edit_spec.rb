@@ -8,13 +8,11 @@ I'd like to ba able to edit the question
   given(:question) { create(:question, user: user) }
 
   describe 'Authenticated user ', js: true do
-
     context 'own answer' do
       background { sign_in(user) }
       background { visit question_path(question) }
 
       scenario 'edit his question' do
-
         within '#question' do
           click_on I18n.t('questions.question.edit')
 
@@ -32,7 +30,6 @@ I'd like to ba able to edit the question
       end
 
       scenario ' user try edit question with empty Title' do
-
         within '#question' do
           click_on 'Edit'
 
@@ -50,9 +47,8 @@ I'd like to ba able to edit the question
       end
 
       scenario ' user try edit question with empty Body' do
-
         within '#question' do
-          click_on  I18n.t('questions.question.edit')
+          click_on I18n.t('questions.question.edit')
 
           fill_in 'Body', with: 'edited question body'
           fill_in 'Title', with: ''
@@ -71,9 +67,8 @@ I'd like to ba able to edit the question
         given!(:question) { create(:question, :with_file, user: user) }
 
         scenario 'attached file' do
-
           within '#question' do
-            click_on  I18n.t('questions.question.edit')
+            click_on I18n.t('questions.question.edit')
 
             within '.attachments' do
               expect(page).to have_content(question.files.first.filename)
@@ -92,12 +87,10 @@ I'd like to ba able to edit the question
         given(:attachment_second) { question.files.last }
 
         scenario 'attached file' do
-
           within '#question' do
             click_on 'Edit'
 
             within '.attachments' do
-
               expect(page).to have_content(attachment_first.filename)
               expect(page).to have_content(attachment_second.filename)
 
@@ -107,6 +100,88 @@ I'd like to ba able to edit the question
 
               expect(page).to_not have_content(attachment_first.filename)
               expect(page).to have_content(attachment_second.filename)
+            end
+          end
+        end
+      end
+
+      context 'Links ' do
+        given(:url) { 'https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#using-factories' }
+
+        scenario 'try add one link' do
+          within '#question' do
+            click_on I18n.t('questions.question.edit')
+            click_on I18n.t('add_link')
+
+            fill_in 'Link name', with: 'link text'
+            fill_in 'Url', with: url
+
+            click_on I18n.t('helpers.submit.question.update')
+          end
+          expect(page).to have_link 'link text'
+        end
+
+        scenario 'try add links' do
+          within '#question' do
+            click_on I18n.t('questions.question.edit')
+            click_on I18n.t('add_link')
+
+            within first('.nested-fields') do
+              fill_in 'Link name', with: 'link text'
+              fill_in 'Url', with: url
+            end
+
+            click_on I18n.t('add_link')
+
+            within all('.nested-fields')[1] do
+              fill_in 'Link name', with: 'Link name second'
+              fill_in 'Url', with: url
+            end
+          end
+          click_on I18n.t('helpers.submit.question.update')
+
+          expect(page).to have_link('Link name', href: url)
+          expect(page).to have_link('Link name second', href: url)
+        end
+
+        context 'try delete link' do
+          given!(:question) { create(:question, :with_link, user: user) }
+
+          scenario 'delete one link' do
+            within '#question' do
+              click_on I18n.t('questions.question.edit')
+              within '.form-group' do
+                within '.links' do
+                  expect(page).to have_content(question.links.first.name)
+
+                  click_on I18n.t('links.link.delete_link')
+
+                  expect(page).to_not have_content(question.links.first.name)
+                end
+              end
+            end
+          end
+        end
+
+        context 'try delete links' do
+          given!(:question) { create(:question, :with_links, user: user) }
+
+          scenario 'add links' do
+            within '#question' do
+              click_on I18n.t('questions.question.edit')
+              within '.form-group' do
+                within '.links' do
+                  expect(page).to have_content(question.links.first.name)
+                  expect(page).to have_content(question.links.last.name)
+
+                  within ".link-id-#{question.links.first.id}" do
+                    click_on I18n.t('links.link.delete_link')
+                  end
+
+                  expect(page).to_not have_content(question.links.first.name)
+                  expect(page).to have_content(question.links.last.name)
+                end
+              end
             end
           end
         end

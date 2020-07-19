@@ -1,9 +1,8 @@
-p Links:
-p
-   = resource.fields_for :links do |link|
-      p
-         = link.label :name, 'Link name'
-         = link.text_field :name
-      p
-         = link.label :url
-         = link.text_field :url
+.nested-fields
+  .field
+    = link.label :name, 'Link name'
+    = link.text_field :name
+  .field
+    = link.label :url, 'Url'
+    = link.text_field :url
+    = link_to_remove_association 'Delete ', link

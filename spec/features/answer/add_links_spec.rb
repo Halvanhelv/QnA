@@ -13,19 +13,16 @@ I'd like to be able to add links
     sign_in(user)
     visit question_path(question)
 
-within '.new-answer' do
-
-    fill_in 'Body', with: 'text text text'
-
-    fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: gist_url
-
-    click_on I18n.t('helpers.submit.answer.create')
-
+    within '.new-answer' do
+      click_on I18n.t('add_link')
+      fill_in 'Body', with: 'text text text'
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: gist_url
+      click_on I18n.t('helpers.submit.answer.create')
     end
+
     within '.answers' do
-    expect(page).to have_link 'My gist', href: gist_url
+      expect(page).to have_link 'My gist', href: gist_url
     end
-
   end
 end

@@ -21,3 +21,7 @@ en:
   delete_answer: "Delete Answer"
   edit_answer: "Edit Answer"
   delete_attachment: "Delete Attachment"
+  links:
+    link:
+      delete_link: "Delete Link"
+  add_link: "Add Link"

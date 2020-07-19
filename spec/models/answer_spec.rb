@@ -22,41 +22,33 @@ RSpec.describe Answer, type: :model do
       let!(:answers) { create_list(:answer, 3) }
 
       context 'without best answer' do
-
         it { expect(Answer.order_by_best).to match_array(answers) }
-
       end
 
       context 'best answer exist' do
         let!(:best_answer) { create(:answer, best_answer: true) }
 
         it { expect(Answer.order_by_best.first).to eq(best_answer) }
-
       end
 
       describe '#best' do
         let!(:answers) { create_list(:answer, 3) }
 
         context 'without best answer' do
-
           it { expect(Answer.best).to match_array([]) }
-
         end
 
         context ' best answer exist' do
           let!(:best_answer) { create(:answer, best_answer: true) }
 
           it { expect(Answer.best).to match_array(best_answer) }
-
         end
       end
     end
   end
 
   context 'methods' do
-
     describe '#choose_as_best' do
-
       let(:question) { create(:question) }
       let!(:answer) { create(:answer, question: question) }
       let!(:another_answer) { create(:answer, question: question, best_answer: true) }
@@ -66,7 +58,6 @@ RSpec.describe Answer, type: :model do
       it { expect(answer.reload.best_answer).to be_truthy }
 
       it { expect(another_answer.reload.best_answer).to be_falsey }
-
     end
   end
 end
