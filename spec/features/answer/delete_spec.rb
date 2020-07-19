@@ -14,7 +14,6 @@ but not someone else’s
   end
 
   describe 'Authenticated user', js: true do
-
     scenario 'trying to delete his answer' do
       visit question_path(answer.question)
       expect(page).to have_content answer.body

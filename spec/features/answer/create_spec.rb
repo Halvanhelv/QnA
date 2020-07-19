@@ -9,7 +9,6 @@ I would like to write an answer to the question
   given(:question) { create(:question, user: user) }
 
   describe 'Authernticated user ' do
-
     background do
       sign_in(user)
     end
@@ -17,16 +16,15 @@ I would like to write an answer to the question
     scenario 'create answer for question', js: true do
       visit question_path(question)
       within '.new-answer' do
-      fill_in 'Body', with: 'Answer body'
-      attach_file 'Files', Rails.root.join('spec', 'rails_helper.rb')
-      click_on I18n.t('helpers.submit.answer.create')
-
+        fill_in 'Body', with: 'Answer body'
+        attach_file 'Files', Rails.root.join('spec', 'rails_helper.rb')
+        click_on I18n.t('helpers.submit.answer.create')
       end
       within '.answers' do
-      expect(page).to have_content 'Answer body'
-      expect(page).to have_link('rails_helper.rb')
+        expect(page).to have_content 'Answer body'
+        expect(page).to have_link('rails_helper.rb')
       end
-      end
+    end
 
     scenario 'create answer for question with errors', js: true do
       visit question_path(question)

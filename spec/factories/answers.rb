@@ -29,6 +29,17 @@ FactoryBot.define do
       end
     end
 
+    trait :with_link do
+      before :create do |question|
+        create(:link, linkable: question)
+      end
+    end
+
+    trait :with_links do
+      before :create do |question|
+        create(:link, 2, linkable: question)
+      end
+    end
   end
 end
 # https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md

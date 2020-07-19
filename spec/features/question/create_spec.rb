@@ -8,8 +8,7 @@ I'd like to be able to ask the question
 " do
   given(:user) { create(:user) }
 
-  describe 'Authernticated user ' do
-
+  describe 'Authenticated user ', js: true do
     background do
       sign_in(user)
     end
@@ -36,9 +35,20 @@ I'd like to be able to ask the question
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
     end
+
+    scenario 'asks a question with link' do
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'text text text'
+      click_on I18n.t('add_link')
+
+      fill_in 'Link name', with: 'GIST LINK'
+      fill_in 'Url', with: 'https://gist.github.com/SynthesisOne/999ecc10ac745e4f7a3a00ff5b038767'
+
+      click_on I18n.t('helpers.submit.question.create')
+
+      expect(page).to have_link 'GIST LINK'
+    end
   end
-
-
 
   scenario 'Unauthenticated user tries to ask a question' do
     visit questions_path

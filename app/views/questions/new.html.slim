@@ -7,7 +7,8 @@
     = f.text_area :body, class: 'form-control'
     = f.label :files
     = f.file_field :files, multiple: true, class: 'form-control-file'
+    = link_to_add_association t('add_link'), f, :links, partial: 'shared/nested_links_form', 'data-association-insertion-method' => 'after', form_name: 'link'
 
-    =render 'shared/nested_links_form', resource: f
+    .links
 
     = f.submit class: "btn btn-primary"

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 include ActionDispatch::TestProcess
 FactoryBot.define do
   sequence :title do |n|
@@ -9,7 +10,6 @@ FactoryBot.define do
     user
     title # Same as `title { generate(:title) }`
     body { 'MyBody' }
-
 
     trait :invalid do
       title { nil }
@@ -26,7 +26,19 @@ FactoryBot.define do
         question.files.attach fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'))
         question.files.attach fixture_file_upload(Rails.root.join('spec', 'spec_helper.rb'))
       end
-    end 
+    end
 
+    trait :with_link do
+      before :create do |question|
+        create(:link, linkable: question)
+      end
+    end
+
+    trait :with_links do
+      before :create do |question|
+        create(:link, linkable: question)
+        create(:link, linkable: question)
+      end
+    end
   end
 end

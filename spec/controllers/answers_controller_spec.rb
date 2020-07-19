@@ -10,15 +10,12 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer_3)      { create(:answer) }
 
   describe 'POST #create' do
-
     context 'User is authorized' do
-
       subject { post :create, params: { question_id: question, answer: answer_params, format: :js } }
 
       before { login(user) }
 
       context 'with valid attributes' do
-
         let(:answer_params) { attributes_for(:answer) }
 
         it 'Verification of the author of the answer' do
@@ -37,7 +34,6 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       context 'with invalid attributes' do
-
         subject { post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question }, format: :js }
 
         it 'does not save the answer' do
@@ -65,7 +61,6 @@ RSpec.describe AnswersController, type: :controller do
     let!(:answer) { create(:answer, question: question, user: user) }
 
     context 'with valid attributes' do
-
       subject { patch :update, params: { id: answer, answer: { body: 'new body' }, format: :js } }
 
       it 'assigns the requested answer to @answer' do
@@ -101,7 +96,6 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-
     before { login(user) }
 
     subject { delete :destroy, params: { id: answer }, format: :js }
