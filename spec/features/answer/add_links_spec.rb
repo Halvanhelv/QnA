@@ -16,8 +16,8 @@ I'd like to be able to add links
     within '.new-answer' do
       click_on I18n.t('add_link')
       fill_in 'Body', with: 'text text text'
-      fill_in 'Link name', with: 'My gist'
-      fill_in 'Url', with: gist_url
+      fill_in I18n.t('link_name'), with: 'My gist'
+      fill_in I18n.t('link_url'), with: gist_url
       click_on I18n.t('helpers.submit.answer.create')
     end
 

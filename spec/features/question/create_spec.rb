@@ -41,8 +41,8 @@ I'd like to be able to ask the question
       fill_in 'Body', with: 'text text text'
       click_on I18n.t('add_link')
 
-      fill_in 'Link name', with: 'GIST LINK'
-      fill_in 'Url', with: 'https://gist.github.com/SynthesisOne/999ecc10ac745e4f7a3a00ff5b038767'
+      fill_in I18n.t('link_name'), with: 'GIST LINK'
+      fill_in I18n.t('link_url'), with: 'https://gist.github.com/SynthesisOne/999ecc10ac745e4f7a3a00ff5b038767'
 
       click_on I18n.t('helpers.submit.question.create')
 

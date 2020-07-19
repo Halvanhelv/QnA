@@ -108,13 +108,17 @@ I'd like to ba able to edit the question
       context 'Links ' do
         given(:url) { 'https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#using-factories' }
 
+        subject do
+          click_on I18n.t('questions.question.edit')
+          click_on I18n.t('add_link')
+        end
+
         scenario 'try add one link' do
           within '#question' do
-            click_on I18n.t('questions.question.edit')
-            click_on I18n.t('add_link')
+            subject
 
-            fill_in 'Link name', with: 'link text'
-            fill_in 'Url', with: url
+            fill_in I18n.t('link_name'), with: 'link text'
+            fill_in I18n.t('link_url'), with: url
 
             click_on I18n.t('helpers.submit.question.update')
           end
@@ -123,19 +127,18 @@ I'd like to ba able to edit the question
 
         scenario 'try add links' do
           within '#question' do
-            click_on I18n.t('questions.question.edit')
-            click_on I18n.t('add_link')
+            subject
 
             within first('.nested-fields') do
-              fill_in 'Link name', with: 'link text'
-              fill_in 'Url', with: url
+              fill_in I18n.t('link_name'), with: 'link text'
+              fill_in I18n.t('link_url'), with: url
             end
 
             click_on I18n.t('add_link')
 
             within all('.nested-fields')[1] do
-              fill_in 'Link name', with: 'Link name second'
-              fill_in 'Url', with: url
+              fill_in I18n.t('link_name'), with: 'Link name second'
+              fill_in I18n.t('link_url'), with: url
             end
           end
           click_on I18n.t('helpers.submit.question.update')
@@ -150,6 +153,7 @@ I'd like to ba able to edit the question
           scenario 'delete one link' do
             within '#question' do
               click_on I18n.t('questions.question.edit')
+
               within '.form-group' do
                 within '.links' do
                   expect(page).to have_content(question.links.first.name)
