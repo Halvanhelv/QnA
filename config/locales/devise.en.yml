@@ -64,7 +64,5 @@ en:
         one: "1 error prohibited this %{resource} from being saved:"
         other: "%{count} errors prohibited this %{resource} from being saved:"
   delete_attachment: ""
-  links:
-    link:
-      delete_link: ""
+
 
