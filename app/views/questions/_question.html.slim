@@ -9,9 +9,7 @@ ul.list-group
 .links
    p Links:
    ul
-      -question.links.each do |link|
-         li class="link-id-#{link.id}"
-            = link_to link.name, link.url
+      = render partial: "links/link_without_delete_link", collection: question.links, :as => :link
 
 
 

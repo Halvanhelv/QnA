@@ -1,0 +1,10 @@
+-if link.persisted?
+  li class="link-id-#{link.id}"
+    - if link.gist?
+      - link.get_gist.files.each do |name, data|
+        p
+        =link_to link.name, link.url
+        p
+        = data.content
+    - else
+      =link_to link.name, link.url
