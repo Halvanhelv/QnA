@@ -1,4 +1,12 @@
-li class="link-id-#{link.id}"
-  = link.name
-  = link.url
-  = link_to t('.delete_link'), link_path(link), method: :delete, class: "btn btn-outline-danger", remote: true
+-if link.persisted?
+  li class="link-id-#{link.id}"
+    - if link.gist?
+      - link.get_gist.files.each do |name, data|
+        p
+        = link_to link.name, link.url
+        p
+        = data.content
+    - else
+      =link_to link.name, link.url
+
+    = link_to t('.delete_link'), link_path(link), method: :delete, class: "btn btn-outline-danger", remote: true
