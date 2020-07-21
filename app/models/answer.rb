@@ -19,6 +19,7 @@ class Answer < ApplicationRecord
     Answer.transaction do
     question.best_answer&.update!(best_answer: false)  # если попытаться сделать один и тот же ответ лучшим два раза то это строка уберет статус лучшего ответа
     update!(best_answer: true)                         # и поскольку текущий вопрос еще находится в памяти то при выполнении кода обращение к бд не будет поскольку виртуально ответ уже лучший и попытка сделать его снова лушчим вернет просто true
+    question.reward&.update!(user: user)
     end
   end
 end

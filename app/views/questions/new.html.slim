@@ -3,12 +3,20 @@
   div.form-group
     = f.label :title
     = f.text_field :title, class: 'form-control'
+    p
     = f.label :body
     = f.text_area :body, class: 'form-control'
+    p
     = f.label :files
     = f.file_field :files, multiple: true, class: 'form-control-file'
     = link_to_add_association t('add_link'), f, :links, partial: 'shared/nested_links_form', 'data-association-insertion-method' => 'after', form_name: 'link'
-
+    p
+    = f.fields_for :reward do |reward|
+      = reward.label :name, t('Reward Name')
+      = reward.text_area :name, class: 'form-control'
+      p
+      = reward.label :img, t('Reward Image')
+      = reward.file_field :img, class: 'form-control-file'
     .links
 
     = f.submit class: "btn btn-primary"

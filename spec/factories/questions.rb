@@ -21,6 +21,15 @@ FactoryBot.define do
       end
     end
 
+    trait :with_reward do
+      before :create do |question|
+        create(:reward,
+               question: question,
+               name: 'Reward Name',
+               img: fixture_file_upload(Rails.root.join('spec', 'images', 'reward.png')))
+      end
+    end
+
     trait :with_files do
       before :create do |question|
         question.files.attach fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'))

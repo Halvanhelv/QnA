@@ -51,6 +51,7 @@ RSpec.describe Answer, type: :model do
     describe '#choose_as_best' do
       let(:question) { create(:question) }
       let!(:answer) { create(:answer, question: question) }
+      let!(:reward) { create(:reward, question: question) }
       let!(:another_answer) { create(:answer, question: question, best_answer: true) }
 
       before { answer.make_best_answer }
@@ -58,6 +59,8 @@ RSpec.describe Answer, type: :model do
       it { expect(answer.reload.best_answer).to be_truthy }
 
       it { expect(another_answer.reload.best_answer).to be_falsey }
+
+      it { expect(answer.user.rewards).to match_array([reward]) }
     end
   end
 end

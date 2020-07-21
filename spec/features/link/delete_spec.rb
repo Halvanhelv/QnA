@@ -11,6 +11,7 @@ I would like to write an answer to the question
   describe 'DELETE #destroy', js: true do
     before {  sign_in(user) }
     before {  visit question_path(question) }
+
     context 'Delete question link ' do
       scenario 'question owner try delete link' do
         within '#question' do
@@ -28,7 +29,7 @@ I would like to write an answer to the question
       end
     end
 
-    context 'Delete answer link ' do
+    context 'Delete answer link' do
       scenario 'answer owner try delete link' do
         within "#answer-id-#{answer.id}" do
           click_on I18n.t('edit_answer')

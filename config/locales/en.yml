@@ -28,3 +28,7 @@ en:
   link_name: "Link name"
   link_url: "Url"
   delete_form: "Delete form"
+  Reward Name: "Reward Name"
+  Reward Image: "Reward Image"
+  no rewards: "No Rewards"
+  all rewards: "All Rewards"

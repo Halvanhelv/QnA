@@ -13,9 +13,13 @@ I'd like to be able to ask the question
       sign_in(user)
     end
 
-    scenario 'asks a question' do
+    subject do
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'text text text'
+    end
+
+    scenario 'asks a question' do
+      subject
       click_on I18n.t('helpers.submit.question.create')
       expect(page).to have_content 'Your question successfully created.'
       expect(page).to have_content 'Test question'
@@ -28,8 +32,7 @@ I'd like to be able to ask the question
     end
 
     scenario 'asks a question with attachments' do
-      fill_in 'Title', with: 'Test question'
-      fill_in 'Body', with: 'text text text'
+      subject
       attach_file 'File', %W[#{Rails.root}/spec/rails_helper.rb #{Rails.root}/spec/spec_helper.rb]
       click_on I18n.t('helpers.submit.question.create')
       expect(page).to have_link 'rails_helper.rb'
@@ -37,8 +40,7 @@ I'd like to be able to ask the question
     end
 
     scenario 'asks a question with link' do
-      fill_in 'Title', with: 'Test question'
-      fill_in 'Body', with: 'text text text'
+      subject
       click_on I18n.t('add_link')
 
       fill_in I18n.t('link_name'), with: 'GIST LINK'
@@ -47,6 +49,61 @@ I'd like to be able to ask the question
       click_on I18n.t('helpers.submit.question.create')
 
       expect(page).to have_link 'GIST LINK'
+    end
+
+    scenario 'asks a question with invalid link' do
+      subject
+      click_on I18n.t('add_link')
+
+      fill_in I18n.t('link_name'), with: 'GIST LINK'
+      fill_in I18n.t('link_url'), with: 'INVALID TEXT'
+
+      click_on I18n.t('helpers.submit.question.create')
+
+      expect(page).to have_content 'Links url is invalid'
+    end
+
+    scenario 'asks a question with incomplete data for links' do
+      subject
+      click_on I18n.t('add_link')
+
+      fill_in I18n.t('link_name'), with: 'GIST LINK'
+      fill_in I18n.t('link_url'), with: ''
+
+      click_on I18n.t('helpers.submit.question.create')
+
+      expect(page).to have_content "Links url can't be blank"
+    end
+
+    scenario 'create question with rewards' do
+      subject
+      fill_in I18n.t('Reward Name'), with: 'Reward for best answer'
+      attach_file I18n.t('Reward Image'), Rails.root.join('spec', 'images', 'reward.png')
+
+      click_on I18n.t('helpers.submit.question.create')
+
+      within '#reward' do
+        expect(page).to have_content 'Reward for best answer'
+      end
+    end
+
+    scenario 'with empty name rewards' do
+      subject
+      fill_in I18n.t('Reward Name'), with: ''
+      attach_file I18n.t('Reward Image'), Rails.root.join('spec', 'images', 'reward.png')
+
+      click_on I18n.t('helpers.submit.question.create')
+
+      expect(page).to have_content "Reward name can't be blank"
+    end
+
+    scenario 'with empty image rewards' do
+      subject
+      fill_in I18n.t('Reward Name'), with: 'Reward Name text'
+
+      click_on I18n.t('helpers.submit.question.create')
+
+      expect(page).to have_content "Reward img can't be blank"
     end
   end
 
