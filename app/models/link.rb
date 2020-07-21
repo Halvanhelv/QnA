@@ -9,7 +9,7 @@ class Link < ApplicationRecord
   end
 
   def get_gist
-    client = Octokit::Client.new(:login => 'SynthesisOne', :password => 'ingushINGUSH0606')
+    client = Octokit::Client.new # Ввести свои данные что бы гит давал приоритет для запросов
     gist_id = URI.parse(url).path.split('/').last
     client.gist(gist_id)
   end

@@ -13,7 +13,7 @@ feature 'User can choose best answer for  question', "
       background { sign_in(user) }
 
       context 'Question author' do
-        given(:question) { create(:question, user: user) }
+        given(:question) { create(:question, :with_reward, user: user) }
         given!(:answer) { create(:answer, question: question, user: user) }
 
         background { visit question_path(question) }
@@ -28,7 +28,7 @@ feature 'User can choose best answer for  question', "
           end
         end
         context 'best answer already exist' do
-          given(:question) { create(:question, user: user) }
+          given(:question) { create(:question, :with_reward, user: user) }
           given!(:answer) { create(:answer, question: question, body: 'Answer one', best_answer: true) }
           given!(:second_answer) { create(:answer, question: question, body: 'Answer two') }
 
@@ -57,7 +57,7 @@ feature 'User can choose best answer for  question', "
         end
       end
       context 'is not question owner' do
-        given(:question) { create(:question) }
+        given(:question) { create(:question, :with_reward) }
         given!(:answer) { create(:answer, question: question) }
 
         scenario 'can not choose best answer' do
@@ -71,7 +71,7 @@ feature 'User can choose best answer for  question', "
     end
 
     context 'Unauthenticated user' do
-      given(:question) { create(:question) }
+      given(:question) { create(:question, :with_reward) }
       given!(:answer) { create(:answer, question: question) }
 
       scenario 'choose best answer' do

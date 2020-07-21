@@ -1,0 +1,12 @@
+-if @rewards.any?
+    -@rewards.each do |reward|
+        =reward.question.title
+        p
+        =reward.name
+        p
+        = image_tag(url_for(reward.img), size: 200)
+        p --------------------------------------------------------------------
+-else
+
+        p
+        =t('no rewards')

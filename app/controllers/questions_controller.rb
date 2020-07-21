@@ -14,13 +14,12 @@ class QuestionsController < ApplicationController
   def new
     question
     question.links.new # build создаем связанный объект
+    question.build_reward
   end
 
   def create
     redirect_to new_user_session_path unless current_user
-
     @question = current_user.questions.new(question_params)
-
     files_params
 
     if @question.save
@@ -70,7 +69,8 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body,
-                                     links_attributes: [:name, :url])
+                                     links_attributes: [:name, :url],
+                                     reward_attributes: [:name, :img])
   end
 
   def files_params
