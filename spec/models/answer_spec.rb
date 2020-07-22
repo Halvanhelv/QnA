@@ -49,9 +49,10 @@ RSpec.describe Answer, type: :model do
 
   context 'methods' do
     describe '#choose_as_best' do
-      let(:question) { create(:question) }
+      let(:question) { create(:question, :with_reward) }
+      let(:question_without_reward) { create(:question) }
       let!(:answer) { create(:answer, question: question) }
-      let!(:reward) { create(:reward, question: question) }
+      let!(:answer_2) { create(:answer, question: question_without_reward) }
       let!(:another_answer) { create(:answer, question: question, best_answer: true) }
 
       before { answer.make_best_answer }
@@ -60,7 +61,10 @@ RSpec.describe Answer, type: :model do
 
       it { expect(another_answer.reload.best_answer).to be_falsey }
 
-      it { expect(answer.user.rewards).to match_array([reward]) }
+      it { expect(answer.user.rewards).to match_array([question.reward]) }
+
+      it { expect { answer_2.make_best_answer }.to_not change(answer_2.user.rewards, :count) }
+
     end
   end
 end
