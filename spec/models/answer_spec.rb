@@ -68,7 +68,7 @@ RSpec.describe Answer, type: :model do
 
       it { expect { answer_2.make_best_answer }.to_not change(answer_2.user.rewards, :count) }
 
-      it 'сhange the best answer to another one with the same author' do
+      it 'Cancel reply as best answer' do
         answer.make_best_answer
         expect(question.reward.reload.user).to be_nil
       end
