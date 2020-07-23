@@ -53,6 +53,7 @@ RSpec.describe Answer, type: :model do
       let(:question_without_reward) { create(:question) }
       let!(:answer) { create(:answer, question: question) }
       let!(:answer_2) { create(:answer, question: question_without_reward) }
+      let!(:answer_3) { create(:answer, question: question) }
       let!(:another_answer) { create(:answer, question: question, best_answer: true) }
 
       before { answer.make_best_answer }
@@ -63,7 +64,19 @@ RSpec.describe Answer, type: :model do
 
       it { expect(answer.user.rewards).to match_array([question.reward]) }
 
+      it { expect(answer.reload.best_answer).to be_truthy }
+
       it { expect { answer_2.make_best_answer }.to_not change(answer_2.user.rewards, :count) }
+
+      it 'сhange the best answer to another one with the same author' do
+        answer.make_best_answer
+        expect(question.reward.reload.user).to be_nil
+      end
+
+      it 'сhange the best answer to another one with the same author' do
+        answer_3.make_best_answer
+        expect(question.reward.user).to eq(answer_3.user)
+      end
 
     end
   end
