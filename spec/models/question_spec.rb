@@ -4,8 +4,6 @@ require 'rails_helper'
 
 RSpec.describe Question, type: :model do
   it { is_expected.to have_many(:answers).dependent(:destroy) }
-  it { is_expected.to have_many(:links).dependent(:destroy) }
-
   it { is_expected.to have_many(:answers) }
   it { is_expected.to belong_to(:user) }
 
@@ -14,10 +12,11 @@ RSpec.describe Question, type: :model do
   it { is_expected.to validate_presence_of :title }
   it { is_expected.to validate_presence_of :body }
 
-  it { should accept_nested_attributes_for :links }
-
   it { is_expected.to have_db_column(:title) }
   it { is_expected.to have_db_column(:body) }
+
+  it_behaves_like 'attachable'
+  it_behaves_like 'linkable'
 
   context 'methods' do
     describe '#best_answer' do
@@ -39,9 +38,5 @@ RSpec.describe Question, type: :model do
         it { expect(question.reload.best_answer).to eq(nil) }
       end
     end
-  end
-
-  it 'have one attached attachment' do
-    expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
 end
