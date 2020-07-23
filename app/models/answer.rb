@@ -17,9 +17,9 @@ class Answer < ApplicationRecord
 
   def make_best_answer
     Answer.transaction do
-    question.best_answer&.update!(best_answer: false)  # если попытаться сделать один и тот же ответ лучшим два раза то это строка уберет статус лучшего ответа
-    update!(best_answer: true)                         # и поскольку текущий вопрос еще находится в памяти то при выполнении кода обращение к бд не будет поскольку виртуально ответ уже лучший и попытка сделать его снова лушчим вернет просто true
-    question.reward&.update!(user: user)
+      user.id == question.reward&.user&.id && id == question.best_answer&.id ? question.reward&.update!(user: nil) : question.reward&.update!(user: user)
+      question.best_answer&.update!(best_answer: false)  # если попытаться сделать один и тот же ответ лучшим два раза то это строка уберет статус лучшего ответа
+      update!(best_answer: true)                         # и поскольку текущий вопрос еще находится в памяти то при выполнении кода обращение к бд не будет поскольку виртуально ответ уже лучший и попытка сделать его снова лушчим вернет просто true
     end
   end
 end
