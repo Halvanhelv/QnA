@@ -6,7 +6,8 @@ Rails.application.routes.draw do
       patch :positive_vote
       patch :negative_vote
     end
-    end
+  end
+
   resources :questions, only: %i[index new show create update destroy], concerns: %i[votable] do
     resources :answers, shallow: true, only: %i[create update destroy], concerns: %i[votable] do
       member do
