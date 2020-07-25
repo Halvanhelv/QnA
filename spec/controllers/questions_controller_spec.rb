@@ -38,7 +38,7 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:question)).to be_a_new(Question)
     end
 
-    it 'assigns a new Question to @question' do
+    it '@question link be a instance_of Link' do
       expect(assigns(:question).links.first).to be_a_new(Link)
     end
 
