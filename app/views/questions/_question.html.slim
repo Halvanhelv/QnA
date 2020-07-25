@@ -1,6 +1,8 @@
 h1= question.title
 p= question.body
 p= question.user.email
+div id="vote-id-#{question.id}"
+   = button_to "+",  positive_vote_question_path(question)
 -if question.files.attached?
 ul.list-group
    -question.files.each do |file|
