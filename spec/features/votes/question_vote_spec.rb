@@ -20,6 +20,7 @@ I would like to be able to vote on a question
           within "#vote-id-#{question.id}" do
           click_on '+'
           end
+          expect(page).to have_content "vote for : 1"
         end
         expect(page).to have_content 'You supported the question'
       end

@@ -7,6 +7,7 @@ class Question < ApplicationRecord
 
   include Linkable
   include Attachable
+  include Votable
 
   accepts_nested_attributes_for :reward, reject_if: :all_blank
 
