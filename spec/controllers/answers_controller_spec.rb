@@ -159,4 +159,13 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #positive_vote' do
+
+    it_behaves_like 'voted' do
+      let(:votable) { create(:answer, user: user_2) }
+    end
+
+  end
+
 end

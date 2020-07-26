@@ -17,6 +17,7 @@ RSpec.describe Question, type: :model do
 
   it_behaves_like 'attachable'
   it_behaves_like 'linkable'
+  it_behaves_like 'votable'
 
   context 'methods' do
     describe '#best_answer' do

@@ -6,6 +6,8 @@ ul.list-group id="answer-id-#{answer.id}"
   - else
     div
       = answer.body
+    div id="answer-vote"
+      = render 'shared/votes', resource: answer
   .links
     p Links:
     ul

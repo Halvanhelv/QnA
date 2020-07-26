@@ -6,6 +6,7 @@ class Answer < ApplicationRecord
 
   include Linkable
   include Attachable
+  include Votable
 
   validates :body, presence: true
   validates :body, length: { minimum: 6 }

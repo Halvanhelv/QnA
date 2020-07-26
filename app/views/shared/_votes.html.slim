@@ -1,0 +1,4 @@
+= button_to "+", polymorphic_path(resource, action: 'positive_vote'), method: :patch, remote: true, data: {type: :json}
+p#vote-rating
+  =resource.rating
+= button_to "-",  polymorphic_path(resource, action: 'negative_vote'), method: :patch, remote: true, data: {type: :json}

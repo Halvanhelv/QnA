@@ -2,9 +2,7 @@ h1= question.title
 p= question.body
 p= question.user.email
 div id="question-vote"
-   = button_to "+",  positive_vote_question_path(question), method: :patch, remote: true, data: {type: :json}
-   p#question-rating
-      =question.rating
+   =render 'shared/votes', resource: question
 -if question.files.attached?
 ul.list-group
    -question.files.each do |file|

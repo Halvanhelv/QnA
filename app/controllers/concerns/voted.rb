@@ -26,21 +26,25 @@ module Voted
       if current_user.author_of?(@votable)
         render json: { error: 'You cannot vote for yourself' }, status: 422
       else
-        @votable.votes.create(score: number, user: current_user)
-        render json: { json: @votable, rating: @votable.rating, message: 'You have successfully voted' }
+        user_voted.any? ? user_voted.first.update(score: number) : @votable.votes.create(score: number, user: current_user)
+        render json: { id: @votable.id, type: votable_name(@votable), rating: @votable.rating, message: 'You have successfully voted' }
     end
     end
 
     def user_vote
-      votes = @votable.votes.where(user_id: current_user.id)
-      votes.sum(:score)
+      user_voted.sum(:score)
     end
 
-    def cancel_vote
-      votes = @votable.votes.where(user_id: current_user.id)
-      votes.destroy_all
+    def votable_name(obj)
+      obj.class.name.downcase
+    end
 
-      render json: { json: @votable, rating: @votable.rating, message: 'You canceled your vote' }
+    def user_voted
+      @votable.votes.where(user_id: current_user.id)
+    end
+    def cancel_vote
+      user_voted.destroy_all
+      render json: { id: @votable.id, type: votable_name(@votable), rating: @votable.rating, message: 'You canceled your vote' }
     end
   end
 end

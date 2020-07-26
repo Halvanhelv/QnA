@@ -156,7 +156,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'PATCH #positive_vote' do
 
     it_behaves_like 'voted' do
-      let(:votable) { create(:question) }
+      let(:votable) { create(:question, user: user_2) }
     end
 
   end
