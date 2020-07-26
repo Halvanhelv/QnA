@@ -77,7 +77,6 @@ RSpec.describe Answer, type: :model do
         answer_3.make_best_answer
         expect(question.reward.user).to eq(answer_3.user)
       end
-
     end
   end
 end

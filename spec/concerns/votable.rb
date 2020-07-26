@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 shared_examples_for 'votable' do
-
   it { should have_many(:votes).dependent(:destroy) }
 
   let(:user) { create(:user) }
@@ -13,7 +12,6 @@ shared_examples_for 'votable' do
 
   describe '#rating' do
     it 'returns summary vote scores for resource' do
-
       expect(votable.rating).to eq(2)
     end
   end

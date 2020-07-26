@@ -42,6 +42,7 @@ module Voted
     def user_voted
       @votable.votes.where(user_id: current_user.id)
     end
+
     def cancel_vote
       user_voted.destroy_all
       render json: { id: @votable.id, type: votable_name(@votable), rating: @votable.rating, message: 'You canceled your vote' }

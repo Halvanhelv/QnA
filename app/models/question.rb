@@ -16,5 +16,4 @@ class Question < ApplicationRecord
   def best_answer
     answers.best.first
   end
-
 end
