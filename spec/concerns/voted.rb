@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 shared_examples_for 'voted' do
-
   describe 'PATCH #positive_vote' do
     subject {   patch :positive_vote, params: { id: votable, format: :json } }
     context 'no votable author' do
@@ -21,11 +20,11 @@ shared_examples_for 'voted' do
         expect(JSON.parse(response.body)['rating']).to eq(votable.reload.rating)
       end
 
-        it 'can not vote for resource twice' do
-          subject
-          subject
-          expect(votable.reload.rating).to eq(1)
-        end
+      it 'can not vote for resource twice' do
+        subject
+        subject
+        expect(votable.reload.rating).to eq(1)
+      end
     end
 
     context 'As an author of resource' do

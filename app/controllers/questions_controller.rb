@@ -31,7 +31,6 @@ class QuestionsController < ApplicationController
   end
 
   def update
-
     question.update(question_params) if current_user.author_of?(question)
     files_params
   end
@@ -70,8 +69,8 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body,
-                                     links_attributes: [:name, :url],
-                                     reward_attributes: [:name, :img])
+                                     links_attributes: %i[name url],
+                                     reward_attributes: %i[name img])
   end
 
   def files_params
@@ -81,5 +80,4 @@ class QuestionsController < ApplicationController
       end
       end
   end
-
 end
