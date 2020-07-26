@@ -1,8 +1,10 @@
 h1= question.title
 p= question.body
 p= question.user.email
-div id="vote-id-#{question.id}"
-   = button_to "+",  positive_vote_question_path(question)
+div id="question-vote"
+   = button_to "+",  positive_vote_question_path(question), method: :patch, remote: true, data: {type: :json}
+   p#question-rating
+      =question.rating
 -if question.files.attached?
 ul.list-group
    -question.files.each do |file|

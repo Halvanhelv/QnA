@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
+  include Voted
   before_action :authenticate_user!, except: %i[index show] # except is the opposite: only
 
   def index
