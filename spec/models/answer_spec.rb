@@ -15,6 +15,7 @@ RSpec.describe Answer, type: :model do
 
   it_behaves_like 'attachable'
   it_behaves_like 'linkable'
+  it_behaves_like 'votable'
 
   context 'scope' do
     describe '#ordered_by_best' do
