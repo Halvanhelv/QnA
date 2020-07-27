@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  include Voted
   before_action :authenticate_user!, except: %i[index show] # except is the opposite: only
+
+  include Voted
 
   def create
     answer.user = current_user
