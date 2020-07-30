@@ -11,6 +11,7 @@ class QuestionsController < ApplicationController
 
   def show
     answer.links.new # build создаем связанный объект
+    gon.id = params[:id]
   end
 
   def new
@@ -25,6 +26,10 @@ class QuestionsController < ApplicationController
     files_params
 
     if @question.save
+      ActionCable.server.broadcast_to "questions",
+                                   id: @question.id,
+      title: @question.title
+
       redirect_to @question, notice: 'Your question successfully created.'
     else
       render :new
