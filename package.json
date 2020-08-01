@@ -8,13 +8,17 @@
     "@rails/webpacker": "4.2.2",
     "bootstrap": "^4.5.0",
     "channels": "^0.0.4",
+    "handlebars-loader": "^1.7.1",
     "jquery": "^3.5.1",
+    "mustache": "^4.0.1",
+    "mustache-loader": "^1.4.3",
     "packs": "^3.3.3",
     "popper.js": "^1.16.1",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",
   "devDependencies": {
+    "handlebars": "^4.7.6",
     "webpack-dev-server": "^3.11.0"
   }
 }

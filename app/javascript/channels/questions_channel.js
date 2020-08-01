@@ -2,18 +2,20 @@ import consumer from "./consumer"
 $(document).on('turbolinks:load', function() {
 console.log(consumer.subscriptions)
   // consumer.subscriptions.remove({channel: "QuestionsChannel", question_id: gon.id})
-  if (consumer.subscriptions['subscriptions'].length > 0) {
-    consumer.subscriptions.remove(consumer.subscriptions['subscriptions'][0])
-  }
+
+  // if (consumer.subscriptions['subscriptions'].length > 0) {
+  //   consumer.subscriptions.remove(consumer.subscriptions['subscriptions'][0])
+  // }
 
   if (gon.id) {
-    consumer.subscriptions.create("QuestionsChannel", {
+    consumer.subscriptions.create({channel: "QuestionsChannel", question_id: gon.id},{
 
       connected() {
-        this.perform("question" , { question_id: gon.id })
+        // this.perform("question" , { question_id: gon.id })
       },
 
       disconnected() {},
+
       received(data) {
         console.log(data)
         alert('GACHIBASS')
