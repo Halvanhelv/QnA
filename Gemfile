@@ -22,6 +22,7 @@ gem 'slim-rails'
 gem 'cocoon'
 gem "octokit", "~> 4.0"
 gem 'gon'
+gem 'handlebars-source'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'

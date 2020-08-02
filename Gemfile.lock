@@ -333,7 +333,7 @@ DEPENDENCIES
   factory_bot_rails
   gon
   google-cloud-storage
-  handlebars-source (~> 4.0, >= 4.0.5)
+  handlebars-source
   jbuilder (~> 2.7)
   launchy
   listen (~> 3.2)

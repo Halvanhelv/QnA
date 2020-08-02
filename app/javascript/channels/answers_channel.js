@@ -1,5 +1,6 @@
 import consumer from "./consumer"
 
+
 $(document).on('turbolinks:load', function () {
   let answersList =  $('.answers');
   if (answersList.length) {
@@ -8,7 +9,7 @@ $(document).on('turbolinks:load', function () {
 
         if (gon.user_id === data.answer.user_id) return;
 
-        const template = require('../../views/mustage_templates/answer.hbs');
+        const template = require('./handlebars/answer.handlebars');
 
         data.is_question_owner = gon.user_id === gon.question_owner_id;
 
