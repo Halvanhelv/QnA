@@ -8,10 +8,10 @@ const { environment } = require('@rails/webpacker')
         Popper: ['popper.js', 'default']
     }))
 const HbsLoader = {
-    test: /\.handlebars$/,
+    test: /\.hbs$/,
     loader: 'handlebars-loader'
 }
-environment.loaders.append('handlebars', HbsLoader)
+environment.loaders.append('hbs', HbsLoader)
     module.exports = environment
 
 

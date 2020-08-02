@@ -9,7 +9,7 @@ $(document).on('turbolinks:load', function () {
 
         if (gon.user_id === data.answer.user_id) return;
 
-        const template = require('./handlebars/answer.handlebars');
+        const template = require('./handlebars/answer.hbs');
 
         data.is_question_owner = gon.user_id === gon.question_owner_id;
 

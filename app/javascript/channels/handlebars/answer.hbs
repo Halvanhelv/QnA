@@ -1,0 +1,68 @@
+<div class="row p-2">
+    <div class="col-12">
+        <div class="row answer_id_{{answer.id}}">
+      <span class="col-1 vote-block" style="padding-right: 0">
+        <div class="row">
+          <span class="mx-auto">
+            <a data-type="json" id="vote-for" data-remote="true" rel="nofollow" data-method="patch" href="/answers/{{answer.id}}/positive_vote">
+              <svg height="24" class="octicon octicon-triangle-up text-success" viewBox="0 0 12 16" version="1.1" width="18" aria-hidden="true">
+                 <path fill-rule="evenodd" d="M12 11L6 5l-6 6h12z"></path>
+              </svg>
+            </a>
+          </span>
+        </div>
+        <div class="row">
+          <span class="mx-auto" id="vote-score">{{rating}}</span>
+        </div>
+        <div class="row">
+          <span class="mx-auto">
+            <a data-type="json" id="vote-against" data-remote="true" rel="nofollow" data-method="patch" href="/answers/{{answer.id}}/negative_vote">
+              <svg height="24" class="octicon octicon-triangle-down text-danger" viewBox="0 0 12 16" version="1.1" width="18" aria-hidden="true">
+                <path fill-rule="evenodd" d="M0 5l6 6 6-6H0z"></path>
+              </svg>
+            </a>
+          </span>
+        </div>
+      </span>
+            <span class="col-11 my-auto" style="padding-left: 0">
+        <span class="best-block">
+            {{#if is_question_owner}}
+                {{#if answer.best}}
+                    <a class="btn-sm btn-success text-light mt-3 mr-2" id="answer-best" data-remote="true" rel="nofollow" data-method="put" href="/answers/{{answer.id}}/make_better">Best</a>
+                {{else}}
+                    <a class="btn-sm btn-light text-muted mt-3 mr-2" id="answer-best" data-remote="true" rel="nofollow" data-method="put" href="/answers/{{answer.id}}/make_better">Best</a>
+                {{/if}}
+            {{else}}
+                {{#if answer.best}}
+                    <span class="btn-sm btn-success text-light mt-3 mr-2" id="answer-usual" disabled="disabled">Best</span>
+                {{else}}
+                    <span class="btn-sm btn-light text-muted mt-3 mr-2 .disable" id="answer-usual" disabled="disabled">usual</span>
+                {{/if}}
+            {{/if}}
+        </span>
+        <span class="list-answer">
+          <span class='answer_id_{{answer.id}}_body'>
+            {{answer.body}}
+              <span style='font-size: 9pt'>
+              <br>
+                &nbsp; answer's author:
+                  {{author}}
+                  <span style='font-size: 9pt'>
+                  <br>
+                    links:
+                      {{#each links}}
+                          <span class="attached-link-{{this.id}}">
+                     <br>
+                     <a href="{{this.url}}">{{this.name}}</a>
+                     &nbsp;
+                    </span>
+                      {{/each}}
+                </span>
+            </span>
+             <br>
+          </span>
+        </span>
+      </span>
+        </div>
+    </div>
+</div>

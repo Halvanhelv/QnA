@@ -7,22 +7,22 @@ console.log(consumer.subscriptions)
   //   consumer.subscriptions.remove(consumer.subscriptions['subscriptions'][0])
   // }
 
-  if (gon.id) {
-    consumer.subscriptions.create({channel: "QuestionsChannel", question_id: gon.id},{
-
-      connected() {
-        // this.perform("question" , { question_id: gon.id })
-      },
-
-      disconnected() {},
-
-      received(data) {
-        console.log(data)
-        alert('GACHIBASS')
-
-      }
-    })
-  }
+  // if (gon.id) {
+  //   consumer.subscriptions.create({channel: "QuestionsChannel", question_id: gon.id},{
+  //
+  //     connected() {
+  //       // this.perform("question" , { question_id: gon.id })
+  //     },
+  //
+  //     disconnected() {},
+  //
+  //     received(data) {
+  //       console.log(data)
+  //       alert('GACHIBASS')
+  //
+  //     }
+  //   })
+  // }
   if ($(".question_list").length) {
     consumer.subscriptions.create("QuestionsChannel", {
 
