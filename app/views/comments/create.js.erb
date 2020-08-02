@@ -1,0 +1,20 @@
+<% if @comment.commentable.is_a?(Question) %>
+$('#question-errors').html('<%= render 'shared/errors', resource: @comment %>')
+<% if @comment.persisted? %>
+$('#question .comment-block').hide();
+$('.question_comments').append('<%= j render @comment %>');
+$('#question .add_comment_button').show();
+
+<%end %>
+
+<%else %>
+$('#answer-errors').html('<%= render 'shared/errors', resource: @comment %>')
+<% if @comment.persisted? %>
+var sharedSelector = "<%= @comment.commentable.class.name.underscore %>"+"-id-"+"<%= @comment.commentable.id %>"
+$('#'+ sharedSelector +' .'+ "<%= @comment.commentable.class.name.underscore %>" +'_comments').append('<%= j render @comment %>');
+console.log('its work')
+$('#'+ sharedSelector +' .comment-block').hide();
+$('#'+ sharedSelector +' .add_comment_button').show();
+$('#'+ sharedSelector +' a#'+"<%= @comment.commentable.class.name.underscore %>"+'_comment').show();
+<% end %>
+<%end %>

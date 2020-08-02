@@ -67,6 +67,13 @@ RSpec.describe QuestionsController, type: :controller do
           post :create, params: { question: attributes_for(:question) }
           expect(response).to redirect_to assigns(:question)
         end
+
+        it 'streaming to channel after create' do
+          expect do
+            post :create, params: { question: attributes_for(:question, user: user) }
+          end.to broadcast_to('questions').with(a_hash_including(action: 'create'))
+        end
+
       end
 
       context 'with invalid attributes' do

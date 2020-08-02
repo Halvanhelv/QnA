@@ -5,5 +5,13 @@ $(document).on('turbolinks:load', function () {
         var answerId = $(this).data('answerId');
         $('form#edit-answer-' + answerId).removeClass('hidden');
     })
+    $('.answers').on('click','.add_comment_button', function (e) {
+        e.preventDefault();
+        $(this).hide();
+        let answerId = $(this).data('answerId');
+        $('#answer-id-'+ answerId +' .add_comment_button').hide();
+        $('#answer-id-'+ answerId +' .comment-block').show();
+        $('#answer-id-'+ answerId +' .comment_text_area').val('');
+    });
 });
 

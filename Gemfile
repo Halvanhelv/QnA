@@ -23,6 +23,8 @@ gem 'cocoon'
 gem "octokit", "~> 4.0"
 gem 'gon'
 gem 'handlebars-source'
+gem 'octicons', '~> 9.4'
+gem 'octicons_helper'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'

@@ -1,0 +1,8 @@
+.form-group.comment-block.hidden
+  = form_with model: [resource, Comment.new],  class: '',  remote: true do |f|
+    .form-group.comment-block
+      = f.label :body
+      = f.text_area :body, class: 'form-control col-md-3 comment_text_area '
+      small.form-text.text-muted Прокоментируйте.
+      br
+      = f.submit 'save comment', class: 'button btn btn-primary', style: 'font-size: 8pt'

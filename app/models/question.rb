@@ -3,7 +3,9 @@
 class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_one :reward, dependent: :destroy
+
   belongs_to :user
+  has_many :comments, dependent: :destroy, as: :commentable
 
   include Linkable
   include Attachable

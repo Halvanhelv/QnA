@@ -12,6 +12,16 @@ ul.list-group id="answer-id-#{answer.id}"
     p Links:
     ul
       = render partial: "links/link_without_delete_link", collection: answer.links, :as => :link
+  .answer_comments
+
+    - if answer.comments.exists?
+      = render answer.comments
+    - else
+      span.text-secondary.empty style='font-size: 10pt' 0 comment's
+  - if signed_in?
+    = content_tag(:span, class: 'text-primary comment-button', style: 'font-size: 8pt')
+      = link_to ' add comment', '', class: 'add_comment_button', style: 'text-decoration: none;', remote: true, data: {answer_id: answer.id}
+    =render 'comments/form', resource: answer
   ul.list-group
     -answer.files.each do |file|
       li class="attachment-id-#{file.id} list-group-item list-group-item-action"
