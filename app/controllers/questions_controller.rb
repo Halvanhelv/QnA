@@ -35,7 +35,6 @@ class QuestionsController < ApplicationController
   def update
     question.update(question_params) if current_user.author_of?(question)
     files_params
-
   end
 
   def destroy

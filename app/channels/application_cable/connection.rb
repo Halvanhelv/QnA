@@ -1,4 +1,4 @@
-#app/channels/application_cable/connection.rb
+# app/channels/application_cable/connection.rb
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
     # identified_by :current_user
@@ -8,6 +8,7 @@ module ApplicationCable
     end
 
     private
+
     def find_verified_user # this checks whether a user is authenticated with devise
       # if (verified_user = env['warden'].user)
       #   verified_user

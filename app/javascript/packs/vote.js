@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load', function(){
    var answer_vote_block = $(".answers #answer-vote")
-    answer_vote_block.on('ajax:success', function(e) {
+    $(document).on('ajax:success', function(e) {
         const votable = e.detail[0];
 
 
@@ -15,7 +15,7 @@ $(document).on('turbolinks:load', function(){
         $('.notice').html('').append('<p>' + votable.message + '</p>');
     });
 
-    answer_vote_block.on('ajax:error', function (e) {
+    $(document).on('ajax:error', function (e) {
         console.log('dddddddddddddddddddddddddddddddddddddddddddd')
             const errors = e.detail[0];
 

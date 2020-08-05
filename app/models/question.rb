@@ -27,6 +27,5 @@ class Question < ApplicationRecord
     ActionCable.server.broadcast('questions',
                                  id: id,
                                  title: title)
-
   end
 end
