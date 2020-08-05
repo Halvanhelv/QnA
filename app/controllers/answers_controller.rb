@@ -2,7 +2,6 @@
 
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[index show] # except is the opposite: only
-  after_action :publish_answer, only: %i[create]
 
   include Voted
 
@@ -42,16 +41,6 @@ class AnswersController < ApplicationController
   end
 
   private
-
-  def publish_answer
-    return if answer.errors.any?
-
-    ActionCable.server.broadcast("answers_for_question_#{question.id}",
-                                 author: answer.user.email,
-                                 rating: answer.rating,
-                                 answer: answer,
-                                 links: answer.links)
-  end
 
   def answer
     @answer ||= params[:id] ? Answer.with_attached_files.find(params[:id]) : answers.build(answer_params)

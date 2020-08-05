@@ -3,6 +3,7 @@ class CommentsController < ApplicationController
   after_action :publish_comment, only: %i[create]
 
   def create
+    redirect_to new_user_session_path unless current_user
     @comment = set_commentable.comments.new(comment_params)
     @comment.user = current_user
     @comment.save

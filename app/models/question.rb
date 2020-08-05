@@ -4,6 +4,8 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_one :reward, dependent: :destroy
 
+  after_save :publish_comment
+
   belongs_to :user
   has_many :comments, dependent: :destroy, as: :commentable
 
@@ -17,5 +19,14 @@ class Question < ApplicationRecord
 
   def best_answer
     answers.best.first
+  end
+
+  private
+
+  def publish_comment
+    ActionCable.server.broadcast('questions',
+                                 id: id,
+                                 title: title)
+
   end
 end

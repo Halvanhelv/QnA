@@ -28,7 +28,7 @@ RSpec.describe LinksController, type: :controller do
     end
 
     describe 'Answer links delete' do
-      subject { post :destroy, params: { id: answer.links.first, format: :js } }
+      subject { post :destroy, params: { id: answer.reload.links.first, format: :js } } # добавил reload поскольку в модели у меня вызывается links(для ActionCable) до того как links будут добавлены  и после в памяти остается инфа что у answer нет links и не идет обращение к бд
 
       context 'user is answer owner' do
         let!(:answer) { create(:answer, :with_link, user: user) }

@@ -5,6 +5,8 @@ class Answer < ApplicationRecord
   belongs_to :user
   has_many :comments, dependent: :destroy, as: :commentable
 
+  after_save :publish_answer
+
   include Linkable
   include Attachable
   include Votable
@@ -22,4 +24,16 @@ class Answer < ApplicationRecord
       update!(best_answer: true)                         # и поскольку текущий вопрос еще находится в памяти то при выполнении кода обращение к бд не будет поскольку виртуально ответ уже лучший и попытка сделать его снова лушчим вернет просто true
     end
   end
+
+  private
+
+  def publish_answer
+
+    ActionCable.server.broadcast("answers_for_question_#{question.id}",
+                                 author: user.email,
+                                 rating: rating,
+                                 links: links,
+                                 answer: self)
+  end
+
 end

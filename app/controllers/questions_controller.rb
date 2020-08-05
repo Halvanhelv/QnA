@@ -26,10 +26,6 @@ class QuestionsController < ApplicationController
     files_params
 
     if @question.save
-      ActionCable.server.broadcast('questions',
-                                    id: question.id,
-                                    title: question.title)
-
       redirect_to @question, notice: 'Your question successfully created.'
     else
       render :new

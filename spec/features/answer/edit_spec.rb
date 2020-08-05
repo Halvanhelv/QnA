@@ -73,7 +73,7 @@ I'd like ot be able to edit my answer
 
         scenario 'delete one link' do
           within "#answer-id-#{answer.id}" do
-            expect(page).to have_content(answer.links.first.name)
+            expect(page).to have_content(answer.reload.links.first.name)
             click_on I18n.t('edit_answer')
 
             within "#edit-answer-#{answer.id}" do
@@ -95,7 +95,7 @@ I'd like ot be able to edit my answer
               click_on I18n.t('edit_answer')
 
               within "#edit-answer-#{answer.id}" do
-                expect(page).to have_content(answer.links.first.name)
+                expect(page).to have_content(answer.reload.links.first.name)
                 expect(page).to have_content(answer.links.last.name)
 
                 within ".link-id-#{answer.links.first.id}" do
