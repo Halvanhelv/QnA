@@ -4,6 +4,7 @@ $(document).on('turbolinks:load', function () {
 
   consumer.subscriptions.create({ channel: "CommentsChannel", question_id: gon.question_id}, {
     received(data) {
+
       if (gon.user_id === data.comment.user_id) return;
 
       const template = require('./handlebars/comment.hbs');

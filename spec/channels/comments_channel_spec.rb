@@ -13,14 +13,11 @@ RSpec.describe CommentsChannel, type: :channel do
     expect(subscription).to be_confirmed
   end
 
-
   it 'subscribes to a stream when question is provided' do
     subscribe(question_id: question.id)
 
     expect(subscription).to be_confirmed
 
     expect(subscription).to have_stream_from("question_#{question.id}_comments")
-
-
   end
 end

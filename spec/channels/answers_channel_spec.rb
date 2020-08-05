@@ -13,7 +13,6 @@ RSpec.describe AnswersChannel, type: :channel do
     expect(subscription).to be_confirmed
   end
 
-
   it 'subscribes to a stream when question is provided' do
     subscribe(question_id: question.id)
 

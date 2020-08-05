@@ -13,17 +13,15 @@ feature 'User can add comment to answer.', %q(
       visit question_path(question)
     end
 
+    scenario 'add comment for answer' do
 
-    scenario 'add comment for answer'
+    end
 
     scenario 'can not add comment with invalid attributes'
-
   end
 
   describe 'multiple sessions' do
     scenario "answer comment appears on another user's page"
-
-
   end
 
   describe 'Unauthenticated user' do
