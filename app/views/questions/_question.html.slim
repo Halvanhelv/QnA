@@ -2,7 +2,7 @@ h1= question.title
 p= question.body
 p= question.user.email
 
-div id="question-vote"
+div id="vote-block"
    =render 'shared/votes', resource: question
 -if question.files.attached?
 ul.list-group
