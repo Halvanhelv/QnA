@@ -1,0 +1,46 @@
+<ul class="list-group" id="answer-id-{{answer.id}}">
+    <div>{{answer.body}}</div>
+    <div id="vote-block">
+        <form class="button_to" method="post" action="/answers/{{answer.id}}/positive_vote" data-remote="true"><input type="hidden" name="_method" value="patch"><input data-type="json" type="submit" value="+"><input type="hidden" name="authenticity_token" value="eNyGrv7icd8i6MNVVeB4cQT/kyWUvYtzI/UjlADGB7lcX8ZTsiU0Y9QoRz8mCvFQSR07waOsI8CwWdjHz/V7jg=="></form>
+        <p id="vote-rating">{{rating}}</p>
+        <form class="button_to" method="post" action="/answers/{{answer.id}}/negative_vote" data-remote="true"><input type="hidden" name="_method" value="patch"><input data-type="json" type="submit" value="-"><input type="hidden" name="authenticity_token" value="eNyGrv7icd8i6MNVVeB4cQT/kyWUvYtzI/UjlADGB7lcX8ZTsiU0Y9QoRz8mCvFQSR07waOsI8CwWdjHz/V7jg=="></form>
+    </div>
+    <div class="links">
+        <p>Links:</p>
+        <ul>
+    {{#each links}}
+            <li class="link-id-4"><a href="{{this.url}}">{{this.name}}</a></li>
+    {{/each}}
+        </ul>
+    </div>
+    <div class="answer_comments"><span class="text-secondary empty" style="font-size: 10pt">0 comment's</span></div>
+    <span class="text-primary comment-button" style="font-size: 8pt"><a class="add_comment_button" style="text-decoration: none;" data-answer-id="{{answer.id}}" data-remote="true" href="">Add comment</a></span>
+    <div class="form-group comment-block hidden">
+        <form class="" action="/answers/{{answer.id}}/comments" accept-charset="UTF-8" data-remote="true" method="post">
+            <input type="hidden" name="authenticity_token" value="eNyGrv7icd8i6MNVVeB4cQT/kyWUvYtzI/UjlADGB7lcX8ZTsiU0Y9QoRz8mCvFQSR07waOsI8CwWdjHz/V7jg==">
+            <div class="form-group"><label for="comment_body">Body</label><textarea class="form-control col-md-3 comment_text_area " name="comment[body]" id="comment_body"></textarea><small class="form-text text-muted">Прокоментируйте.</small><br><input type="submit" name="commit" value="save comment" class="button btn btn-primary" style="font-size: 8pt" data-disable-with="save comment"></div>
+        </form>
+    </div>
+    <ul class="list-group">
+        <p class="btn btn-outline-info">{{author}}</p>
+    </ul>
+    <form class="button_to" method="post" action="/answers/{{answer.id}}" data-remote="true"><input type="hidden" name="_method" value="delete"><input class="btn btn-outline-danger" type="submit" value="Delete Answer"><input type="hidden" name="authenticity_token" value="eNyGrv7icd8i6MNVVeB4cQT/kyWUvYtzI/UjlADGB7lcX8ZTsiU0Y9QoRz8mCvFQSR07waOsI8CwWdjHz/V7jg=="></form>
+    <p><a class="edit-answer-link btn btn-outline-warning" data-answer-id="{{answer.id}}" href="#">Edit Answer</a></p>
+    <form class="hidden" id="edit-answer-{{answer.id}}" enctype="multipart/form-data" action="/answers/{{answer.id}}" accept-charset="UTF-8" data-remote="true" method="post">
+        <input type="hidden" name="_method" value="patch"><input type="hidden" name="authenticity_token" value="eNyGrv7icd8i6MNVVeB4cQT/kyWUvYtzI/UjlADGB7lcX8ZTsiU0Y9QoRz8mCvFQSR07waOsI8CwWdjHz/V7jg==">
+        <p class="list-group"></p>
+        <label for="answer_body">Your answer</label>
+        <textarea class="form-control" name="answer[body]" id="answer_body">  {{answer.body}}</textarea>
+        <ul class="attachments"></ul>
+        <label for="answer_files">Files</label><input multiple="multiple" type="file" name="answer[files][]" id="answer_files">
+        <ul class="links"></ul>
+        <p><a data-association-insertion-method="after" class="add_fields" data-association="link" data-associations="links" data-association-insertion-template="<div class=&quot;nested-fields&quot;><div class=&quot;field&quot;><label for=&quot;answer_links_attributes_new_links_name&quot;>Link name</label><input type=&quot;text&quot; name=&quot;answer[links_attributes][new_links][name]&quot; id=&quot;answer_links_attributes_new_links_name&quot; /></div><div class=&quot;field&quot;><label for=&quot;answer_links_attributes_new_links_url&quot;>Url</label><input type=&quot;text&quot; name=&quot;answer[links_attributes][new_links][url]&quot; id=&quot;answer_links_attributes_new_links_url&quot; /><input value=&quot;false&quot; type=&quot;hidden&quot; name=&quot;answer[links_attributes][new_links][_destroy]&quot; id=&quot;answer_links_attributes_new_links__destroy&quot; /><a class=&quot;remove_fields dynamic&quot; href=&quot;#&quot;>Delete form</a></div></div>" href="#">Add Link</a></p>
+        <ul class="links"></ul>
+        <p></p>
+        <input type="submit" name="commit" value="Update answer" class="btn btn-primary" data-disable-with="Update answer">
+    </form>
+    {{#if is_question_owner}}
+    <p><a class="best-answer-link btn btn-dark" data-remote="true" rel="nofollow" data-method="patch" href="/answers/{{answer.id}}/best_answer">Best</a></p>
+    {{/if}}
+    <div class="answer-errors"></div>
+</ul>

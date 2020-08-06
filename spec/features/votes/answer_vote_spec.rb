@@ -15,7 +15,7 @@ I would like to be able to vote on a answer
 
       scenario 'try vote for the answer' do
         within "#answer-id-#{answer.id}" do
-          within '#answer-vote' do
+          within '#vote-block' do
             click_on '+'
           end
           within '#vote-rating' do
@@ -28,7 +28,7 @@ I would like to be able to vote on a answer
 
       scenario 'try vote twice on a answer' do
         within "#answer-id-#{answer.id}" do
-          within '#answer-vote' do
+          within '#vote-block' do
             click_on '+'
             click_on '+'
           end
@@ -38,15 +38,17 @@ I would like to be able to vote on a answer
       end
 
       scenario 'try vote against answer' do
-        within '#answer-vote' do
-          click_on '-'
+        within "#answer-id-#{answer.id}" do
+          within '#vote-block' do
+            click_on '-'
+          end
         end
         expect(page).to have_content 'You have successfully voted'
       end
 
       scenario 'try change your vote' do
         within "#answer-id-#{answer.id}" do
-          within '#answer-vote' do
+          within '#vote-block' do
             click_on '+'
             click_on '-'
           end
@@ -56,7 +58,7 @@ I would like to be able to vote on a answer
 
       scenario 'try view answer rating' do
         within "#answer-id-#{answer.id}" do
-          within '#answer-vote' do
+          within '#vote-block' do
             click_on '+'
             within '#vote-rating' do
               expect(page).to have_content '1'
@@ -70,7 +72,7 @@ I would like to be able to vote on a answer
         sign_in(user)
         visit question_path(answer.question)
         within "#answer-id-#{answer.id}" do
-          within '#answer-vote' do
+          within '#vote-block' do
             click_on '+'
             within '#vote-rating' do
               expect(page).to have_content '0'

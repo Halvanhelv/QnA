@@ -112,4 +112,28 @@ I'd like to be able to ask the question
     click_on I18n.t('questions.index.question.new_button')
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
+
+  describe 'multiple sessions' do
+    scenario "question appears on another user's page", js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit questions_path
+      end
+
+      Capybara.using_session('guest') do
+        visit questions_path
+      end
+
+      Capybara.using_session('user') do
+        click_on I18n.t('questions.index.question.new_button')
+
+        fill_in 'Title', with: 'Title of question'
+        fill_in 'Body', with: 'Body of question'
+        click_on I18n.t('helpers.submit.question.create')
+
+        expect(page).to have_content 'Title of question'
+        expect(page).to have_content 'Body of question'
+      end
+    end
+  end
 end

@@ -17,10 +17,7 @@ module Votable
     end
 
     def formation_vote(user, number)
-
       user_voted(user).any? ? user_voted(user).first.update(score: number) : votes.create(score: number, user: user)
-
     end
-
   end
 end

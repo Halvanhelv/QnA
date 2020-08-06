@@ -1,7 +1,8 @@
 h1= question.title
 p= question.body
 p= question.user.email
-div id="question-vote"
+
+div id="vote-block"
    =render 'shared/votes', resource: question
 -if question.files.attached?
 ul.list-group
@@ -12,6 +13,18 @@ ul.list-group
    p Links:
    ul
       = render partial: "links/link_without_delete_link", collection: question.links, :as => :link
+.question_comments
+   -if question.comments.exists?
+      ul.list-group
+      =render question.comments
+   -else
+      span.text-secondary.empty style='font-size: 10pt' 0 comment's
+- if signed_in?
+   = content_tag(:span, class: 'text-primary comment-button', style: 'font-size: 8pt')
+      = link_to t('add comment'), '', class: 'add_comment_button', style: 'text-decoration: none;', remote: true
+
+   =render 'comments/form', resource: question
+
 #reward
    p Reward:
 

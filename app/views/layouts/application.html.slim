@@ -7,8 +7,10 @@ html
 
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = action_cable_meta_tag
 
   body
+    = Gon::Base.render_data
     div.container-fluid
       p.notice
       p.alert

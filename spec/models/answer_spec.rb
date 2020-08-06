@@ -60,6 +60,8 @@ RSpec.describe Answer, type: :model do
 
       it { expect(answer.reload.best_answer).to be_truthy }
 
+      it { expect(answer.reload.best_answer).to be_truthy }
+
       it { expect(another_answer.reload.best_answer).to be_falsey }
 
       it { expect(answer.user.rewards).to match_array([question.reward]) }

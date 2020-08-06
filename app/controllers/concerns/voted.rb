@@ -38,7 +38,7 @@ module Voted
 
     def cancel_vote
       @votable.user_voted(current_user).destroy_all
-        render json: { id: @votable.id, type: votable_name(@votable), rating: @votable.rating, message: 'You canceled your vote' }
+      render json: { id: @votable.id, type: votable_name(@votable), rating: @votable.rating, message: 'You canceled your vote' }
     end
   end
 end
