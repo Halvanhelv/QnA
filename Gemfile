@@ -25,6 +25,8 @@ gem 'gon'
 gem 'handlebars-source'
 gem 'octicons', '~> 9.4'
 gem 'octicons_helper'
+gem 'omniauth'
+gem 'omniauth-github'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
