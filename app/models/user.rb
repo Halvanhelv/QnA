@@ -11,13 +11,17 @@ class User < ApplicationRecord
   has_many :answers
   has_many :rewards
   has_many :votes, dependent: :destroy
+  has_many :oauth_providers, dependent: :destroy
 
   def author_of?(resource)
     resource.user_id == id
   end
 
   def self.find_for_oauth(auth)
+    FindForOauth.new(auth).call
+  end
 
-
+  def create_oauth_provider(auth)
+    oauth_providers.create(provider: auth.provider, uid: auth.uid) # он вызывается в объекте user
   end
 end
