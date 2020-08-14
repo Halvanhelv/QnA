@@ -1,0 +1,13 @@
+.row.justify-content-center.mt-3
+  .col.col-md-4
+    .card.bg-light
+      .card-body
+        =render 'shared/errors'
+        p Провайдер #{resource} не предоставил почту
+        =form_with(url: custom_email_path, method: "post") do |f|
+          .form-group
+          p
+          = f.label 'email'
+          = f.email_field :email, autofocus: true, class:'form-control', placeholder: 'Введите почту'
+          br
+          = f.submit 'Send', class: 'btn btn-primary'
