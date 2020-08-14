@@ -9,6 +9,7 @@ FactoryBot.define do
     email # Same as `email   { generate(:email) }`
     password { '123456' }
     password_confirmation { '123456' }
+    confirmed_at { Time.now }
   end
 end
 # Note that defining sequences as implicit attributes will not work if you have a factory with the same name as the sequence

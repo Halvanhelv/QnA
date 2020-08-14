@@ -11,7 +11,6 @@ class QuestionsController < ApplicationController
 
   def show
     answer.links.new # build создаем связанный объект
-
   end
 
   def new
@@ -48,10 +47,12 @@ class QuestionsController < ApplicationController
   end
 
   private
+
   def gon_variables
     gon.question_id = question.id
     gon.question_owner_id = question.user.id
   end
+
   def answer
     @answer ||= question.answers.new
   end

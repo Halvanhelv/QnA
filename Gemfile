@@ -12,21 +12,23 @@ gem 'puma', '~> 4.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'webpacker', '~> 4.0'
 gem 'sprockets'
+gem 'webpacker', '~> 4.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.7'
-gem 'slim-rails'
 gem 'cocoon'
-gem "octokit", "~> 4.0"
 gem 'gon'
 gem 'handlebars-source'
+gem 'jbuilder', '~> 2.7'
+
 gem 'octicons', '~> 9.4'
 gem 'octicons_helper'
+gem 'octokit', '~> 4.0'
 gem 'omniauth'
 gem 'omniauth-github'
+gem 'slim-rails'
+gem 'capybara-email'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
@@ -39,8 +41,8 @@ gem 'omniauth-github'
 gem 'devise'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
-gem 'google-cloud-storage'
 gem 'decent_exposure', '3.0.0'
+gem 'google-cloud-storage'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
@@ -55,6 +57,7 @@ group :development do
   gem 'listen', '~> 3.2'
   gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'letter_opener'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end

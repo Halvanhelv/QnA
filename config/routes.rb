@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
+
+  devise_scope :user do
+    post 'custom_email', to: 'oauth_callbacks#custom_email'
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  # default_url_options host: '127.0.0.1'
   concern :votable do
     member do
       patch :positive_vote
