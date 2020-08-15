@@ -263,6 +263,10 @@ Devise.setup do |config|
                   Rails.application.credentials[Rails.env.to_sym][:github][:client_id],
                   Rails.application.credentials[Rails.env.to_sym][:github][:client_secret],
                   scope: 'read:user, user:email'
+  config.omniauth :telegram,
+                  Rails.application.credentials[Rails.env.to_sym][:telegram][:BOT_NICKNAME],
+                  Rails.application.credentials[Rails.env.to_sym][:telegram][:BOT_SECRET],
+                  scope: 'read:user, user:email'
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
