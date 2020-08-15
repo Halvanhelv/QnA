@@ -1,6 +1,9 @@
 class OauthCallbacksController < Devise::OmniauthCallbacksController
-  before_action :session_data, only: :github
+  before_action :session_data, only: [:github, :telegram]
   def github
+    oauth_providers(session['omniauth.auth'])
+  end
+  def telegram
     oauth_providers(session['omniauth.auth'])
   end
   # def github
@@ -8,7 +11,7 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
   # end
 
   def custom_email
-    flash[:alert] = 'Введи почту правильно дебил' if params[:email].blank?
+    # get_email if params[:email].blank?
     session['omniauth.auth']['info']['mail_from_user'] = params[:email]
     oauth_providers(session['omniauth.auth'])
 
@@ -27,9 +30,12 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:alert] = t('devise.failure.unconfirmed')
       redirect_to new_user_session_path
 
+    elsif request
+      render 'confirmations/email', locals: { resource: session['omniauth.auth']['provider'], user: @user }
     else
-      render 'confirmations/email', locals: { resource: session['omniauth.auth']['provider'] }
+      redirect_to root_path
     end
+
   end
 
   def session_data

@@ -12,6 +12,8 @@ I would like to be able to register" do
       fill_in 'Password', with: '123456'
       fill_in 'Password confirmation', with: '123456'
       click_on 'Sign up'
+      open_email('test@gmail.com')
+      current_email.click_link 'Confirm my account'
       expect(page).to have_content 'Welcome! You have signed up successfully.'
     end
 

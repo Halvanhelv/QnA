@@ -2,9 +2,9 @@
   .col.col-md-4
     .card.bg-light
       .card-body
-        =render 'shared/errors'
+        =render 'shared/errors', resource: user
         p Провайдер #{resource} не предоставил почту
-        =form_with(url: custom_email_path, method: "post") do |f|
+        =form_with(url: custom_email_path, method: "post", local: true) do |f|
           .form-group
           p
           = f.label 'email'

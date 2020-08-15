@@ -27,6 +27,7 @@ gem 'octicons_helper'
 gem 'octokit', '~> 4.0'
 gem 'omniauth'
 gem 'omniauth-github'
+gem 'omniauth-telegram', '~> 0.1.0'
 gem 'slim-rails'
 gem 'capybara-email'
 
