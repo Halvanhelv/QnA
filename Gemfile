@@ -51,6 +51,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails', '~> 4.0.0'
   gem 'selenium-webdriver'
+  gem 'localtunnel', '~> 1.0', '>= 1.0.3'
 end
 
 group :development do

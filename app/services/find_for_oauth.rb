@@ -28,6 +28,4 @@ class FindForOauth
   def pass_generate
     @pass_generate ||= Devise.friendly_token[0, 20]
   end
-
-
 end

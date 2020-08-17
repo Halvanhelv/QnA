@@ -6,7 +6,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable,
-         :omniauthable, omniauth_providers: [:github, :telegram]
+         :omniauthable, omniauth_providers: %i[github telegram]
 
   has_many :questions
   has_many :answers

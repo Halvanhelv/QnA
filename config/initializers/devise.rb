@@ -265,7 +265,7 @@ Devise.setup do |config|
                   scope: 'read:user, user:email'
   config.omniauth :telegram,
                   Rails.application.credentials[Rails.env.to_sym][:telegram][:BOT_NICKNAME],
-                  Rails.application.credentials[Rails.env.to_sym][:telegram][:BOT_SECRET],
+                  # Rails.application.credentials[Rails.env.to_sym][:telegram][:BOT_SECRET],
                   scope: 'read:user, user:email'
 
   # ==> Warden configuration

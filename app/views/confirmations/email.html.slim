@@ -3,11 +3,11 @@
     .card.bg-light
       .card-body
         =render 'shared/errors', resource: user
-        p Провайдер #{resource} не предоставил почту
+        p =t('oauth.email_blank', provider: provider)
         =form_with(url: custom_email_path, method: "post", local: true) do |f|
           .form-group
           p
           = f.label 'email'
-          = f.email_field :email, autofocus: true, class:'form-control', placeholder: 'Введите почту'
+          = f.email_field :email, autofocus: true, class:'form-control', placeholder: t('email_placeholder')
           br
-          = f.submit 'Send', class: 'btn btn-primary'
+          = f.submit t('oauth.email.send'), class: 'btn btn-primary'
