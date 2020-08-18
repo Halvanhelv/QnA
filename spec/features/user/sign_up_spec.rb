@@ -14,7 +14,7 @@ I would like to be able to register" do
       click_on 'Sign up'
       open_email('test@gmail.com')
       current_email.click_link 'Confirm my account'
-      expect(page).to have_content 'Welcome! You have signed up successfully.'
+      expect(page).to have_content 'Your email address has been successfully confirmed.'
     end
 
     scenario 'empty password' do
