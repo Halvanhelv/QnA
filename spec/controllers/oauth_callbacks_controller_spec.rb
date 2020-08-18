@@ -19,6 +19,8 @@ RSpec.describe OauthCallbacksController, type: :controller do
       let!(:user) { create(:user) }
 
       before do
+        allow(request.env).to receive(:[]).and_call_original
+        allow(request.env).to receive(:[]).with('omniauth.auth').and_return(oauth_data)
         allow(User).to receive(:find_for_oauth).and_return(user)
         get :github
       end
