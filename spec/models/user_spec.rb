@@ -30,6 +30,7 @@ RSpec.describe User, type: :model do
 
     it 'calls FindForOauth' do
       expect(FindForOauth).to receive(:new).with(auth).and_return(service)
+      # allow_any_instance_of(FindForOauth).to receive(:call)
       expect(service).to receive(:call)
       User.find_for_oauth(auth)
     end

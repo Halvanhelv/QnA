@@ -9,7 +9,7 @@
     p
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true, class: 'form-control-file'
-
-    = link_to_add_association t('add_link'), f, :links, partial: 'shared/nested_links_form', 'data-association-insertion-method' => 'after', form_name: 'link'
+    = link_to_add_association t('add_link'), f, :links, partial: 'shared/nested_links_form', 'data-association-insertion-method' => 'after', form_name: 'link',
+     force_non_association_create: true
     ul.links
     = f.submit class: "btn btn-primary"

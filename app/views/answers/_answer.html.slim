@@ -30,7 +30,7 @@ ul.list-group id="answer-id-#{answer.id}"
     p.btn.btn-outline-info
       =answer.user.email
 
-  -if current_user&.author_of?(answer) # analogue of current_user && current_user.author_of? but there are nuances
+  -if can? :update, answer # analogue of current_user && current_user.author_of? but there are nuances
     = button_to t('delete_answer'), answer_path(answer), method: :delete, remote: true, class: 'btn btn-outline-danger'
     p= link_to t('edit_answer'), '#', class: 'edit-answer-link btn btn-outline-warning', data: { answer_id: answer.id }
 
@@ -51,7 +51,7 @@ ul.list-group id="answer-id-#{answer.id}"
 
       = f.submit class: "btn btn-primary"
 
-  -if current_user&.author_of?(answer.question)
+  -if can? :best_answer, answer
     p= link_to t('.best'), best_answer_answer_path(answer), class: 'best-answer-link btn btn-dark', method: :patch , remote: true
 
   .answer-errors

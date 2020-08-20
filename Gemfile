@@ -30,7 +30,7 @@ gem 'omniauth-github'
 gem 'omniauth-telegram', '~> 0.1.0'
 gem 'slim-rails'
 gem 'capybara-email'
-
+gem 'cancancan'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password

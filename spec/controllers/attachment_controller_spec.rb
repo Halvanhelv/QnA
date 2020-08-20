@@ -22,7 +22,7 @@ RSpec.describe AttachmentController, type: :controller do
 
         it 'redirect to question' do
           subject
-          expect(response).to redirect_to question
+          expect(response).to redirect_to root_path
         end
       end
     end
@@ -43,7 +43,7 @@ RSpec.describe AttachmentController, type: :controller do
 
         it 'redirect to question' do
           subject
-          expect(response).to redirect_to answer.question
+          expect(response).to redirect_to root_path
         end
       end
     end

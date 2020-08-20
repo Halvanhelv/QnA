@@ -2,8 +2,10 @@
 
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[index show] # except is the opposite: only
-
+  before_action :answer
   include Voted
+
+  authorize_resource
 
   def create
     answer.user = current_user
@@ -23,21 +25,18 @@ class AnswersController < ApplicationController
   def edit; end
 
   def update
-    answer.update(answer_params) if current_user.author_of?(answer)
+    answer.update(answer_params)
     files_params
   end
 
   def destroy
-    if current_user.author_of?(answer)
       answer.destroy
       flash[:delete] = 'Answer successfully deleted.'
-    else
-      flash[:question] = "You cannot delete someone else's answer"
-    end
   end
 
   def best_answer
-    answer.make_best_answer if current_user.author_of?(answer.question)
+    authorize! :best_answer, answer
+    answer.make_best_answer
   end
 
   private
