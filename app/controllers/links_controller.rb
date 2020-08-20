@@ -5,9 +5,7 @@ class LinksController < ApplicationController
   authorize_resource
 
   def destroy
-      link.destroy
-      redirect_to link.linkable if link.linkable.is_a?(Question)
-      redirect_to link.linkable.question if link.linkable.is_a?(Answer)
+    link.destroy
   end
 
   private

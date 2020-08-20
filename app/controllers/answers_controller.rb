@@ -30,8 +30,8 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-      answer.destroy
-      flash[:delete] = 'Answer successfully deleted.'
+    answer.destroy
+    flash[:delete] = 'Answer successfully deleted.'
   end
 
   def best_answer

@@ -30,7 +30,7 @@ ul.list-group id="answer-id-#{answer.id}"
     p.btn.btn-outline-info
       =answer.user.email
 
-  -if can? :update, answer # analogue of current_user && current_user.author_of? but there are nuances
+  -if %i[update destroy].any? { |action| can? action, answer } # analogue of current_user && current_user.author_of? but there are nuances
     = button_to t('delete_answer'), answer_path(answer), method: :delete, remote: true, class: 'btn btn-outline-danger'
     p= link_to t('edit_answer'), '#', class: 'edit-answer-link btn btn-outline-warning', data: { answer_id: answer.id }
 

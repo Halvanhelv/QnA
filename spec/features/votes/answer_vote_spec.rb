@@ -74,12 +74,9 @@ I would like to be able to vote on a answer
         within "#answer-id-#{answer.id}" do
           within '#vote-block' do
             click_on '+'
-            within '#vote-rating' do
-              expect(page).to have_content '0'
-            end
           end
         end
-        expect(page).to have_content 'You cannot vote for yourself'
+        expect(page).to have_content 'You are not authorized to access this page.'
       end
     end
   end

@@ -1,7 +1,6 @@
 class OauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :session_data, only: %i[github telegram]
 
-
   def github
     oauth_providers(session['omniauth.auth'])
   end
