@@ -23,7 +23,7 @@ describe Ability do
     let(:user) { create :user }
     let(:other) { create :user }
     let(:question) { create(:question, :with_files, user: user) }
-    let(:question_2) { create(:question, :with_files,:with_links, user: other) }
+    let(:question_2) { create(:question, :with_files, :with_links, user: other) }
     let(:answer_2) { create(:answer, :with_files, user: other, question: question_2) }
     let(:answer) { create(:answer, :with_files, user: user, question: question) }
     let(:link) { create(:link) }
@@ -42,7 +42,6 @@ describe Ability do
       it { should_not be_able_to :destroy, question_2.files.first }
       it { should be_able_to :destroy, create(:link, linkable: question) }
       it { should_not be_able_to :destroy, create(:link, linkable: question_2) }
-
     end
 
     context 'Answer' do

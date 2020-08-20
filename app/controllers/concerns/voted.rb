@@ -25,8 +25,8 @@ module Voted
     end
 
     def vote(number)
-        @votable.formation_vote(current_user, number)
-        render json: { id: @votable.id, type: votable_name(@votable), rating: @votable.rating, message: 'You have successfully voted' }
+      @votable.formation_vote(current_user, number)
+      render json: { id: @votable.id, type: votable_name(@votable), rating: @votable.rating, message: 'You have successfully voted' }
     end
 
     def votable_name(obj)

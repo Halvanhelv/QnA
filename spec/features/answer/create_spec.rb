@@ -83,8 +83,8 @@ I would like to write an answer to the question
   scenario 'Unauthenticated user try create answer' do
     visit question_path(question)
     within '.new-answer' do
-    fill_in 'Body', with: ''
-    click_on I18n.t('helpers.submit.answer.create')
+      fill_in 'Body', with: ''
+      click_on I18n.t('helpers.submit.answer.create')
     end
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end

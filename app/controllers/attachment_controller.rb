@@ -5,10 +5,7 @@ class AttachmentController < ApplicationController
   authorize_resource
 
   def destroy
-      attachment.purge
-      redirect_to attachment.record if attachment.record.is_a?(Question)
-      redirect_to attachment.record.question if attachment.record.is_a?(Answer)
-
+    attachment.purge
   end
 
   private
