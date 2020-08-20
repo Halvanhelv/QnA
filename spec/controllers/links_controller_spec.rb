@@ -20,9 +20,9 @@ RSpec.describe LinksController, type: :controller do
 
         it { expect { subject }.to_not change(Link, :count) }
 
-        it 'redirect to question' do
+        it 'redirect to main page' do
           subject
-          expect(response).to redirect_to question
+          expect(response).to redirect_to root_path
         end
       end
     end
@@ -41,9 +41,9 @@ RSpec.describe LinksController, type: :controller do
 
         it { expect { subject }.to_not change(Link, :count) }
 
-        it 'redirect to question' do
+        it 'redirect to /' do
           subject
-          expect(response).to redirect_to answer.question
+          expect(response).to redirect_to root_path
         end
       end
     end

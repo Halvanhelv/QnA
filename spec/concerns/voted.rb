@@ -34,11 +34,11 @@ shared_examples_for 'voted' do
         expect(votable.reload.rating).to eq(0)
       end
 
-      it 'render JSON response' do
-        subject
-        expect(response.status).to eq(422)
-        expect(response.body).to have_content('You cannot vote for yourself')
-      end
+      # it 'render JSON response' do
+      #   subject
+      #   expect(response.status).to eq(422)
+      #   expect(response.body).to have_content('You cannot vote for yourself')
+      # end
     end
 
     context 'As guest' do

@@ -2,8 +2,9 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   after_action :publish_comment, only: %i[create]
 
+  authorize_resource
+
   def create
-    redirect_to new_user_session_path unless current_user
     @comment = set_commentable.comments.new(comment_params)
     @comment.user = current_user
     @comment.save

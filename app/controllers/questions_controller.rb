@@ -3,7 +3,10 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show] # except is the opposite: only
   before_action :gon_variables, only: :show
+  before_action :question
   include Voted
+
+  authorize_resource
 
   def index
     @questions = Question.all
@@ -32,17 +35,13 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    question.update(question_params) if current_user.author_of?(question)
+    question.update(question_params)
     files_params
   end
 
   def destroy
-    if current_user.author_of?(question)
       question.destroy
       flash[:delete] = 'Question successfully deleted.'
-    else
-      flash[:question] = "You cannot delete someone else's question"
-    end
     redirect_to questions_path
   end
 
