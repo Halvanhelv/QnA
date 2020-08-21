@@ -3,7 +3,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show] # except is the opposite: only
   before_action :gon_variables, only: :show
-  before_action :question
+  before_action :question, except: %i[index create]
   include Voted
 
   authorize_resource
@@ -23,7 +23,6 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    redirect_to new_user_session_path unless current_user
     @question = current_user.questions.new(question_params)
     files_params
 

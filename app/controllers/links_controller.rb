@@ -1,6 +1,6 @@
 class LinksController < ApplicationController
   before_action :authenticate_user!
-  before_action :link
+  before_action :link, only: %i[destroy]
 
   authorize_resource
 

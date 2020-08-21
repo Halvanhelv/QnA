@@ -2,7 +2,7 @@
 
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[index show] # except is the opposite: only
-  before_action :answer
+  before_action :answer, except: %i[new show edit]
   include Voted
 
   authorize_resource
@@ -11,11 +11,11 @@ class AnswersController < ApplicationController
     answer.user = current_user
     answer.save
     files_params
-    # if answer.save
-    #   redirect_to answer.question
-    # else # если отправить пустой ответ то нужно как то передать обьект самого вопроса для редиректа обратно на ту же страницу и вывода ошибок
-    #   render 'questions/show'
-    # end
+    if answer.save
+      redirect_to answer.question
+    else # если отправить пустой ответ то нужно как то передать обьект самого вопроса для редиректа обратно на ту же страницу и вывода ошибок
+      render 'questions/show'
+    end
   end
 
   def new; end

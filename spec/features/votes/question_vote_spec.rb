@@ -79,7 +79,7 @@ I would like to be able to vote on a question
             end
           end
         end
-        expect(page).to have_content 'You cannot vote for yourself'
+        expect(page).to have_content 'You are not authorized to access this page.'
       end
     end
   end

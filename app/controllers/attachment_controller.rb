@@ -1,6 +1,6 @@
 class AttachmentController < ApplicationController
   before_action :authenticate_user!
-  before_action :attachment
+  before_action :attachment, only: %i[destroy]
 
   authorize_resource
 

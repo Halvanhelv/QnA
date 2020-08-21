@@ -27,10 +27,10 @@ RSpec.describe AnswersController, type: :controller do
           expect { subject }.to change(question.answers, :count).by(1)
         end
 
-        # it 'redirects to show view' do
-        #   post :create, params: { answer: attributes_for(:answer), question_id: question }
-        #   expect(response).to redirect_to question_path(assigns(:question))
-        # end
+        it 'redirects to show view' do
+          post :create, params: { answer: attributes_for(:answer), question_id: question }
+          expect(response).to redirect_to question_path(assigns(:question))
+        end
       end
 
       context 'with invalid attributes' do
