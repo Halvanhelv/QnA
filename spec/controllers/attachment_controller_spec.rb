@@ -22,7 +22,7 @@ RSpec.describe AttachmentController, type: :controller do
 
         it 'redirect to question' do
           subject
-          expect(response).to redirect_to root_path
+          expect(response).to have_http_status(422)
         end
       end
     end
@@ -43,7 +43,7 @@ RSpec.describe AttachmentController, type: :controller do
 
         it 'redirect to question' do
           subject
-          expect(response).to redirect_to root_path
+          expect(response).to have_http_status(422)
         end
       end
     end

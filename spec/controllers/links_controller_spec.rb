@@ -6,6 +6,12 @@ RSpec.describe LinksController, type: :controller do
 
   before { login(user) }
   describe '#DELETE destroy' do
+    shared_examples 'return 422 http status' do
+      it 'return 422 http status' do
+        subject
+        expect(response).to have_http_status(422)
+      end
+    end
     describe 'Question links delete' do
       subject { post :destroy, params: { id: question.links.first, format: :js } }
 
@@ -20,10 +26,7 @@ RSpec.describe LinksController, type: :controller do
 
         it { expect { subject }.to_not change(Link, :count) }
 
-        it 'redirect to main page' do
-          subject
-          expect(response).to redirect_to root_path
-        end
+        include_examples 'return 422 http status'
       end
     end
 
@@ -41,10 +44,7 @@ RSpec.describe LinksController, type: :controller do
 
         it { expect { subject }.to_not change(Link, :count) }
 
-        it 'redirect to /' do
-          subject
-          expect(response).to redirect_to root_path
-        end
+        include_examples 'return 422 http status'
       end
     end
   end

@@ -12,8 +12,10 @@ $(document).on('turbolinks:load', function() {
     });
 
     $(document).on('ajax:error', '#vote-block', function(e) {
-        const errors = e.detail[0];
+
+        const errors = JSON.parse(e.detail[0]);
         $.each(errors, function(index, value) {
+
             $('.alert').html('<p>' + value + '</p>');
         })
 

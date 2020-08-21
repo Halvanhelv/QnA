@@ -24,12 +24,11 @@ class Ability
   end
 
   def user_abilities
-    guest_abilities
     can [:positive_vote, :negative_vote], [Question, Answer] do |vote|
-      vote.user_id != user.id
+      !user.author_of?(vote)
     end
+    can :read, :all
     can :best_answer, Answer, question: { user_id: user.id }
-    can :read, :all # использую повтороно поскольку нужно перебить cannot :read, Reward
     can :create, [Question, Answer, Comment, Link]
     can :update, [Question, Answer, Comment], { user_id: user.id }
     can :destroy, [Question, Answer, Comment], { user_id: user.id }
