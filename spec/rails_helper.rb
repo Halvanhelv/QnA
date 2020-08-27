@@ -40,6 +40,7 @@ RSpec.configure do |config|
   config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
   config.include OmniauthHelper
+  config.include ApiHelpers, type: :request
   Capybara.javascript_driver = :selenium_chrome
   OmniAuth.config.test_mode = true
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
