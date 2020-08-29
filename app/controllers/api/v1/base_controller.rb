@@ -1,5 +1,6 @@
 class Api::V1::BaseController < ApplicationController
 
+  protect_from_forgery with: :null_session
   before_action :doorkeeper_authorize!
   check_authorization
 

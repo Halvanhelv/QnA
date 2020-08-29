@@ -17,7 +17,7 @@ describe 'Profiles API', type: :request do
       before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
       it 'returns 200 status' do
-         expect(response).to be_successful
+        expect(response).to be_successful
       end
 
       it 'returns all public fields' do
@@ -56,7 +56,6 @@ describe 'Profiles API', type: :request do
         expect(user_response[attr]).to eq user.send(attr).as_json
       end
     end
-
 
     it 'does not return private fields' do
       %w[password encrypted_password].each do |attr|
