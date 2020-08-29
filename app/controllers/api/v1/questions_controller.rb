@@ -1,5 +1,4 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
-
   authorize_resource class: Question
 
   def index
@@ -40,8 +39,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
 
   def question_params
     params.require(:question).permit(:title, :body,
-                                     links_attributes: %i[name url]
-                                     )
+                                     links_attributes: %i[name url])
   end
 
   def question
