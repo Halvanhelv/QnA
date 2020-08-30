@@ -99,7 +99,7 @@ describe 'Questions API', type: :request do
   end
 
   describe 'PATCH /api/v1/questions/:id' do
-    let(:question) { create(:question, :with_files, :with_links) }
+    let(:question) { create(:question, :with_files, :with_links, user_id: access_token.resource_owner_id) }
     let(:api_path) { api_v1_question_path(question) }
 
     it_behaves_like 'API Authorizable' do
@@ -119,7 +119,7 @@ describe 'Questions API', type: :request do
   end
 
   describe 'DELETE /api/v1/questions/:id' do
-    let!(:question) { create(:question, :with_files, :with_links) }
+    let!(:question) { create(:question, :with_files, :with_links, user_id: access_token.resource_owner_id) }
     let(:api_path) { api_v1_question_path(question) }
 
     it_behaves_like 'API Authorizable' do

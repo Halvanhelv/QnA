@@ -1,5 +1,8 @@
 class Api::V1::AnswersController < Api::V1::BaseController
-  authorize_resource class: Answer
+  before_action :answer, only: %i[show update destroy]
+  before_action :answers, only: %i[index create]
+
+  authorize_resource
 
   def index
     render json: answers, each_serializer: AnswersSerializer
@@ -10,6 +13,8 @@ class Api::V1::AnswersController < Api::V1::BaseController
   end
 
   def create
+    authorize! :create, question
+
     @answer = question.answers.new(answer_params)
     @answer.user = current_resource_owner
     if @answer.save

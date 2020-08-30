@@ -38,8 +38,6 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def session_data
-    if request.env['omniauth.auth']
-    session['omniauth.auth'] = request.env['omniauth.auth'].except('extra')
-    end
+    session['omniauth.auth'] = request.env['omniauth.auth'].except('extra') if request.env['omniauth.auth']
   end
 end
