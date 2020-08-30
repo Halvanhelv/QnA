@@ -35,15 +35,27 @@ RSpec.describe OauthCallbacksController, type: :controller do
 
     context 'user does not exist' do
       before do
+        allow(request.env).to receive(:[]).and_call_original
+        allow(request.env).to receive(:[]).with('omniauth.auth').and_return(oauth_data)
+        allow(User).to receive(:find_for_oauth)
+        get :github
+      end
+      it 'redirects to root path' do
+        expect(response).to render_template 'confirmations/email'
+      end
+
+      it 'does not login user' do
+        expect(subject.current_user).to_not be
+      end
+    end
+
+    context 'provider not return data' do
+      before do
         allow(User).to receive(:find_for_oauth)
         get :github
       end
       it 'redirects to root path' do
         expect(response).to redirect_to root_path
-      end
-
-      it 'does not login user' do
-        expect(subject.current_user).to_not be
       end
     end
   end

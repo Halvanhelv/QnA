@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+include ActionDispatch::TestProcess
 FactoryBot.define do
   # sequence :body do |n|
   #   "Answer_number#{n}"
