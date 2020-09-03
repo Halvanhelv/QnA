@@ -5,7 +5,7 @@ class Answer < ApplicationRecord
   belongs_to :user
   has_many :comments, dependent: :destroy, as: :commentable
 
-  after_save :publish_answer
+  after_commit :publish_answer, :send_notification
 
   include Linkable
   include Attachable
@@ -33,5 +33,9 @@ class Answer < ApplicationRecord
                                  rating: rating,
                                  links: links,
                                  answer: self)
+  end
+
+  def send_notification
+    NewAnswerNotificationJob.perform_later(self) if question.subscriptions.exists?
   end
 end

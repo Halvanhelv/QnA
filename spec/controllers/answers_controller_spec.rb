@@ -80,7 +80,7 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      let(:answer_static) { create(:answer, body: 'Answer_body_text') }
+      let(:answer_static) { create(:answer, body: 'Answer_body_text', user: user) }
 
       before { patch :update, params: { id: answer_static, answer: attributes_for(:answer, :invalid), format: :js } }
 

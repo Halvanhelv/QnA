@@ -40,3 +40,4 @@ en:
     email:
       send: "Send"
   email_placeholder: "Enter mail"
+  Hello: "Hello"
