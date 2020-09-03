@@ -2,7 +2,7 @@ require 'rails_helper'
 
 shared_examples_for 'voted' do
   describe 'PATCH #positive_vote' do
-    subject {   patch :positive_vote, params: { id: votable, format: :json } }
+    subject { patch :positive_vote, params: { id: votable, format: :json } }
     context 'no votable author' do
       before { login(user) }
 

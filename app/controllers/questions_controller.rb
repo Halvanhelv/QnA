@@ -5,6 +5,7 @@ class QuestionsController < ApplicationController
   before_action :gon_variables, only: :show
   before_action :question, except: %i[index create]
   include Voted
+  include Subscribed
 
   authorize_resource
 

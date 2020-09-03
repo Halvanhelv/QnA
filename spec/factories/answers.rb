@@ -38,7 +38,7 @@ FactoryBot.define do
 
     trait :with_links do
       before :create do |answer|
-        create_list(:link, 2, linkable: answer)
+        answer.links << create_list(:link, 2, linkable: answer)
       end
     end
   end

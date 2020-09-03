@@ -27,10 +27,10 @@ class Ability
     can [:positive_vote, :negative_vote], [Question, Answer] do |vote|
       !user.author_of?(vote)
     end
+
+    can %i[subscribe unsubscribe], [Question]
     can :read, :all
-
     can :me, User, { user_id: user.id }
-
     can :best_answer, Answer, question: { user_id: user.id }
     can :create, [Question, Answer, Comment, Link]
     can :update, [Question, Answer, Comment], { user_id: user.id }

@@ -6,7 +6,6 @@ consumer.questions_subscribe = consumer.subscriptions.create('QuestionsChannel',
     },
     received: function(data) {
       $('.question_list').append('<p class="list-group-item list-group-item-action"><a href="/questions/' + data.id + '">' + data.title + '</a></p>')
-      console.log(data.title)
     }
   });
 

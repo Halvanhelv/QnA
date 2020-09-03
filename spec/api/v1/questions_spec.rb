@@ -54,7 +54,6 @@ describe 'Questions API', type: :request do
   end
   describe 'GET /api/v1/questions/:id' do
     let(:question) { create(:question, :with_links, :with_files) }
-    let(:answer) { create(:answer, :with_links, :with_files) }
     let!(:comment) { create(:comment, commentable: question, user: question.user) }
     let(:question_response) { json['question'] }
     let(:api_path) { api_v1_question_path(question) }

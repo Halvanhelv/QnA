@@ -159,4 +159,9 @@ RSpec.describe QuestionsController, type: :controller do
       let(:votable) { create(:question, user: user_2) }
     end
   end
+
+  describe 'PATCH #subscribed' do
+    it_behaves_like 'subscribed' do
+    end
+  end
 end

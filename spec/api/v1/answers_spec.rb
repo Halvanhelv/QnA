@@ -52,8 +52,7 @@ describe 'Answers API', type: :request do
 
       it_behaves_like 'API resource contains' do
         let(:resource_response) { answer_response }
-        let(:resource) { answer.reload } # Долго бился но в API resource contains не видно links у answer(resource), приходится перезагружать объект
-        # тот же самый код для question в questions_spec.rb показывает links, без необходимости перезагружать объект, чем это вызвано?
+        let(:resource) { answer }
       end
     end
   end
