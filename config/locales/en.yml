@@ -41,3 +41,5 @@ en:
       send: "Send"
   email_placeholder: "Enter mail"
   Hello: "Hello"
+  subscribe: "Subscribe"
+  unsubscribe: "Unsubscribe"

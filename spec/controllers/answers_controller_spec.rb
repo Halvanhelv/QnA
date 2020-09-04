@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
+  include ActiveJob::TestHelper
+
   let(:user)          { create(:user) }
   let(:question)      { create(:question) }
   let!(:answer) { create(:answer) }
@@ -163,6 +165,35 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #positive_vote' do
     it_behaves_like 'voted' do
       let(:votable) { create(:answer, user: user_2) }
+    end
+  end
+
+  describe 'Active job notification' do
+    before do
+      login(user)
+      clear_enqueued_jobs
+    end
+    subject { post :create, params: { question_id: question, answer: answer_params, format: :js } }
+
+    let(:answer_params) { attributes_for(:answer) }
+
+    it 'answer owner subscribed to question' do
+      expect { subject }.to change(enqueued_jobs, :count).by(1)
+    end
+
+    it 'question subscribers not exists' do
+      question.subscriptions.delete_all
+      expect { subject }.to change(enqueued_jobs, :count).by(0)
+    end
+
+    it 'create correct job' do
+      expect { subject }.to have_enqueued_job(NewAnswerNotificationJob)
+    end
+
+    it 'do not create email sender job' do
+      expect do
+        post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid), format: :js }
+      end.to change(enqueued_jobs, :count).by(0)
     end
   end
 end

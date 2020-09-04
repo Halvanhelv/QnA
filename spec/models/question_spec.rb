@@ -15,14 +15,18 @@ RSpec.describe Question, type: :model do
   it { is_expected.to have_db_column(:title) }
   it { is_expected.to have_db_column(:body) }
 
+  it { is_expected.to have_many(:subscriptions).dependent(:destroy) }
+  it { is_expected.to have_many(:subscribers).through(:subscriptions).dependent(:destroy) }
+
   it_behaves_like 'attachable'
   it_behaves_like 'linkable'
   it_behaves_like 'votable'
 
   context 'methods' do
+    let(:user) { create(:user) }
+    let(:other_user) { create(:user) }
+    let(:question) { create(:question, user: user) }
     describe '#best_answer' do
-      let(:question) { create(:question) }
-
       context 'with best answer' do
         let!(:answer) { create(:answer, question: question, best_answer: true) }
 
@@ -39,14 +43,15 @@ RSpec.describe Question, type: :model do
         it { expect(question.reload.best_answer).to eq(nil) }
       end
     end
-  end
 
-  describe 'reputation' do
-    let(:question) { build(:question) }
+    describe '#subscribed?' do
+      it 'user subscribed' do
+        expect(question).to be_subscribed(user)
+      end
 
-    it 'calls ReputationJob#perform_later' do
-      expect(ReputationJob).to receive(:perform_later).with(question)
-      question.save!
+      it 'user not subscribed' do
+        expect(question).to_not be_subscribed(other_user)
+      end
     end
   end
 end

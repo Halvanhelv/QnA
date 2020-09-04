@@ -13,10 +13,10 @@ RSpec.describe NewAnswerNotificationJob, type: :job do
   end
 
   it 'job is created' do
+    question.subscriptions.delete_all
     allow(Services::NewAnswerNotification).to receive(:new).and_return(service)
-    ActiveJob::Base.queue_adapter = :test
     expect do
       described_class.perform_later(answer)
-    end.to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :count).by(2) # ответ 2 поскольку в модели Answer выполнится callback и второй раз в строке 19
+    end.to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :count).by(1) # ответ 2 поскольку в модели Answer выполнится callback и второй раз в строке 19
   end
 end

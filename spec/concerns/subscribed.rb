@@ -1,23 +1,23 @@
 require 'rails_helper'
 
-shared_examples_for 'subscribed' do
+shared_examples_for 'subscribe' do
   describe 'PATCH #subscribe' do
     context 'User authorized' do
       before do
         login(user)
-        patch :unsubscribe, params: { id: question, format: :json } # при создании вопроса, колбэк создает подписку и нужно для начала от нее отказаться для проверки работы подписки
+        patch :unsubscribe, params: { id: question, format: :js } # при создании вопроса, колбэк создает подписку и нужно для начала от нее отказаться для проверки работы подписки
       end
       it 'saves a new subscription in the database' do
         expect do
-          patch :subscribe, params: { id: question, format: :json }
+          patch :subscribe, params: { id: question, format: :js }
         end.to change(question.subscriptions, :count).by(1)
       end
 
-      # it 'render create view' do
-      #   post :subscribe, params: { id: question, format: :js }
-      #
-      #   expect(response).to render_template :create
-      # end
+      it 'render create view' do
+        patch :subscribe, params: { id: question, format: :js }
+
+        expect(response).to render_template :subscribe
+      end
     end
     context 'Guest' do
       it 'try subscribe to question' do
@@ -39,14 +39,14 @@ shared_examples_for 'subscribed' do
       end
       it 'delete a subscription in the database' do
         expect do
-          delete :unsubscribe, params: { id: question, format: :json }
+          delete :unsubscribe, params: { id: question, format: :js }
         end.to change(question.subscriptions, :count).by(-1)
       end
-      # it 'render destroy view' do
-      #   delete :unsubscribe, params: { id: question, format: :js }
-      #
-      #   expect(response).to render_template :destroy
-      # end
+      it 'render destroy view' do
+        delete :unsubscribe, params: { id: question, format: :js }
+
+        expect(response).to render_template :unsubscribe
+      end
     end
     context 'Guest' do
       it 'try unsubscribe to question' do
