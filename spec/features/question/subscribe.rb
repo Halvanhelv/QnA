@@ -15,6 +15,7 @@ feature 'User can see their rewards', "
     end
 
     scenario 'subscribe to the question', js: true do
+      save_and_open_page
       within '#question' do
         expect(page).to have_button(I18n.t('subscribe'))
         click_on 'Subscribe'
