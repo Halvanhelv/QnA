@@ -27,6 +27,7 @@ describe Ability do
     let(:answer_2) { create(:answer, :with_files, user: other, question: question_2) }
     let(:answer) { create(:answer, :with_files, user: user, question: question) }
     let(:link) { create(:link) }
+
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
     it { should_not be_able_to %i[positive_vote negative_vote], question }
@@ -43,7 +44,6 @@ describe Ability do
       it { should_not be_able_to :destroy, create(:link, linkable: question_2) }
       it { should be_able_to :subscribe, question }
       it { should be_able_to :unsubscribe, question }
-      it { should_not be_able_to :unsubscribe, question_2 }
     end
 
     context 'Answer' do
