@@ -23,6 +23,10 @@ class Question < ApplicationRecord
     answers.best.first
   end
 
+  def subscribed?(user)
+    subscriptions.exists?(user: user)
+  end
+
   private
 
   def publish_question

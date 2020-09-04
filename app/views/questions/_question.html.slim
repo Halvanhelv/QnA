@@ -4,7 +4,8 @@ p= question.user.email
 
 div id="vote-block"
    =render 'shared/votes', resource: question
-   =render 'shared/subscribe', resource: question
+div class= 'question-subscriptions-block'
+   =render 'shared/subscriptions', resource: question
 -if question.files.attached?
 ul.list-group
    -question.files.each do |file|

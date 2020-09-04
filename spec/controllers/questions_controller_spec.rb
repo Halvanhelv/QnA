@@ -65,8 +65,12 @@ RSpec.describe QuestionsController, type: :controller do
         end
 
         it 'redirects to show view' do
-          post :create, params: { question: attributes_for(:question) }
+          subject
           expect(response).to redirect_to assigns(:question)
+        end
+
+        it 'create subscription for author' do
+          expect { subject }.to change(Subscription, :count).by(1)
         end
       end
 
@@ -80,6 +84,10 @@ RSpec.describe QuestionsController, type: :controller do
         it 're-renders new view' do
           subject
           expect(response).to render_template :new
+        end
+
+        it 'do not create subscription for author' do
+          expect { subject }.to_not change(Subscription, :count)
         end
       end
     end
@@ -160,8 +168,8 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'PATCH #subscribed' do
-    it_behaves_like 'subscribed' do
+  describe 'PATCH #subscribe DELETE #unsubscribe' do
+    it_behaves_like 'subscribe' do
     end
   end
 end
