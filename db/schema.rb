@@ -141,11 +141,11 @@ ActiveRecord::Schema.define(version: 2020_09_02_195816) do
 
   create_table "subscriptions", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "subscribable_type"
-    t.bigint "subscribable_id"
+    t.bigint "question_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["subscribable_type", "subscribable_id"], name: "index_subscriptions_on_subscribable_type_and_subscribable_id"
+    t.index ["question_id", "user_id"], name: "index_subscriptions_on_question_id_and_user_id"
+    t.index ["question_id"], name: "index_subscriptions_on_question_id"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
@@ -187,6 +187,7 @@ ActiveRecord::Schema.define(version: 2020_09_02_195816) do
   add_foreign_key "questions", "users"
   add_foreign_key "rewards", "questions"
   add_foreign_key "rewards", "users"
+  add_foreign_key "subscriptions", "questions"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "votes", "users"
 end

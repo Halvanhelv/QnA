@@ -1,0 +1,6 @@
+.subscriptions
+  -if current_user
+    -if question.subscribed?(current_user)
+      = button_to t('unsubscribe'), subscription_path(question.subscription(current_user)), remote: true, method: :delete, data: { type: :js }
+    -else
+      = button_to t('subscribe'), question_subscriptions_path(question), remote: true, data: { type: :js }

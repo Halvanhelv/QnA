@@ -3,6 +3,8 @@
 class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_one :reward, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
+  has_many :subscribers, through: :subscriptions, source: :user, dependent: :destroy
 
   after_save :publish_question
   after_create :create_subscription
@@ -13,7 +15,6 @@ class Question < ApplicationRecord
   include Linkable
   include Attachable
   include Votable
-  include Subscribable
 
   accepts_nested_attributes_for :reward, reject_if: :all_blank
 
@@ -27,6 +28,10 @@ class Question < ApplicationRecord
     subscriptions.exists?(user: user)
   end
 
+  def subscription(user)
+    subscriptions.find_by(user: user)
+  end
+
   private
 
   def publish_question
@@ -36,6 +41,6 @@ class Question < ApplicationRecord
   end
 
   def create_subscription
-    subscriptions.create(user_id: user_id, subscribable: self)
+    subscriptions.create(user_id: user_id, question_id: self)
   end
 end

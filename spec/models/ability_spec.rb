@@ -27,8 +27,8 @@ describe Ability do
     let(:answer_2) { create(:answer, :with_files, user: other, question: question_2) }
     let(:answer) { create(:answer, :with_files, user: user, question: question) }
     let(:link) { create(:link) }
-    let(:subscription) { create(:subscription, subscribable: question_2, user: user) }
-    let(:subscription1) { create(:subscription, subscribable: question, user: other) }
+    let(:subscription) { create(:subscription, question: question_2, user: user) }
+    let(:subscription1) { create(:subscription, question: question, user: other) }
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
@@ -36,7 +36,7 @@ describe Ability do
 
     context 'Question' do
       it { should be_able_to :create, Question }
-      it { should be_able_to :update, question }
+      it { should be_able_to :create, question }
       it { should be_able_to :destroy, question }
       it { should_not be_able_to :update, question_2 }
       it { should_not be_able_to :destroy, question_2 }
@@ -47,22 +47,21 @@ describe Ability do
     end
 
     describe 'Subscription' do
-      it { should be_able_to :subscribe, Subscription }
-      it { should be_able_to :unsubscribe, subscription }
-      it { should_not be_able_to :unsubscribe, subscription1 }
+      it { should be_able_to :create, Subscription }
+      it { should be_able_to :destroy, subscription }
+      it { should_not be_able_to :destroy, subscription1 }
     end
 
     context 'Answer' do
-      it { should be_able_to :create, Answer }
-      it { should be_able_to :update, answer }
-      it { should_not be_able_to :update, answer_2 }
-      it { should_not be_able_to :destroy, answer_2 }
-      it { should be_able_to :destroy, answer.files.first }
-      it { should_not be_able_to :destroy, answer_2.files.first }
-      it { should_not be_able_to :destroy, create(:link, linkable: answer_2) }
-      it { should be_able_to :destroy, create(:link, linkable: answer) }
-      it { should be_able_to :best_answer, answer }
-      it { should_not be_able_to :best_answer, answer_2 }
+      it { should be_able_to :create, Question }
+      it { should be_able_to :update, question }
+      it { should be_able_to :destroy, question }
+      it { should_not be_able_to :update, question_2 }
+      it { should_not be_able_to :destroy, question_2 }
+      it { should be_able_to :destroy, question.files.first }
+      it { should_not be_able_to :destroy, question_2.files.first }
+      it { should be_able_to :destroy, create(:link, linkable: question) }
+      it { should_not be_able_to :destroy, create(:link, linkable: question_2) }
     end
 
     context 'Comment' do

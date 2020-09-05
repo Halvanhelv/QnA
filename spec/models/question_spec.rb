@@ -53,5 +53,9 @@ RSpec.describe Question, type: :model do
         expect(question).to_not be_subscribed(other_user)
       end
     end
+
+    it '#subscription(user)' do
+      expect(question.subscription(user)).to eq question.subscriptions.first
+    end
   end
 end

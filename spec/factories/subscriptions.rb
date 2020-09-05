@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :subscription do
-    association :subscribable, factory: :question
+    question { question }
     user { user }
   end
 end
