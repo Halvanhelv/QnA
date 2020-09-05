@@ -5,13 +5,13 @@ module Subscribed
     before_action :set_subscribable, only: %i[subscribe unsubscribe] # except is the opposite: only
 
     def subscribe
-      authorize! :subscribe, @subscribable
+      authorize! :subscribe, Subscription
       @subscribable.subscriptions.create(user_id: current_user.id)
     end
 
     def unsubscribe
-      authorize! :unsubscribe, @subscribable
-      @subscribable.subscriptions.find_by(user_id: current_user.id).destroy
+      authorize! :unsubscribe, set_subscribe
+      set_subscribe.destroy
     end
 
     private
@@ -22,6 +22,10 @@ module Subscribed
 
     def model_klass
       controller_name.classify.constantize
+    end
+
+    def set_subscribe
+      @subscription ||= @subscribable.subscriptions.find_by(user_id: current_user)
     end
   end
 end

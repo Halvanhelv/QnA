@@ -20,6 +20,7 @@ shared_examples_for 'subscribe' do
       end
     end
     context 'Guest' do
+      let!(:subscription) { create(:subscription, user: question.user) }
       it 'try subscribe to question' do
         expect do
           patch :subscribe, params: { id: question, format: :js }
@@ -42,7 +43,7 @@ shared_examples_for 'subscribe' do
           delete :unsubscribe, params: { id: question, format: :js }
         end.to change(question.subscriptions, :count).by(-1)
       end
-      it 'render destroy view' do
+      it 'render unsubscribe view' do
         delete :unsubscribe, params: { id: question, format: :js }
 
         expect(response).to render_template :unsubscribe

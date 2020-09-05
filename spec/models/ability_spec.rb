@@ -27,6 +27,8 @@ describe Ability do
     let(:answer_2) { create(:answer, :with_files, user: other, question: question_2) }
     let(:answer) { create(:answer, :with_files, user: user, question: question) }
     let(:link) { create(:link) }
+    let(:subscription) { create(:subscription, subscribable: question_2, user: user) }
+    let(:subscription1) { create(:subscription, subscribable: question, user: other) }
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
@@ -42,8 +44,12 @@ describe Ability do
       it { should_not be_able_to :destroy, question_2.files.first }
       it { should be_able_to :destroy, create(:link, linkable: question) }
       it { should_not be_able_to :destroy, create(:link, linkable: question_2) }
-      it { should be_able_to :subscribe, question }
-      it { should be_able_to :unsubscribe, question }
+    end
+
+    describe 'Subscription' do
+      it { should be_able_to :subscribe, Subscription }
+      it { should be_able_to :unsubscribe, subscription }
+      it { should_not be_able_to :unsubscribe, subscription1 }
     end
 
     context 'Answer' do
