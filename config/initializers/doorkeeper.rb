@@ -208,7 +208,7 @@ Doorkeeper.configure do
   # https://doorkeeper.gitbook.io/guides/ruby-on-rails/scopes
   #
   default_scopes  :public
-  # optional_scopes :write, :update
+  # optional_scopes :write, :create
 
   # Allows to restrict only certain scopes for grant_type.
   # By default, all the scopes will be available for all the grant types.
@@ -217,7 +217,7 @@ Doorkeeper.configure do
   # values should be the array of scopes for that grant type.
   # Note: scopes should be from configured_scopes (i.e. default or optional)
   #
-  # scopes_by_grant_type password: [:write], client_credentials: [:update]
+  # scopes_by_grant_type password: [:write], client_credentials: [:create]
 
   # Forbids creating/updating applications with arbitrary scopes that are
   # not in configuration, i.e. +default_scopes+ or +optional_scopes+.

@@ -24,18 +24,15 @@ class Ability
   end
 
   def user_abilities
-    can [:positive_vote, :negative_vote], [Question, Answer] do |vote|
+    can %i[positive_vote negative_vote], [Question, Answer] do |vote|
       !user.author_of?(vote)
     end
 
-    can :subscribe, Subscription
-    can :unsubscribe, Subscription, { user_id: user.id }
     can :read, :all
     can :me, User, { user_id: user.id }
     can :best_answer, Answer, question: { user_id: user.id }
-    can :create, [Question, Answer, Comment, Link]
-    can :update, [Question, Answer, Comment], { user_id: user.id }
-    can :destroy, [Question, Answer, Comment], { user_id: user.id }
+    can :create, [Question, Answer, Comment, Link, Subscription]
+    can %i[update destroy], [Question, Answer, Comment, Subscription], { user_id: user.id }
     can :destroy, ActiveStorage::Attachment, record: { user_id: user.id }
     can :destroy, Link, linkable: { user_id: user.id }
   end

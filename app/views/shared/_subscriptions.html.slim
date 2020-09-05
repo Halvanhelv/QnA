@@ -1,6 +1,0 @@
-.subscriptions
-  -if current_user
-    -if resource.subscribed?(current_user)
-      = button_to t('unsubscribe'),  polymorphic_path(resource, action: 'unsubscribe'), method: :delete, remote: true, data: {type: :json}
-    -else
-      = button_to t('subscribe'), polymorphic_path(resource, action: 'subscribe'), method: :patch, remote: true, data: {type: :json}

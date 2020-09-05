@@ -6,9 +6,8 @@ class QuestionsController < ApplicationController
   before_action :question, except: %i[index create]
 
   include Voted
-  include Subscribed
 
-  authorize_resource except: %i[subscribe unsubscribe] #authorize_resource цепляет все методы а не только RESTful методы https://github.com/CanCanCommunity/cancancan/wiki/Authorizing-controller-actions#choosing-actions, объект или класс модели выведет на основе имени контроллера, если не указать except, если используется другая модель могут быть проблемы
+  authorize_resource
 
   def index
     @questions = Question.all

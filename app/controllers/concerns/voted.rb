@@ -7,7 +7,7 @@ module Voted
     def positive_vote
       authorize! :positive_vote, @votable
       @votable.user_vote(current_user) <= 0 ? vote(1) : cancel_vote
-      end
+    end
 
     def negative_vote
       authorize! :negative_vote, @votable
