@@ -4,10 +4,11 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show] # except is the opposite: only
   before_action :gon_variables, only: :show
   before_action :question, except: %i[index create]
+
   include Voted
   include Subscribed
 
-  authorize_resource
+  authorize_resource except: %i[subscribe unsubscribe] #authorize_resource цепляет все методы а не только RESTful методы https://github.com/CanCanCommunity/cancancan/wiki/Authorizing-controller-actions#choosing-actions, объект или класс модели выведет на основе имени контроллера, если не указать except, если используется другая модель могут быть проблемы
 
   def index
     @questions = Question.all

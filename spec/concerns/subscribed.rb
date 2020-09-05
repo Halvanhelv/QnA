@@ -13,7 +13,7 @@ shared_examples_for 'subscribe' do
         end.to change(question.subscriptions, :count).by(1)
       end
 
-      it 'render create view' do
+      it 'render subscribe view' do
         patch :subscribe, params: { id: question, format: :js }
 
         expect(response).to render_template :subscribe
