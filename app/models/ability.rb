@@ -28,7 +28,8 @@ class Ability
       !user.author_of?(vote)
     end
 
-    can %i[subscribe unsubscribe], [Question]
+    can :subscribe, Subscription
+    can :unsubscribe, Subscription, { user_id: user.id }
     can :read, :all
     can :me, User, { user_id: user.id }
     can :best_answer, Answer, question: { user_id: user.id }

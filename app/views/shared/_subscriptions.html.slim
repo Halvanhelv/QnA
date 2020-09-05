@@ -1,6 +1,5 @@
 .subscriptions
-
-  -if %i[subscribe unsubscribe].any? { |action| can? action, resource } # analogue of current_user && current_user.author_of? but there are nuances
+  -if current_user
     -if resource.subscribed?(current_user)
       = button_to t('unsubscribe'),  polymorphic_path(resource, action: 'unsubscribe'), method: :delete, remote: true, data: {type: :json}
     -else
