@@ -4,4 +4,11 @@ nav.navbar.navbar-light.bg-light
     =link_to t('all rewards'), rewards_path
     li= link_to 'Log out', destroy_user_session_path, method: :delete
   -else
-    li= link_to 'Login', new_user_session_path,method: :get
+    li= link_to 'Login', new_user_session_path, method: :get
+
+= form_with url: search_path, scope: :search, method: :get, local: true do |f|
+  .input-group.mb-3
+    .input-group-append
+    = f.text_area :body, class: 'form-control input', html: { "aria-describedby" => "basic-addon2", "aria-label" => ("Recipient's username"), "placeholder" => ("Recipient's username"), "type" => "text" }
+    = f.select :scope, collection: Services::SphinxSearch::SCOPE
+    = f.submit 'Search', class: 'button btn btn-outline-secondary'

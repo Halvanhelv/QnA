@@ -31,14 +31,16 @@ gem 'omniauth-telegram', '~> 0.1.0'
 gem 'slim-rails'
 gem 'capybara-email'
 gem 'cancancan'
-
+gem 'will_paginate'
 gem 'doorkeeper'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'oj'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'whenever', require: false
-
+gem 'mysql2'
+gem 'thinking-sphinx', '~> 4.4', '>= 4.4.1'
+gem 'database_cleaner', '~> 1.8', '>= 1.8.3'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password

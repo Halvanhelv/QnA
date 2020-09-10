@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-feature 'User can sign in with GitHub authorization', %q(
-  "In order to ask questions as an unauthenticated user
-   I'd like to able to sign in"
-) do
+feature 'User can sign in with GitHub authorization', "
+  In order to ask questions as an unauthenticated user
+   I'd like to able to sign in
+" do
   %w[GitHub Telegram].each do |network|
     let(:user) { create(:user) }
     background do

@@ -36,3 +36,5 @@ config/secrets/*
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+config/*.sphinx.conf
+db/sphinx

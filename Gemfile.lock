@@ -91,6 +91,7 @@ GEM
     concurrent-ruby (1.1.7)
     connection_pool (2.2.3)
     crass (1.0.6)
+    database_cleaner (1.8.5)
     decent_exposure (3.0.0)
       activesupport (>= 4.0)
     declarative (0.0.20)
@@ -155,8 +156,11 @@ GEM
     httpclient (2.8.3)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
+    innertube (1.1.0)
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
+    joiner (0.5.0)
+      activerecord (>= 6.0.0.rc2)
     jsonapi-renderer (0.2.2)
     jwt (2.2.2)
     launchy (2.5.0)
@@ -176,6 +180,7 @@ GEM
       mimemagic (~> 0.3.2)
     memoist (0.16.2)
     method_source (1.0.0)
+    middleware (0.1.0)
     mimemagic (0.3.5)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
@@ -186,6 +191,7 @@ GEM
     multipart-post (2.1.1)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
+    mysql2 (0.5.3)
     nio4r (2.5.2)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
@@ -280,6 +286,7 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     retriable (3.1.2)
+    riddle (2.4.2)
     rspec-core (3.9.2)
       rspec-support (~> 3.9.3)
     rspec-expectations (3.9.2)
@@ -350,6 +357,13 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     temple (0.8.2)
+    thinking-sphinx (4.4.1)
+      activerecord (>= 3.1.0)
+      builder (>= 2.1.2)
+      innertube (>= 1.0.2)
+      joiner (>= 0.2.0)
+      middleware (>= 0.1.0)
+      riddle (~> 2.3)
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -379,6 +393,7 @@ GEM
     websocket-extensions (0.1.5)
     whenever (1.0.0)
       chronic (>= 0.6.3)
+    will_paginate (3.3.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.4.0)
@@ -394,6 +409,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   capybara-email
   cocoon
+  database_cleaner (~> 1.8, >= 1.8.3)
   decent_exposure (= 3.0.0)
   devise
   doorkeeper
@@ -406,6 +422,7 @@ DEPENDENCIES
   letter_opener
   listen (~> 3.2)
   localtunnel (~> 1.0, >= 1.0.3)
+  mysql2
   octicons (~> 9.4)
   octicons_helper
   octokit (~> 4.0)
@@ -428,12 +445,14 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   sprockets
+  thinking-sphinx (~> 4.4, >= 4.4.1)
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 3.3.0)
   webdrivers
   webpacker (~> 4.0)
   whenever
+  will_paginate
 
 RUBY VERSION
    ruby 2.6.0p0
