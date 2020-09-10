@@ -5,12 +5,13 @@ class Question < ApplicationRecord
   has_one :reward, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
   has_many :subscribers, through: :subscriptions, source: :user, dependent: :destroy
+  belongs_to :user
+  has_many :comments, dependent: :destroy, as: :commentable
 
   after_save :publish_question
   after_create :create_subscription
 
-  belongs_to :user
-  has_many :comments, dependent: :destroy, as: :commentable
+
 
   include Linkable
   include Attachable
