@@ -1,0 +1,15 @@
+ul.list-group.search-results
+  p Найдено результатов: #{@search.result.count}
+
+
+  - @search.result.each do |item|
+    li.list-group-item
+      - if item.is_a?(Question)
+        = link_to item.title, question_path(item)
+      - if item.is_a?(User)
+        = item.email
+      - if item.is_a?(Answer)
+        = link_to item.body, question_path(item.question)
+      - if item.is_a?(Comment)
+        = item.body
+  = will_paginate @search.result, param_name: "search[page]"

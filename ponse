@@ -1,0 +1,15 @@
+
+[1mFrom:[0m /home/islam/Документы/QnA/spec/controllers/search_controller_spec.rb:24 :
+
+    [1;34m19[0m:   [32mend[0m
+    [1;34m20[0m: 
+    [1;34m21[0m:   describe [31m[1;31m'[0m[31msearch with empty request[1;31m'[0m[31m[0m [32mdo[0m
+    [1;34m22[0m:     it [31m[1;31m'[0m[31mreturns empty response[1;31m'[0m[31m[0m [32mdo[0m
+    [1;34m23[0m:         get [33m:search[0m, [35mparams[0m: { [35msearch[0m: { [35mbody[0m: [31m[1;31m'[0m[31m[1;31m'[0m[31m[0m, [35mscope[0m: [31m[1;31m'[0m[31mall[1;31m'[0m[31m[0m } }
+ => [1;34m24[0m:         binding.pry
+    [1;34m25[0m:         expect(response.body).to be_empty
+    [1;34m26[0m: 
+    [1;34m27[0m:     [32mend[0m
+    [1;34m28[0m: 
+    [1;34m29[0m:     it [31m[1;31m'[0m[31mreturns success[1;31m'[0m[31m[0m [32mdo[0m
+
