@@ -28,6 +28,7 @@ gem 'octokit', '~> 4.0'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-telegram', '~> 0.1.0'
+
 gem 'slim-rails'
 gem 'capybara-email'
 gem 'cancancan'
@@ -41,7 +42,6 @@ gem 'whenever', require: false
 gem 'mysql2'
 gem 'thinking-sphinx', '~> 4.4', '>= 4.4.1'
 gem 'database_cleaner', '~> 1.8', '>= 1.8.3'
-gem 'libv8'
 gem 'mini_racer'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
@@ -55,7 +55,7 @@ gem 'devise'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'decent_exposure', '3.0.0'
-gem 'google-cloud-storage'
+gem 'google-cloud-storage', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
@@ -79,12 +79,12 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-passenger', require: false
+  gem 'capistrano-sidekiq', require: false
 end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
-  gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'launchy'
   gem 'rails-controller-testing'

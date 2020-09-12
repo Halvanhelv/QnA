@@ -6,6 +6,7 @@ consumer.comments_subscribe = consumer.subscriptions.create('CommentsChannel', {
         return subscribeToComments();
     },
     received: function(data) {
+        if (gon.user_id === data.comment.user_id) return;
         const template = require('./handlebars/comment.hbs');
         if (data.type === 'answer') {
             $(`#${data.type}-id-${data.id} .answer_comments`).append(template(data));

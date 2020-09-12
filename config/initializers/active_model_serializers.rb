@@ -1,2 +1,2 @@
-ActiveModelSerializers.config.adapter  = :json
+ActiveModelSerializers.config.adapter = :json
 Oj.optimize_rails

@@ -24,8 +24,8 @@ class Ability
   end
 
   def user_abilities
-    can %i[positive_vote negative_vote], [Question, Answer] do |vote|
-      !user.author_of?(vote)
+    can %i[positive_vote negative_vote], [Question, Answer] do |resource|
+      !user.author_of?(resource)
     end
 
     can :read, :all

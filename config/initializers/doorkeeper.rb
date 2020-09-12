@@ -207,7 +207,7 @@ Doorkeeper.configure do
   # For more information go to
   # https://doorkeeper.gitbook.io/guides/ruby-on-rails/scopes
   #
-  default_scopes  :public
+  default_scopes :public
   # optional_scopes :write, :create
 
   # Allows to restrict only certain scopes for grant_type.

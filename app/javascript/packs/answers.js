@@ -13,5 +13,13 @@ $(document).on('turbolinks:load', function () {
         $('#answer-id-'+ answerId +' .comment-block').show();
         $('#answer-id-'+ answerId +' .comment_text_area').val('');
     });
+
+    $(document).on('ajax:error', '.new-answer', function(e) {
+
+        const error = (e.detail[0]);
+
+        $('.new-answer-errors').html('<p>' + error + '</p>');
+
+    })
 });
 
