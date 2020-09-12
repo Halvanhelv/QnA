@@ -41,7 +41,7 @@ gem 'whenever', require: false
 gem 'mysql2'
 gem 'thinking-sphinx', '~> 4.4', '>= 4.4.1'
 gem 'database_cleaner', '~> 1.8', '>= 1.8.3'
-gem 'bundler'
+gem 'mini_racer'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
