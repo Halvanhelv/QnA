@@ -451,6 +451,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   launchy
   letter_opener
+  libv8
   listen (~> 3.2)
   localtunnel (~> 1.0, >= 1.0.3)
   mini_racer
