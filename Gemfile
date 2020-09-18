@@ -43,6 +43,7 @@ gem 'mysql2'
 gem 'thinking-sphinx', '~> 4.4', '>= 4.4.1'
 gem 'database_cleaner', '~> 1.8', '>= 1.8.3'
 gem 'mini_racer'
+gem 'unicorn'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
@@ -80,6 +81,7 @@ group :development do
   gem 'capistrano-rvm', require: false
   gem 'capistrano-passenger', require: false
   gem 'capistrano-sidekiq', require: false
+  gem 'capistrano3-unicorn', require: false
 end
 
 group :test do
