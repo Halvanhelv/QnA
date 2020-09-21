@@ -1,7 +1,7 @@
 ul.list-group.question_list
   p.btn
     =link_to t('.question.new_button'), new_question_path, class: "text-success"
-
-  -@questions.each do |question|
-    p.list-group-item.list-group-item-action
-      =link_to question.title, question_path(question)
+  - cache_unless current_user.try(:admin), @questions.cache_key do
+    -@questions.each do |question|
+      p.list-group-item.list-group-item-action
+        =link_to question.title, question_path(question)

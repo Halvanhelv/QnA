@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NewAnswerNotificationMailer < ApplicationMailer
   def notification_for_user(user, answer)
     @question = answer.question.title

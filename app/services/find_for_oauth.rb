@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FindForOauth
   attr_reader :auth
   def initialize(auth)

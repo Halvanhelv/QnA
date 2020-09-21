@@ -1,25 +1,29 @@
-class Services::SphinxSearch
-  attr_reader :body, :scope, :result, :params
+# frozen_string_literal: true
 
-  SCOPE = %w[questions answers comments users all].freeze
-  PER_PAGE = 5
-  def initialize(params)
-    @params = params
-    @body = params[:body]
-    @scope = params[:scope]
-  end
+module Services
+  class SphinxSearch
+    attr_reader :body, :scope, :result, :params
 
-  def call
-    options = {
-      page: params[:page].nil? ? 1 : params[:page],
-      per_page: params[:per_page].nil? ? PER_PAGE : params[:per_page] # для показа n-го количества сущностей на странице. если в запросе будет params[:per_page]
-    }
-    @request = @body.split(/'([^']+)'|"([^"]+)"|\s+|\+/).reject(&:empty?).map(&:inspect)
+    SCOPE = %w[questions answers comments users all].freeze
+    PER_PAGE = 5
+    def initialize(params)
+      @params = params
+      @body = params[:body]
+      @scope = params[:scope]
+    end
 
-    @result = if SCOPE.include?(scope) && scope == 'all'
-                ThinkingSphinx.search(ThinkingSphinx::Query.escape(@request.to_s), options)
-              else
-                scope.singularize.capitalize.constantize.search(ThinkingSphinx::Query.escape(@request.to_s), options)
+    def call
+      options = {
+        page: params[:page].nil? ? 1 : params[:page],
+        per_page: params[:per_page].nil? ? PER_PAGE : params[:per_page] # для показа n-го количества сущностей на странице. если в запросе будет params[:per_page]
+      }
+      @request = @body.split(/'([^']+)'|"([^"]+)"|\s+|\+/).reject(&:empty?).map(&:inspect)
+
+      @result = if SCOPE.include?(scope) && scope == 'all'
+                  ThinkingSphinx.search(ThinkingSphinx::Query.escape(@request.to_s), options)
+                else
+                  scope.singularize.capitalize.constantize.search(ThinkingSphinx::Query.escape(@request.to_s), options)
+                end
     end
   end
 end

@@ -1,11 +1,17 @@
-class Api::V1::ProfilesController < Api::V1::BaseController
-  authorize_resource class: User
+# frozen_string_literal: true
 
-  def me
-    render json: current_resource_owner, serializer: ProfileSerializer
-  end
+module Api
+  module V1
+    class ProfilesController < Api::V1::BaseController
+      authorize_resource class: User
 
-  def index
-    render json: User.where.not(id: current_resource_owner.id), each_serializer: ProfileSerializer
+      def me
+        render json: current_resource_owner, serializer: ProfileSerializer
+      end
+
+      def index
+        render json: User.where.not(id: current_resource_owner.id), each_serializer: ProfileSerializer
+      end
+    end
   end
 end

@@ -11,7 +11,7 @@ class Ability
       user.admin? ? admin_abilities : user_abilities
     else
       guest_abilities
-      end
+    end
   end
 
   def guest_abilities

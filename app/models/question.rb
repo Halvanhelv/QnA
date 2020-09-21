@@ -11,8 +11,6 @@ class Question < ApplicationRecord
   after_save :publish_question
   after_create :create_subscription
 
-
-
   include Linkable
   include Attachable
   include Votable

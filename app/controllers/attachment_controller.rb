@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AttachmentController < ApplicationController
   before_action :authenticate_user!
   before_action :attachment, only: %i[destroy]

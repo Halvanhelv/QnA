@@ -1,1 +1,2 @@
-li.list-group-item  style=("font-size: 8pt") #{comment.user.email} : #{comment.body}
+- cache_unless current_user.try(:admin), comment do
+  li.list-group-item  style=("font-size: 8pt") #{comment.user.email} : #{comment.body}

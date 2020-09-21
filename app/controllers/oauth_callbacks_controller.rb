@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :session_data, only: %i[github telegram]
 

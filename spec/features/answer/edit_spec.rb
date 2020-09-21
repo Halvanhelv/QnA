@@ -20,7 +20,6 @@ I'd like ot be able to edit my answer
           fill_in 'Your answer', with: 'edited answer'
 
           click_on I18n.t('helpers.submit.answer.update')
-
           expect(page).not_to have_content answer.body
           expect(page).to have_content 'edited answer'
           expect(page).not_to have_selector 'textarea'

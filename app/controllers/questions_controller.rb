@@ -83,6 +83,6 @@ class QuestionsController < ApplicationController
       params[:question][:files].each do |file|
         question.files.attach(file)
       end
-      end
+    end
   end
 end

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Link < ApplicationRecord
-  belongs_to :linkable, polymorphic: true
+  belongs_to :linkable, polymorphic: true, touch: true
 
   validates :name, :url, presence: true
   validates_format_of :url, with: URI::DEFAULT_PARSER.make_regexp
