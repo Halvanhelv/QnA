@@ -171,6 +171,7 @@ I'd like ot be able to edit my answer
               expect(page).to have_content(attachment_first.filename)
               expect(page).to have_content(attachment_second.filename)
 
+              save_and_open_page
               within ".attachment-id-#{attachment_first.id}" do
                 click_on I18n.t('delete_attachment')
               end

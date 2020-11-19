@@ -3,5 +3,5 @@
     ul.list-group
       li class="attachment-id-#{attachment.id} list-group-item list-group-item-action"
         = link_to attachment.filename, url_for(attachment)
-      - if can? :destroy, attachment
-        = link_to t('delete_attachment'), attachment_path(attachment), method: :delete, remote: true
+        - if can? :destroy, attachment
+          = link_to t('delete_attachment'), attachment_path(attachment), method: :delete, remote: true
