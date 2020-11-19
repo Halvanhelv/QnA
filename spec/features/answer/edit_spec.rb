@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 feature 'User can edit his answer', "
 In order to correct mistakes

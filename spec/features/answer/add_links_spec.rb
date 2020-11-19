@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'User can add links to answer', "
@@ -7,7 +9,7 @@ I'd like to be able to add links
 " do
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
-  given(:gist_url) { 'https://gist.github.com/SynthesisOne/8c1d50f437cc54c9585dc0ae55b12ba4' }
+  given(:gist_url) { 'https://gist.github.com/SynthesisOne/6b6c203392c75d2dd2e57c5fd4ac411d' }
 
   scenario 'User adds link when give an answer', js: true do
     sign_in(user)

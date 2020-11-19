@@ -1,0 +1,83 @@
+env:  # глобавльные переменные окружения, пишем в начале файла
+  RUBY_VERSION: 2.6.x
+  RAILS_ENV: test
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_DB: qna_test
+  RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+
+name: Rails_tests
+
+on: [push,pull_request]
+
+jobs: # таск, каждый отдельный таск запускается на разных машинах
+  rspec-test:
+
+    name: RSpec
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: qna_test
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: --entrypoint redis-server
+        env:
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
+
+    steps:
+      - uses: actions/checkout@v1 # внешний скрипт для копирования репозитория на машину для дальнейших манипуляций с кодом из репозитория
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+      - name: Install postgres client
+        run: sudo apt-get install libpq-dev
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.14.0
+
+      - name: Install packages
+        run: |
+          yarn install --pure-lockfile
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundler install
+      - name: Create database
+        run: |
+          cp config/database.yml.github-actions config/database.yml
+          bundler exec rails db:create RAILS_ENV=test
+          bundler exec rails db:migrate RAILS_ENV=test
+        env: # переменные окружения доступные только внутри Create database, если указать сразу под jobs: можно настроить переменные для всего jobs
+          RAILS_ENV: test
+          POSTGRES_DB: qna_test
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
+
+      - name: Run tests
+        run: rspec spec/
+        env:
+          RAILS_ENV: test
+          POSTGRES_DB: qna_test
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379

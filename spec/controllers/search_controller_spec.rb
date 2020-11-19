@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sphinx_helper'
 
 RSpec.describe SearchController, type: :controller do

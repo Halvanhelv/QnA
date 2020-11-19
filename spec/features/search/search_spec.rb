@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sphinx_helper'
 
 feature 'Any user can search', "

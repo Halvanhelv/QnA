@@ -22,13 +22,13 @@ RSpec.describe Answer, type: :model do
       let!(:answers) { create_list(:answer, 3) }
 
       context 'without best answer' do
-        it { expect(Answer.order_by_best).to match_array(answers) }
+        it { expect(Answer.unscoped.order_by_best).to match_array(answers) }
       end
 
       context 'best answer exist' do
         let!(:best_answer) { create(:answer, best_answer: true) }
 
-        it { expect(Answer.order_by_best.first).to eq(best_answer) }
+        it { expect(Answer.unscoped.order_by_best.first).to eq(best_answer) }
       end
 
       describe '#best' do

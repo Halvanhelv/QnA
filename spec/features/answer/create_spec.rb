@@ -44,7 +44,7 @@ I would like to write an answer to the question
         click_on I18n.t('add_link')
 
         fill_in I18n.t('link_name'), with: 'GIST LINK'
-        fill_in I18n.t('link_url'), with: 'https://gist.github.com/SynthesisOne/999ecc10ac745e4f7a3a00ff5b038767'
+        fill_in I18n.t('link_url'), with: 'https://gist.github.com/SynthesisOne/6b6c203392c75d2dd2e57c5fd4ac411d'
 
         click_on I18n.t('helpers.submit.answer.create')
       end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 feature 'Users can vote for a answer', "
 To assess the value of the answer

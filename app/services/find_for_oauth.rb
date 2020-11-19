@@ -2,6 +2,7 @@
 
 class FindForOauth
   attr_reader :auth
+
   def initialize(auth)
     @auth = auth
   end

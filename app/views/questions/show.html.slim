@@ -2,7 +2,7 @@ div#question
   =render question
 br=
 .answers
-    = render question.answers.order_by_best
+    = render question.answers.unscoped.order_by_best
 = render 'answers/form'
 
 

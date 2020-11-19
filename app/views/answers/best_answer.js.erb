@@ -1,1 +1,1 @@
-$('.answers').html('<%= j render answer.question.answers.order_by_best %>')
+$('.answers').html('<%= j render answer.question.answers.unscoped.order_by_best %>')
