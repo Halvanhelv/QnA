@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -29,22 +31,22 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-telegram', '~> 0.1.0'
 
-gem 'slim-rails'
-gem 'capybara-email'
-gem 'cancancan'
-gem 'will_paginate'
-gem 'doorkeeper'
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'cancancan'
+gem 'capybara-email'
+gem 'database_cleaner', '~> 1.8', '>= 1.8.3'
+gem 'doorkeeper'
+gem 'mini_racer'
+gem 'mysql2'
 gem 'oj'
+gem 'redis'
 gem 'sidekiq'
 gem 'sinatra', require: false
-gem 'whenever', require: false
-gem 'mysql2'
+gem 'slim-rails'
 gem 'thinking-sphinx', '~> 4.4', '>= 4.4.1'
-gem 'database_cleaner', '~> 1.8', '>= 1.8.3'
-gem 'mini_racer'
 gem 'unicorn'
-gem 'redis'
+gem 'whenever', require: false
+gem 'will_paginate'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
@@ -62,10 +64,10 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
+  gem 'localtunnel', '~> 1.0', '>= 1.0.3'
   gem 'pry-rails'
   gem 'rspec-rails', '~> 4.0.0'
   gem 'selenium-webdriver'
-  gem 'localtunnel', '~> 1.0', '>= 1.0.3'
 end
 
 group :development do
@@ -73,16 +75,17 @@ group :development do
   gem 'listen', '~> 3.2'
   gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'letter_opener'
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'capistrano', require: false
+  gem 'capistrano3-unicorn', require: false
   gem 'capistrano-bundler', require: false
+  gem 'capistrano-passenger', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
-  gem 'capistrano-passenger', require: false
   gem 'capistrano-sidekiq', require: false
-  gem 'capistrano3-unicorn', require: false
+  gem 'letter_opener'
+  gem 'rubocop-rails'
+  gem 'spring'
+  gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
 group :test do

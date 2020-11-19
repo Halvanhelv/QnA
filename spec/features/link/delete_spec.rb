@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 feature 'User can create answer for question', "
 To write the answer to the question as an authorized user

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples_for 'API Create resource' do
   let(:headers) { { 'ACCEPT' => 'application/json' } }
   let(:klass) { resource.to_s.downcase.to_sym }

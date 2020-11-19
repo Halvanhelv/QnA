@@ -25,7 +25,7 @@ class CommentsController < ApplicationController
   end
 
   def question_id
-    if set_commentable.class == Question
+    if set_commentable.instance_of?(Question)
       set_commentable.id
     else
       set_commentable.question.id

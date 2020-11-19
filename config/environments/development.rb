@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -19,7 +21,7 @@ Rails.application.configure do
     config.action_controller.enable_fragment_cache_logging = true
 
     # config.cache_store = :redis_cache_store, { expires_in: 90.minutes }
-    config.cache_store = :redis_cache_store, { expires_in: 90.minutes, url: 'redis://localhost:6379/0/cache/'  }
+    config.cache_store = :redis_cache_store, { expires_in: 90.minutes, url: 'redis://localhost:6379/0/cache/' }
     config.public_file_server.headers = {
       'Cache-Control' => "public, max-age=#{2.days.to_i}"
     }

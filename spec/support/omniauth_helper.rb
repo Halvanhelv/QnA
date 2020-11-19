@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module OmniauthHelper
   def mock_auth_hash(provider, email:)
     OmniAuth.config.mock_auth[provider.to_sym] = OmniAuth::AuthHash.new(
