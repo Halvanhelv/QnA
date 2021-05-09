@@ -9,7 +9,7 @@
     "babel-preset-es2015": "^6.24.1",
     "bootstrap": "^4.5.2",
     "channels": "^0.0.4",
-    "handlebars": "^4.7.6",
+    "handlebars": "^4.7.7",
     "handlebars-loader": "^1.7.1",
     "jquery": "^3.5.1",
     "localtunnel": "^2.0.0",
