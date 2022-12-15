@@ -57,10 +57,10 @@ class AnswersController < ApplicationController
   helper_method :question
 
   def files_params
-    if params[:answer][:files].present?
-      params[:answer][:files].each do |file|
-        answer.files.attach(file)
-      end
+    return unless params[:answer][:files].present?
+
+    params[:answer][:files].each do |file|
+      answer.files.attach(file)
     end
   end
 end

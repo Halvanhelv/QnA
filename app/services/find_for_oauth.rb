@@ -14,15 +14,13 @@ class FindForOauth
     email = auth['info']['email'] if auth['info'] && auth['info']['email']
     email_from_user = auth['info']['mail_from_user'] if auth['info'] && auth['info']['mail_from_user']
     user = User.where(email: email).first
-    if user
-      user.create_oauth_provider(auth)
-    elsif email
-      user = User.create(email: email, password: pass_generate, password_confirmation: pass_generate, confirmed_at: Time.now)
-      user.create_oauth_provider(auth)
-    else
-      user = User.create(email: email_from_user, password: pass_generate, password_confirmation: pass_generate)
-      user.create_oauth_provider(auth)
-    end
+    user = if email
+             User.create(email: email, password: pass_generate, password_confirmation: pass_generate,
+                         confirmed_at: Time.now)
+           else
+             User.create(email: email_from_user, password: pass_generate, password_confirmation: pass_generate)
+           end
+    user.create_oauth_provider(auth)
     user
   end
 

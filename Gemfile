@@ -10,31 +10,31 @@ gem 'rails', '~> 6.0.3', '>= 6.0.3.1'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
-gem 'puma', '~> 4.3'
+gem 'puma'
 # Use SCSS for stylesheets
-gem 'sass-rails', '>= 6'
+gem 'sass-rails'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'sprockets'
-gem 'webpacker', '~> 4.0'
+gem 'webpacker'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
+gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'cocoon'
 gem 'gon'
 gem 'handlebars-source'
-gem 'jbuilder', '~> 2.7'
+gem 'jbuilder'
 
-gem 'octicons', '~> 9.4'
+gem 'octicons'
 gem 'octicons_helper'
-gem 'octokit', '~> 4.0'
+gem 'octokit'
 gem 'omniauth'
 gem 'omniauth-github'
-gem 'omniauth-telegram', '~> 0.1.0'
+gem 'omniauth-telegram'
 
-gem 'active_model_serializers', '~> 0.10.0'
+gem 'active_model_serializers'
 gem 'cancancan'
 gem 'capybara-email'
-gem 'database_cleaner', '~> 1.8', '>= 1.8.3'
+gem 'database_cleaner'
 gem 'doorkeeper'
 gem 'mini_racer'
 gem 'mysql2'
@@ -43,7 +43,7 @@ gem 'redis'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim-rails'
-gem 'thinking-sphinx', '~> 4.4', '>= 4.4.1'
+gem 'thinking-sphinx'
 gem 'unicorn'
 gem 'whenever', require: false
 gem 'will_paginate'
@@ -57,23 +57,23 @@ gem 'will_paginate'
 # Auth
 gem 'devise'
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.4.2', require: false
-gem 'decent_exposure', '3.0.0'
+gem 'bootsnap', require: false
+gem 'decent_exposure'
 gem 'google-cloud-storage', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
-  gem 'localtunnel', '~> 1.0', '>= 1.0.3'
+  gem 'localtunnel'
   gem 'pry-rails'
-  gem 'rspec-rails', '~> 4.0.0'
+  gem 'rspec-rails'
   gem 'selenium-webdriver'
 end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'listen', '~> 3.2'
-  gem 'web-console', '>= 3.3.0'
+  gem 'listen'
+  gem 'web-console'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'capistrano', require: false
   gem 'capistrano3-unicorn', require: false
@@ -85,12 +85,12 @@ group :development do
   gem 'letter_opener'
   gem 'rubocop-rails'
   gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'spring-watcher-listen'
 end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 2.15'
+  gem 'capybara'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'launchy'
   gem 'rails-controller-testing'

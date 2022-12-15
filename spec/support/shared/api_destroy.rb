@@ -7,6 +7,9 @@ shared_examples_for 'API Destroy resource' do
   end
 
   it 'removed from db' do
-    expect { do_request(method, api_path, params: { id: resource, access_token: access_token.token }, headers: headers) }.to change(resource, :count).by(-1)
+    expect do
+      do_request(method, api_path, params: { id: resource, access_token: access_token.token },
+                                   headers: headers)
+    end.to change(resource, :count).by(-1)
   end
 end

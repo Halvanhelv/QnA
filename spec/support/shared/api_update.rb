@@ -4,7 +4,9 @@ shared_examples_for 'API Update resource' do
   let(:klass) { resource.to_s.downcase.to_sym }
 
   context 'with valid data' do
-    before { do_request(method, api_path, params: { klass => valid_attrs, access_token: access_token.token }, headers: headers) }
+    before do
+      do_request(method, api_path, params: { klass => valid_attrs, access_token: access_token.token }, headers: headers)
+    end
     it 'return 200 status' do
       expect(response).to have_http_status(200)
     end
@@ -15,7 +17,10 @@ shared_examples_for 'API Update resource' do
   end
 
   context 'with invalid data' do
-    before { do_request(method, api_path, params: { klass => invalid_attrs, access_token: access_token.token }, headers: headers) }
+    before do
+      do_request(method, api_path, params: { klass => invalid_attrs, access_token: access_token.token },
+                                   headers: headers)
+    end
 
     it 'return 422 status' do
       expect(response).to have_http_status(422)

@@ -39,7 +39,11 @@ RSpec.describe CommentsController, type: :controller do
 
       context 'for question' do
         context 'with correct attributes' do
-          subject { post :create, params: { comment: attributes_for(:comment), question_id: question, commentable: 'questions', format: :js } }
+          subject do
+            post :create,
+                 params: { comment: attributes_for(:comment), question_id: question, commentable: 'questions',
+                           format: :js }
+          end
 
           include_examples 'comment saves with correct author'
           include_examples 'render create view'
@@ -51,12 +55,18 @@ RSpec.describe CommentsController, type: :controller do
           end
 
           it 'streaming to channel' do
-            expect { subject }.to broadcast_to("question_#{question.id}_comments").with(a_hash_including(author: user.email))
+            expect do
+              subject
+            end.to broadcast_to("question_#{question.id}_comments").with(a_hash_including(author: user.email))
           end
         end
 
         context 'with invalid attributes' do
-          subject { post :create, params: { comment: attributes_for(:comment, :invalid), question_id: question, commentable: 'questions', format: :js } }
+          subject do
+            post :create,
+                 params: { comment: attributes_for(:comment, :invalid), question_id: question, commentable: 'questions',
+                           format: :js }
+          end
 
           it 'does not save the comment' do
             expect { subject }.to_not change(Comment, :count)
@@ -65,14 +75,19 @@ RSpec.describe CommentsController, type: :controller do
           include_examples 're-render create view'
 
           it 'do not streaming to channel' do
-            expect { subject }.to_not broadcast_to("question_#{question.id}_comments").with(a_hash_including(author: user.email))
+            expect do
+              subject
+            end.to_not broadcast_to("question_#{question.id}_comments").with(a_hash_including(author: user.email))
           end
         end
       end
 
       context 'for answer' do
         context 'with correct attributes' do
-          subject { post :create, params: { comment: attributes_for(:comment), answer_id: answer, commentable: 'answers', format: :js } }
+          subject do
+            post :create,
+                 params: { comment: attributes_for(:comment), answer_id: answer, commentable: 'answers', format: :js }
+          end
 
           include_examples 'comment saves with correct user'
           include_examples 'comment saves with correct author'
@@ -83,12 +98,18 @@ RSpec.describe CommentsController, type: :controller do
           end
 
           it 'streaming to channel' do
-            expect { subject }.to_not broadcast_to("answer_#{question.id}_comments").with(a_hash_including(author: user.email))
+            expect do
+              subject
+            end.to_not broadcast_to("answer_#{question.id}_comments").with(a_hash_including(author: user.email))
           end
         end
 
         context 'with invalid attributes' do
-          subject { post :create, params: { comment: attributes_for(:comment, :invalid), answer_id: answer, commentable: 'answers', format: :js } }
+          subject do
+            post :create,
+                 params: { comment: attributes_for(:comment, :invalid), answer_id: answer, commentable: 'answers',
+                           format: :js }
+          end
 
           it 'does not save the comment' do
             expect { subject }.to_not change(Comment, :count)
@@ -97,7 +118,9 @@ RSpec.describe CommentsController, type: :controller do
           include_examples 're-render create view'
 
           it 'do not streaming to channel' do
-            expect { subject }.to_not broadcast_to("answer_#{answer.id}_comments").with(a_hash_including(author: user.email))
+            expect do
+              subject
+            end.to_not broadcast_to("answer_#{answer.id}_comments").with(a_hash_including(author: user.email))
           end
         end
       end
@@ -115,11 +138,18 @@ RSpec.describe CommentsController, type: :controller do
         end
       end
       context 'question' do
-        subject { post :create, params: { comment: attributes_for(:comment), question_id: question, commentable: 'questions', format: :js } }
+        subject do
+          post :create,
+               params: { comment: attributes_for(:comment), question_id: question, commentable: 'questions',
+                         format: :js }
+        end
         include_examples 'guest try create comment'
       end
       context 'answer' do
-        subject { post :create, params: { comment: attributes_for(:comment), answer_id: answer, commentable: 'answers', format: :js } }
+        subject do
+          post :create,
+               params: { comment: attributes_for(:comment), answer_id: answer, commentable: 'answers', format: :js }
+        end
 
         include_examples 'guest try create comment'
       end
