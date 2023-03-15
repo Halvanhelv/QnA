@@ -1,14 +1,26 @@
-nav.navbar.navbar-light.bg-light
-  - if current_user
-    li= current_user.email
-    =link_to t('all rewards'), rewards_path
-    li= link_to 'Log out', destroy_user_session_path, method: :delete
-  -else
-    li= link_to 'Login', new_user_session_path, method: :get
+nav.navbar.navbar-expand-lg.navbar-light.bg-white
+  div.container
+    a.navbar-brand href="#" QnA
 
-= form_with url: search_path, scope: :search, method: :get, local: true do |f|
-  .input-group.mb-3
-    .input-group-append
-    = f.text_area :body, class: 'form-control input', html: { "aria-describedby" => "basic-addon2", "aria-label" => ("Recipient's username"), "placeholder" => ("Recipient's username"), "type" => "text" }
-    = f.select :scope, collection: Services::SphinxSearch::SCOPE
-    = f.submit 'Search', class: 'button btn btn-outline-secondary'
+    button.navbar-toggler type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"
+      span.navbar-toggler-icon
+
+    div.collapse.navbar-collapse#navbarNav
+      ul.navbar-nav.ml-auto
+        - if current_user
+          li.nav-item
+            span.nav-link= current_user.email
+          li.nav-item
+            = link_to t('all rewards'), rewards_path, class: 'nav-link'
+          li.nav-item
+            = link_to 'Log out', destroy_user_session_path, method: :delete, class: 'nav-link btn btn-outline-danger'
+        - else
+          li.nav-item
+            = link_to 'Login', new_user_session_path, method: :get, class: 'nav-link'
+
+      = form_with url: search_path, scope: :search, method: :get, local: true, class: 'form-inline ml-3' do |f|
+        .input-group
+          = f.text_area :body, class: 'form-control search-input', html: { "aria-describedby" => "basic-addon2", "aria-label" => ("Recipient's username"), "placeholder" => ("Recipient's username"), "type" => "text" }
+          = f.select :scope, options_for_select(Services::SphinxSearch::SCOPE), {}, class: 'form-control', html: { "style" => "width: auto; border-radius: 0; border-left: none; border-right: none; background-color: rgba(0, 0, 0, 0.05);" }
+          span.input-group-btn
+            = f.submit 'Search', class: 'button btn btn-outline-secondary search-submit', html: { "style" => "background-color: rgba(0, 0, 0, 0.05); border-left: none;" }

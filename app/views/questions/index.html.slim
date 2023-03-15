@@ -1,7 +1,20 @@
-ul.list-group.question_list
-  p.btn
-    =link_to t('.question.new_button'), new_question_path, class: "text-success"
-  - cache_unless current_user.try(:admin), @questions.cache_key do
-    -@questions.each do |question|
-      p.list-group-item.list-group-item-action
-        =link_to question.title, question_path(question)
+div.container
+  div.row
+    div.col-md-12
+      h2.text-center.mb-4 Question List
+
+      ul.list-group.question_list
+        - if @questions.any?
+          - @questions.each do |question|
+            li.list-group-item.list-group-item-action
+              = link_to question.title, question_path(question)
+        - else
+          li.list-group-item.text-center.text-muted No questions found
+
+        div.text-center.mt-4
+          p.btn.btn-success
+            = link_to t('.question.new_button'), new_question_path, class: "text-white"
+        - cache_unless current_user.try(:admin), @questions.cache_key do
+          - @questions.each do |question|
+            li.list-group-item.list-group-item-action
+              = link_to question.title, question_path(question)

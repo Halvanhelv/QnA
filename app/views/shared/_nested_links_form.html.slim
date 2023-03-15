@@ -1,8 +1,16 @@
+style
+  | .nested-fields { display: flex; align-items: flex-end; margin-bottom: 10px; }
+  | .nested-fields .field { flex-grow: 1; margin-right: 10px; }
+  | .nested-fields .field:last-child { margin-right: 0; }
+  | .nested-fields .field input[type="text"] { width: 100%; height: 38px; }
+  | .nested-fields .field button { height: 38px; }
+
 .nested-fields
   .field
     = link.label :name, t('link_name')
-    = link.text_field :name
+    = link.text_field :name, class: 'form-control'
   .field
     = link.label :url, t('link_url')
-    = link.text_field :url
-    = link_to_remove_association t('delete_form'), link
+    = link.text_field :url, class: 'form-control'
+  .field
+    = link_to_remove_association t('delete_form'), link, class: 'btn btn-danger'
