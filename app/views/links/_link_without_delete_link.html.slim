@@ -1,11 +1,12 @@
--if link.persisted?
+- if link.persisted?
   - cache_unless current_user.try(:admin), link do
-    li class="link-id-#{link.id}"
+    li class="link-item link-id-#{link.id}"
       - if link.gist?
         - link.get_gist.files.each do |name, data|
-          p
-          =link_to link.name, link.url
-          p
-          = data.content
+          p.link-title
+            = link_to link.name, link.url
+          p.link-content
+            = data.content
       - else
-        =link_to link.name, link.url
+        p.link-title
+          = link_to link.name, link.url

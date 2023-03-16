@@ -10,9 +10,10 @@ div class= 'question-subscriptions-block'
 - cache_unless current_user.try(:admin), ['question_files', question] do
   -if question.files.attached?
   ul.list-group
-     -question.files.each do |file|
-        li class="attachment-id-#{file.id} form-control"
-           = link_to file.filename, url_for(file)
+    - question.files.each do |file|
+      li class="file-item attachment-id-#{file.id} form-control"
+        = link_to file.filename, url_for(file)
+
 - cache_unless current_user.try(:admin), ['question_links_and_comments'] do
   .links
      p Links:
@@ -36,8 +37,13 @@ div class= 'question-subscriptions-block'
      -if question.reward
         = question.reward.name
         = image_tag(url_for(question.reward.img), size: 200)
--if %i[edit destroy].any? { |action| can? action, question }
-   = button_to t('.delete'), question_path(question), method: :delete, class: "btn btn-outline-danger"
-   p= link_to t('.edit'), '#', class: 'edit-question-link btn btn-outline-warning'
-   =render 'form'
+- if %i[edit destroy].any? { |action| can? action, question }
+  .actions
+    = button_to t('.delete'), question_path(question), method: :delete, class: "action-btn btn btn-outline-danger", form_class: 'inline-form-actions'
+    = button_to t('.edit'), '#', class: 'edit-question-link action-btn btn btn-outline-warning', form_class: 'inline-form-actions'
+
+
+
+
+  =render 'form'
 #question-errors
