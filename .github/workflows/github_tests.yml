@@ -53,7 +53,7 @@ jobs: # таск, каждый отдельный таск запускаетс�
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: 14.14.0
+          node-version: 14.16.0 # CHANGED LINE
 
       - name: Install packages
         run: |
