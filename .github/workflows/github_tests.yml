@@ -15,15 +15,16 @@ jobs: # таск, каждый отдельный таск запускаетс�
 
     name: RSpec
     runs-on: ubuntu-latest
+    env: # Added job-level env
+      POSTGRES_HOST: postgres # Added this line
+      POSTGRES_PORT: 5432 # Added this line
     services:
       postgres:
         image: postgres:13
         env:
           POSTGRES_DB: qna_test
-          POSTGRES_HOST: localhost
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -55,31 +56,14 @@ jobs: # таск, каждый отдельный таск запускаетс�
       - name: Install packages
         run: |
           yarn install --pure-lockfile
-      # - name: Install dependencies # This step is now handled by ruby/setup-ruby with bundler-cache: true
-      #   run: |
-      #     gem install bundler
-      #     bundler install
       - name: Create database
         run: |
           cp config/database.yml.github-actions config/database.yml
           bundler exec rails db:create RAILS_ENV=test
           bundler exec rails db:migrate RAILS_ENV=test
-        env: # переменные окружения доступные только внутри Create database, если указать сразу под jobs: можно настроить переменные для всего jobs
-          RAILS_ENV: test
-          POSTGRES_DB: qna_test
-          POSTGRES_HOST: localhost
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
 
       - name: Run tests
         run: rspec spec/
         env:
-          RAILS_ENV: test
-          POSTGRES_DB: qna_test
-          POSTGRES_HOST: localhost
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
           REDIS_HOST: localhost
           REDIS_PORT: 6379
