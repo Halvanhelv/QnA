@@ -18,7 +18,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = Rails.application.credentials[:production][:gmail][:email]
+  # config.mailer_sender = Rails.application.credentials[:production][:gmail][:email]
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -259,14 +259,14 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :github,
-                  Rails.application.credentials[Rails.env.to_sym][:github][:client_id],
-                  Rails.application.credentials[Rails.env.to_sym][:github][:client_secret],
-                  scope: 'read:user, user:email'
-  config.omniauth :telegram,
-                  Rails.application.credentials[Rails.env.to_sym][:telegram][:BOT_NICKNAME],
-                  # Rails.application.credentials[Rails.env.to_sym][:telegram][:BOT_SECRET],
-                  scope: 'read:user, user:email'
+  # config.omniauth :github,
+  #                 Rails.application.credentials[Rails.env.to_sym][:github][:client_id],
+  #                 Rails.application.credentials[Rails.env.to_sym][:github][:client_secret],
+  #                 scope: 'read:user, user:email'
+  # config.omniauth :telegram,
+  #                 Rails.application.credentials[Rails.env.to_sym][:telegram][:BOT_NICKNAME],
+  #                 # Rails.application.credentials[Rails.env.to_sym][:telegram][:BOT_SECRET],
+  #                 scope: 'read:user, user:email'
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

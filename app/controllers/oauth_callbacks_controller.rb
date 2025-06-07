@@ -20,7 +20,7 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
 
   def oauth_providers(request)
     @user = User.find_for_oauth(request)
-    if @user&.persisted? && @user&.confirmed_at?
+    if @user&.persisted? && @user.confirmed_at?
       sign_in_and_redirect @user, event: :authentication
       set_flash_message!(:notice, :success, kind: request['provider'].capitalize) if is_navigational_format?
 

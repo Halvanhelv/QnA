@@ -13,7 +13,7 @@ class FindForOauth
 
     email = auth['info']['email'] if auth['info'] && auth['info']['email']
     email_from_user = auth['info']['mail_from_user'] if auth['info'] && auth['info']['mail_from_user']
-    user = User.where(email: email).first
+    User.where(email: email).first
     user = if email
              User.create(email: email, password: pass_generate, password_confirmation: pass_generate,
                          confirmed_at: Time.now)

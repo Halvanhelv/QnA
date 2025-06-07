@@ -22,7 +22,7 @@ module Api
       end
 
       def current_ability
-        @ability ||= Ability.new(current_resource_owner)
+        @current_ability ||= Ability.new(current_resource_owner)
       end
     end
   end

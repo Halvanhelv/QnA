@@ -36,6 +36,7 @@ gem 'cancancan'
 gem 'capybara-email'
 gem 'database_cleaner'
 gem 'doorkeeper'
+gem 'faraday-retry'
 gem 'mini_racer'
 gem 'mysql2'
 gem 'oj'
@@ -84,8 +85,6 @@ group :development do
   gem 'capistrano-sidekiq', require: false
   gem 'letter_opener'
   gem 'rubocop-rails'
-  gem 'spring'
-  gem 'spring-watcher-listen'
 end
 
 group :test do
