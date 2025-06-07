@@ -1,5 +1,5 @@
 env:  # глобавльные переменные окружения, пишем в начале файла
-  RUBY_VERSION: 2.6.x
+  RUBY_VERSION: 2.6.10
   RAILS_ENV: test
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
