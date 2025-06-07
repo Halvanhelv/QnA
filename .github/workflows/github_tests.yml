@@ -1,5 +1,5 @@
 env:  # глобавльные переменные окружения, пишем в начале файла
-  RUBY_VERSION: 2.6.10
+  RUBY_VERSION: 3.2.3 # CHANGED LINE
   RAILS_ENV: test
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
@@ -45,6 +45,8 @@ jobs: # таск, каждый отдельный таск запускаетс�
           ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true # This will run bundle install
           bundler: 'latest'   # Specifies bundler version # CHANGED LINE
+      - name: Update RubyGems # ADDED THIS STEP
+        run: gem update --system 3.2.3
       - name: Install postgres client
         run: sudo apt-get install libpq-dev
 
