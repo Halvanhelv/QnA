@@ -46,7 +46,7 @@ jobs: # таск, каждый отдельный таск запускаетс�
           bundler-cache: true # This will run bundle install
           bundler: 'latest'   # Specifies bundler version # CHANGED LINE
       - name: Update RubyGems # ADDED THIS STEP
-        run: gem update --system 3.2.3
+        run: gem update --system
       - name: Install postgres client
         run: sudo apt-get install libpq-dev
 
