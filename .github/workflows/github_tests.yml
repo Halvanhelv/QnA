@@ -44,7 +44,7 @@ jobs: # таск, каждый отдельный таск запускаетс�
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true # This will run bundle install
-          bundler: '~> 2.2'   # Specifies bundler version
+          bundler: 'latest'   # Specifies bundler version # CHANGED LINE
       - name: Install postgres client
         run: sudo apt-get install libpq-dev
 
