@@ -42,6 +42,8 @@ jobs: # таск, каждый отдельный таск запускаетс�
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true # This will run bundle install
+          bundler: '~> 2.2'   # Specifies bundler version
       - name: Install postgres client
         run: sudo apt-get install libpq-dev
 
@@ -53,10 +55,10 @@ jobs: # таск, каждый отдельный таск запускаетс�
       - name: Install packages
         run: |
           yarn install --pure-lockfile
-      - name: Install dependencies
-        run: |
-          gem install bundler
-          bundler install
+      # - name: Install dependencies # This step is now handled by ruby/setup-ruby with bundler-cache: true
+      #   run: |
+      #     gem install bundler
+      #     bundler install
       - name: Create database
         run: |
           cp config/database.yml.github-actions config/database.yml
