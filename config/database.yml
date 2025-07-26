@@ -1,0 +1,7 @@
+test:
+  adapter: postgresql
+  database: qna_test
+  username: qna
+  password: password
+  host: localhost
+  pool: 5
