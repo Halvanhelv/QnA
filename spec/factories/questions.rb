@@ -17,23 +17,28 @@ FactoryBot.define do
 
     trait :with_file do
       before :create do |question|
-        question.files.attach fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'))
+        question.files.attach Rack::Test::UploadedFile.new(Rails.root.join('spec', 'rails_helper.rb'), 'text/plain')
       end
     end
 
     trait :with_reward do
       before :create do |question|
-        create(:reward,
-               question: question,
-               name: 'Reward Name',
-               img: fixture_file_upload(Rails.root.join('spec', 'images', 'reward.png')))
+        create(
+          :reward,
+          question: question,
+          name: 'Reward Name',
+          img: Rack::Test::UploadedFile.new(
+            Rails.root.join('spec', 'images', 'reward.png'),
+            'image/png'
+          )
+        )
       end
     end
 
     trait :with_files do
       before :create do |question|
-        question.files.attach fixture_file_upload(Rails.root.join('spec', 'rails_helper.rb'))
-        question.files.attach fixture_file_upload(Rails.root.join('spec', 'spec_helper.rb'))
+        question.files.attach Rack::Test::UploadedFile.new(Rails.root.join('spec', 'rails_helper.rb'), 'text/plain')
+        question.files.attach Rack::Test::UploadedFile.new(Rails.root.join('spec', 'spec_helper.rb'), 'text/plain')
       end
     end
 
