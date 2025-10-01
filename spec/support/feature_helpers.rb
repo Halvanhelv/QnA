@@ -2,12 +2,8 @@
 
 module FeatureHelpers
   def sign_in(user)
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: user.password
-    click_on 'Log in'
-    visit questions_path
-    click_on I18n.t('questions.index.question.new_button')
+    user.confirm if user.respond_to?(:confirm)
+    login_as(user, scope: :user)
   end
 
   def create_question(question)

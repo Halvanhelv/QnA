@@ -17,11 +17,12 @@ class CommentsController < ApplicationController
   def publish_comment
     return if @comment.errors.any?
 
-    ActionCable.server.broadcast("question_#{question_id}_comments",
-                                 id: @commentable.id,
-                                 type: @commentable.class.name.underscore,
-                                 author: @comment.user.email,
-                                 comment: @comment)
+    ActionCable.server.broadcast("question_#{question_id}_comments", {
+                                   id: @commentable.id,
+                                   type: @commentable.class.name.underscore,
+                                   author: @comment.user.email,
+                                   comment: @comment
+                                 })
   end
 
   def question_id
