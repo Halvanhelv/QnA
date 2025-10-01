@@ -13,7 +13,7 @@ RSpec.describe NewAnswerNotificationMailer, type: :mailer do
     it 'renders the headers' do
       expect(mail.subject).to eq("New #{question.title} answers")
       expect(mail.to).to eq([user.email])
-      expect(mail.from).to eq([Rails.application.credentials[:test][:gmail][:email]])
+      expect(mail.from).to eq(['from@example.com'])
     end
 
     it 'renders the body' do
