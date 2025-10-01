@@ -57,7 +57,7 @@ RSpec.describe CommentsController, type: :controller do
           it 'streaming to channel' do
             expect do
               subject
-            end.to broadcast_to("question_#{question.id}_comments").with(a_hash_including(author: user.email))
+            end.to have_broadcasted_to("question_#{question.id}_comments").with(a_hash_including(author: user.email))
           end
         end
 
@@ -75,9 +75,7 @@ RSpec.describe CommentsController, type: :controller do
           include_examples 're-render create view'
 
           it 'do not streaming to channel' do
-            expect do
-              subject
-            end.to_not broadcast_to("question_#{question.id}_comments").with(a_hash_including(author: user.email))
+            expect { subject }.to_not have_broadcasted_to("question_#{question.id}_comments")
           end
         end
       end
@@ -98,9 +96,7 @@ RSpec.describe CommentsController, type: :controller do
           end
 
           it 'streaming to channel' do
-            expect do
-              subject
-            end.to_not broadcast_to("answer_#{question.id}_comments").with(a_hash_including(author: user.email))
+            expect { subject }.to_not have_broadcasted_to("answer_#{question.id}_comments")
           end
         end
 
@@ -118,9 +114,7 @@ RSpec.describe CommentsController, type: :controller do
           include_examples 're-render create view'
 
           it 'do not streaming to channel' do
-            expect do
-              subject
-            end.to_not broadcast_to("answer_#{answer.id}_comments").with(a_hash_including(author: user.email))
+            expect { subject }.to_not have_broadcasted_to("answer_#{answer.id}_comments")
           end
         end
       end

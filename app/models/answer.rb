@@ -28,11 +28,12 @@ class Answer < ApplicationRecord
   private
 
   def publish_answer
-    ActionCable.server.broadcast("answers_for_question_#{question.id}",
-                                 author: user.email,
-                                 rating: rating,
-                                 links: links,
-                                 answer: self)
+    ActionCable.server.broadcast("answers_for_question_#{question.id}", {
+                                   author: user.email,
+                                   rating: rating,
+                                   links: links,
+                                   answer: self
+                                 })
   end
 
   def send_notification

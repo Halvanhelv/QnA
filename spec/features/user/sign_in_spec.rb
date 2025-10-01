@@ -12,15 +12,15 @@ I'd like to be able to sign in
   background { visit new_user_session_path }
 
   scenario 'Register user tries to sign in' do # analog of it in unit tests
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: user.password
+    find('input[type="email"]').set(user.email)
+    find('input[type="password"]').set(user.password)
     click_on 'Log in'
     expect(page).to have_content 'Signed in successfully'
   end
 
   scenario 'Unregistered user tries to sign in' do
-    fill_in 'Email', with: 'wrong@test.com'
-    fill_in 'Password', with: '123456'
+    find('input[type="email"]').set('wrong@test.com')
+    find('input[type="password"]').set('123456')
     click_on 'Log in'
     expect(page).to have_content 'Invalid Email or password.'
   end

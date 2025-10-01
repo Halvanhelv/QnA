@@ -37,17 +37,18 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
-  config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::IntegrationHelpers
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
   config.include OmniauthHelper
   config.include ApiHelpers, type: :request
+  config.include ActionDispatch::TestProcess
   Capybara.javascript_driver = :selenium_chrome_headless
   OmniAuth.config.test_mode = true
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  # config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.file_fixture_path = 'spec/fixtures/files'
   ActiveJob::Base.queue_adapter = :test
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

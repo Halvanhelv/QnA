@@ -7,7 +7,6 @@ feature 'User can sign out',
   given(:user) { create(:user) }
 
   background do
-    visit new_user_session_path
     sign_in(user)
   end
 

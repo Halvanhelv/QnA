@@ -34,9 +34,7 @@ class Question < ApplicationRecord
   private
 
   def publish_question
-    ActionCable.server.broadcast('questions',
-                                 id: id,
-                                 title: title)
+    ActionCable.server.broadcast('questions', { id: id, title: title })
   end
 
   def create_subscription

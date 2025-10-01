@@ -8,9 +8,9 @@ I would like to be able to register" do
   describe 'User try sign_up with ' do
     scenario 'correct data' do
       visit new_user_registration_path
-      fill_in 'Email', with: 'test@gmail.com'
-      fill_in 'Password', with: '123456'
-      fill_in 'Password confirmation', with: '123456'
+      find('input[type="email"]').set('test@gmail.com')
+      all('input[type="password"]')[0].set('123456')
+      all('input[type="password"]')[1].set('123456')
       click_on 'Sign up'
       open_email('test@gmail.com')
       current_email.click_link 'Confirm my account'
@@ -19,18 +19,18 @@ I would like to be able to register" do
 
     scenario 'empty password' do
       visit new_user_registration_path
-      fill_in 'Email', with: 'test@gmail.com'
-      fill_in 'Password', with: ''
-      fill_in 'Password confirmation', with: ''
+      find('input[type="email"]').set('test@gmail.com')
+      all('input[type="password"]')[0].set('')
+      all('input[type="password"]')[1].set('')
       click_on 'Sign up'
       expect(page).to have_content "Password can't be blank"
     end
 
     scenario 'wrong password' do
       visit new_user_registration_path
-      fill_in 'Email', with: 'test@gmail.com'
-      fill_in 'Password', with: '123456'
-      fill_in 'Password confirmation', with: '123456A'
+      find('input[type="email"]').set('test@gmail.com')
+      all('input[type="password"]')[0].set('123456')
+      all('input[type="password"]')[1].set('123456A')
       click_on 'Sign up'
       expect(page).to have_content "Password confirmation doesn't match Password"
     end

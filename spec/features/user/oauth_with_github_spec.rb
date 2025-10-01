@@ -40,7 +40,7 @@ feature 'User can sign in with GitHub authorization', "
           mock_auth_hash(network.downcase, email: nil)
           click_on "Sign in with #{network}"
           expect(page).to have_content I18n.t('oauth.email_blank', provider: network.downcase)
-          fill_in 'Email', with: 'test@gmail.com'
+          find('input[type="email"]').set('test@gmail.com')
           click_on 'Send'
           expect(page).to have_content 'You have to confirm your email address before continuing.'
         end
@@ -48,7 +48,7 @@ feature 'User can sign in with GitHub authorization', "
           mock_auth_hash(network.downcase, email: nil)
           click_on "Sign in with #{network}"
           expect(page).to have_content I18n.t('oauth.email_blank', provider: network.downcase)
-          fill_in 'Email', with: 'test@gmail.com'
+          find('input[type="email"]').set('test@gmail.com')
           click_on 'Send'
           open_email('test@gmail.com')
           current_email.click_link 'Confirm my account'
@@ -58,7 +58,7 @@ feature 'User can sign in with GitHub authorization', "
           mock_auth_hash(network.downcase, email: nil)
           click_on "Sign in with #{network}"
           expect(page).to have_content I18n.t('oauth.email_blank', provider: network.downcase)
-          fill_in 'Email', with: user.email
+          find('input[type="email"]').set(user.email)
           click_on I18n.t('oauth.email.send')
           expect(page).to have_content 'Email has already been taken'
         end
