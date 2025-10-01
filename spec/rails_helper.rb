@@ -3,6 +3,7 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
+ENV['NODE_OPTIONS'] = '--openssl-legacy-provider'
 require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
@@ -44,7 +45,9 @@ RSpec.configure do |config|
   config.include OmniauthHelper
   config.include ApiHelpers, type: :request
   config.include ActionDispatch::TestProcess
+  config.include Warden::Test::Helpers, type: :feature
   Capybara.javascript_driver = :selenium_chrome_headless
+  Capybara.server = :puma, { Silent: true }
   OmniAuth.config.test_mode = true
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   # config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -101,6 +104,10 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  config.after(:each, type: :feature) do
+    Warden.test_reset!
+  end
 
   config.after(:all) do
     FileUtils.rm_rf(Dir["#{Rails.root}/tmp/storage"])
