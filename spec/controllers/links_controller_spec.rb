@@ -33,7 +33,7 @@ RSpec.describe LinksController, type: :controller do
     end
 
     describe 'Answer links delete' do
-      # добавил reload поскольку в модели у меня вызывается links(для ActionCable) до того как links будут добавлены  и после в памяти остается инфа что у answer нет links и не идет обращение к бд
+      # added reload because links is called in the model (for ActionCable) before links are added, and memory retains info that answer has no links so database is not queried
       subject do
         post :destroy, params: { id: answer.reload.links.first, format: :js }
       end

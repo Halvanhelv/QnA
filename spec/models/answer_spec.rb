@@ -75,7 +75,7 @@ RSpec.describe Answer, type: :model do
         expect(question.reward.reload.user).to be_nil
       end
 
-      it 'сhange the best answer to another one with the same author' do
+      it 'change the best answer to another one with the same author' do
         answer_3.make_best_answer
         expect(question.reward.user).to eq(answer_3.user)
       end

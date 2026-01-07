@@ -8,7 +8,7 @@ RSpec.describe Services::NewAnswerNotification do
   let!(:answer) { create(:answer, question: question, user: user) }
 
   it 'sends email to all question subscribers' do
-    question.subscriptions.first.delete # удаляю первого подписчика, поскольку он автор вопроса и тест не пройдент поскольку метод notification_for_user не для автора вопроса а для всех остальных подписчиков
+    question.subscriptions.first.delete # deleting first subscriber because they are the question author and test will fail since notification_for_user method is not for question author but for all other subscribers
     question.subscribers.each do |subscriber|
       expect(NewAnswerNotificationMailer).to receive(:notification_for_user).with(subscriber, answer).and_call_original
     end

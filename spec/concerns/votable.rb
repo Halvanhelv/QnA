@@ -19,7 +19,7 @@ shared_examples_for 'votable' do
   end
 
   describe '#formation_vote' do
-    it 'сreates a vote' do
+    it 'creates a vote' do
       expect { votable.formation_vote(user, 1) }.to change(Vote, :count).by(1)
     end
 

@@ -1,4 +1,4 @@
-env:  # глобавльные переменные окружения, пишем в начале файла
+env:  # global environment variables, written at the beginning of file
   RUBY_VERSION: 2.6.x
   RAILS_ENV: test
   POSTGRES_USER: postgres
@@ -10,7 +10,7 @@ name: Rails_tests
 
 on: [push,pull_request]
 
-jobs: # таск, каждый отдельный таск запускается на разных машинах
+jobs: # task, each individual task runs on different machines
   rspec-test:
 
     name: RSpec
@@ -38,7 +38,7 @@ jobs: # таск, каждый отдельный таск запускаетс�
           REDIS_PORT: 6379
 
     steps:
-      - uses: actions/checkout@v1 # внешний скрипт для копирования репозитория на машину для дальнейших манипуляций с кодом из репозитория
+      - uses: actions/checkout@v1 # external script for copying repository to machine for further manipulation with code from repository
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
@@ -62,7 +62,7 @@ jobs: # таск, каждый отдельный таск запускаетс�
           cp config/database.yml.github-actions config/database.yml
           bundler exec rails db:create RAILS_ENV=test
           bundler exec rails db:migrate RAILS_ENV=test
-        env: # переменные окружения доступные только внутри Create database, если указать сразу под jobs: можно настроить переменные для всего jobs
+        env: # environment variables available only inside Create database, if specified directly under jobs: you can configure variables for entire jobs
           RAILS_ENV: test
           POSTGRES_DB: qna_test
           POSTGRES_HOST: localhost

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-feature 'User can sign in', " аналог discribe
+feature 'User can sign in', " analog of describe
 In order to ask questions
 As an unauthenticated user
 I'd like to be able to sign in

@@ -19,6 +19,6 @@ RSpec.describe NewAnswerNotificationJob, type: :job do
     allow(Services::NewAnswerNotification).to receive(:new).and_return(service)
     expect do
       described_class.perform_later(answer)
-    end.to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :count).by(1) # ответ 2 поскольку в модели Answer выполнится callback и второй раз в строке 19
+    end.to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :count).by(1) # answer is 2 because callback executes in Answer model and second time on line 19
   end
 end

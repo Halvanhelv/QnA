@@ -3,10 +3,10 @@
 # paths
 app_path = '/home/deployer/qna'
 working_directory "#{app_path}/current"
-pid               "#{app_path}/shared/tmp/pids/unicorn.pid" # путь где расположен файл содержит id процесса unicorn-a но которому capistrano или другие процессы запушен ли Unicorn и какой процесс нужно будет остановить при надобности и тд
+pid               "#{app_path}/shared/tmp/pids/unicorn.pid" # path where file containing unicorn process id is located, used by capistrano or other processes to check if Unicorn is running and which process needs to be stopped if needed
 
 # listen
-listen "#{app_path}/shared/tmp/sockets/unicorn.qna.sock", backlog: 64 # путь к сокету(unix) для обмена данными так как unicorn не использует tcp/ip для общения между nginx и сервером приложения
+listen "#{app_path}/shared/tmp/sockets/unicorn.qna.sock", backlog: 64 # path to unix socket for data exchange since unicorn does not use tcp/ip for communication between nginx and app server
 
 # logging
 stderr_path 'log/unicorn.stderr.log'

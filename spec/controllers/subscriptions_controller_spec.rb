@@ -10,7 +10,7 @@ RSpec.describe SubscriptionsController, type: :controller do
     context 'User authorized' do
       before do
         login(user)
-        delete :destroy, params: { id: subscription, format: :js } # при создании вопроса, колбэк создает подписку и нужно для начала от нее отказаться для проверки работы подписки
+        delete :destroy, params: { id: subscription, format: :js } # when creating a question, callback creates subscription and we need to unsubscribe first to test subscription functionality
       end
       it 'saves a new subscription in the database' do
         expect do
