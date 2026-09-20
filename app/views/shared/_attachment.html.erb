@@ -1,0 +1,7 @@
+<li id="<%= dom_id(attachment) %>" class="chip">
+  <%= icon(:paperclip, 'size-3.5') %>
+  <%= link_to attachment.filename, rails_blob_path(attachment.blob, only_path: true) %>
+  <span data-controller="visibility" data-visibility-rule-value="owner" data-visibility-owner-id-value="<%= owner_id %>" hidden>
+    <%= link_to t('delete_attachment'), attachment_path(attachment), data: { turbo_method: :delete, turbo_confirm: 'Remove this file?' }, class: '!text-danger' %>
+  </span>
+</li>

@@ -1,0 +1,21 @@
+<%= turbo_stream_from question %>
+<script id="my-votes" type="application/json"><%== my_votes_json(question) %></script>
+<% content_for :title, question.title %>
+<% content_for :description, question.plain_body.truncate(160) %>
+
+<%= render 'subscriptions/subscriptions', question: question %>
+<%= render 'questions/question', question: question %>
+
+<h2 class="mb-4 mt-10 font-display text-2xl font-bold">Answers</h2>
+<%= render 'answers/list', question: question %>
+
+<% if current_user %>
+  <%= render 'answers/form', question: question, answer: answer %>
+<% else %>
+  <div id="new-answer" class="panel mt-8 p-6 text-center">
+    <p class="font-display text-lg font-semibold">Know the answer?</p>
+    <p class="mt-1 text-muted">
+      <%= link_to 'Log in', new_user_session_path %> or <%= link_to 'sign up', new_user_registration_path %> to post an answer.
+    </p>
+  </div>
+<% end %>

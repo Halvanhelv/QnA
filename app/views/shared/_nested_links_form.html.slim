@@ -1,8 +1,0 @@
-/ One nested link row. Existing links carry an id and a _destroy flag.
-div class="nested-fields flex flex-wrap items-center gap-2" data-new-record=link.object.new_record?.to_s
-  = link.label :name, t('link_name'), class: 'sr-only'
-  = link.text_field :name, placeholder: t('link_name'), class: 'input !w-40'
-  = link.label :url, t('link_url'), class: 'sr-only'
-  = link.text_field :url, placeholder: 'https://', class: 'input min-w-0 flex-1'
-  = link.hidden_field :_destroy
-  = link_to t('delete_form'), '#', data: { action: 'nested-form#remove' }, class: 'btn btn-danger'

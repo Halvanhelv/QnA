@@ -1,0 +1,35 @@
+<header class="sticky top-0 z-40 border-b border-line bg-surface/90 backdrop-blur">
+  <%# Below md the search drops to its own row; from md up everything stays on one line. %>
+  <div class="mx-auto flex w-full max-w-5xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3 md:flex-nowrap">
+    <%= link_to root_path, class: 'flex shrink-0 items-center gap-2 font-display text-xl font-bold tracking-tight text-ink no-underline' do %>
+      <span class="grid size-7 place-items-center rounded-md bg-brand text-base leading-none text-on-brand" aria-hidden="true">?</span>
+      Qna
+    <% end %>
+
+    <div class="order-3 w-full md:order-none md:w-auto md:min-w-0 md:flex-1">
+      <%= render 'layouts/shared/search' %>
+    </div>
+
+    <nav class="ml-auto flex shrink-0 items-center gap-1" aria-label="Account">
+      <button type="button" class="btn-icon" data-controller="theme" data-action="theme#toggle" aria-label="Toggle dark theme" title="Toggle dark theme">
+        <span class="hidden dark:block"><%= icon(:sun, 'size-5') %></span>
+        <span class="dark:hidden"><%= icon(:moon, 'size-5') %></span>
+      </button>
+      <% if current_user %>
+        <%= link_to new_question_path, class: 'btn btn-primary hidden sm:inline-flex' do %>
+          <%= icon(:plus) %>
+          Ask question
+        <% end %>
+        <%= link_to t('all rewards'), rewards_path, class: 'btn btn-quiet' %>
+        <span class="mx-1 inline-flex items-center gap-2 text-sm text-muted" title="<%= current_user.email %>">
+          <%= avatar(current_user) %>
+          <span class="hidden max-w-48 truncate xl:inline"><%= current_user.email %></span>
+        </span>
+        <%= button_to 'Log out', destroy_user_session_path, method: :delete, class: 'btn btn-ghost' %>
+      <% else %>
+        <%= link_to 'Log in', new_user_session_path, class: 'btn btn-quiet' %>
+        <%= link_to 'Sign up', new_user_registration_path, class: 'btn btn-primary' %>
+      <% end %>
+    </nav>
+  </div>
+</header>
