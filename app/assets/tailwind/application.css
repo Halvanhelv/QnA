@@ -49,6 +49,10 @@
 
   a { text-underline-offset: 3px; }
 
+  /* Plain links (Devise, inline prose) are readable as links; styled ones set their own classes */
+  a:not([class]) { color: var(--color-brand); text-decoration: underline; }
+  a:not([class]):hover { color: var(--color-brand-strong); }
+
   :focus-visible {
     outline: 2px solid var(--color-brand);
     outline-offset: 2px;

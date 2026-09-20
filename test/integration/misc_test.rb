@@ -64,4 +64,15 @@ class MiscTest < ActionDispatch::IntegrationTest
     get '/jobs'
     assert_response :not_found
   end
+
+  test 'sign up sends a confirmation email' do
+    assert_emails 1 do
+      post user_registration_path, params: { user: { email: 'new@example.com', password: 'password', password_confirmation: 'password' } }
+    end
+    assert_redirected_to root_path
+  end
+
+  test 'kconv is available for letter_opener in development' do
+    assert require('kconv')
+  end
 end

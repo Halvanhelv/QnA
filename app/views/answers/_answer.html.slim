@@ -13,7 +13,7 @@ article id=dom_id(answer) class="panel p-5 sm:p-6 #{best ? 'border-l-4 !border-l
           = button_to best_answer_answer_path(answer), method: :patch, class: 'vote-btn hover:!border-accepted hover:!bg-accepted-soft hover:!text-accepted', 'aria-label': t('answers.answer.best'), title: t('answers.answer.best') do
             = icon(:check, 'size-5')
 
-    div class="min-w-0 flex-1 space-y-4"
+    div class="flex min-w-0 flex-1 flex-col gap-4"
       p class="prose-body" = answer.body
 
       - if answer.files.attached?
@@ -34,4 +34,4 @@ article id=dom_id(answer) class="panel p-5 sm:p-6 #{best ? 'border-l-4 !border-l
             = link_to t('edit_answer'), edit_answer_path(answer), class: 'btn btn-quiet', data: { turbo_frame: dom_id(answer, :edit) }
             = button_to t('delete_answer'), answer_path(answer), method: :delete, class: 'btn btn-danger'
 
-      = turbo_frame_tag dom_id(answer, :edit)
+      = turbo_frame_tag dom_id(answer, :edit), class: 'empty:hidden'

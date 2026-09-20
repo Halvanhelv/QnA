@@ -65,6 +65,8 @@ end
 
 group :development do
   gem 'letter_opener'
+  # letter_opener needs kconv, which left the standard library in Ruby 3.4+
+  gem 'nkf'
   gem 'web-console'
 end
 

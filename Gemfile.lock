@@ -269,6 +269,7 @@ GEM
       net-protocol
     net-ssh (7.3.3)
     nio4r (2.5.8)
+    nkf (0.3.0)
     nokogiri (1.19.4-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.19.4-arm64-darwin)
@@ -542,6 +543,7 @@ DEPENDENCIES
   letter_opener
   minitest-mock
   mission_control-jobs
+  nkf
   octokit
   omniauth
   omniauth-github
