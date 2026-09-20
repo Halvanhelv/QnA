@@ -8,6 +8,7 @@ module Question::Listable
 
   included do
     scope :with_details, -> { includes(:user, :tags, :acceptance).with_rich_text_body }
+    scope :recent, ->(since = 1.day.ago) { where('questions.created_at > ?', since) }
     scope :newest_first, -> { reorder(id: :desc) }
     scope :unanswered, -> { where.missing(:answers) }
     scope :top_rated, -> {

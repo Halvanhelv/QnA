@@ -1,0 +1,4 @@
+<%= mail_heading 'Your question has a new answer' %>
+<%= mail_paragraph do %>Someone answered your question: <strong><%= link_to @question.title, @url, class: 'plain ink', style: "color:#{MailerHelper::INK};" %></strong><% end %>
+<%= mail_quote @excerpt, attribution: "#{@author} answered" %>
+<%= mail_button 'Read the answer', @url %>

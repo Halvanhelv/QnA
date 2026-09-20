@@ -1,0 +1,5 @@
+<%= yield %>
+
+--
+<%= content_for?(:footer_text) ? yield(:footer_text) : "You are receiving this email because you have an account on Qna." %>
+<%= root_url %>

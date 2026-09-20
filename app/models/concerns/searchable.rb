@@ -10,12 +10,20 @@
 module Searchable
   extend ActiveSupport::Concern
 
+  # Plain text of rich content with a space between blocks ("<h2>Steps</h2><p>Run" -> "Steps Run"),
+  # so excerpts and the search index never glue words together.
+  def self.plain_text(rich_text)
+    fragment = Nokogiri::HTML5.fragment(rich_text.to_s)
+    fragment.css('h1,h2,h3,h4,h5,h6,p,div,li,pre,blockquote,tr,br').each { |node| node.add_next_sibling(' ') }
+    fragment.text.squish
+  end
+
   class_methods do
     def searchable_by(*columns, rich_text: [])
       rich_text = Array(rich_text)
 
       rich_text.each do |name|
-        define_method("plain_#{name}") { public_send(name).to_plain_text }
+        define_method("plain_#{name}") { Searchable.plain_text(public_send(name)) }
       end
 
       multisearchable against: columns + rich_text.map { |name| :"plain_#{name}" }

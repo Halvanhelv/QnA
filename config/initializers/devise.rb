@@ -28,7 +28,8 @@ Devise.setup do |config|
   # config.mailer = 'Devise::Mailer'
 
   # Configure the parent class responsible to send e-mails.
-  # config.parent_mailer = 'ActionMailer::Base'
+  # Devise mails share the app's layout, sender and helpers
+  config.parent_mailer = 'ApplicationMailer'
 
   # ==> ORM configuration
   # Load and configure the ORM. Supports :active_record (default) and
@@ -270,7 +271,7 @@ Devise.setup do |config|
                   scope: 'read:user, user:email'
   config.omniauth :telegram,
                   ENV.fetch('TELEGRAM_BOT_NICKNAME') { creds.dig(:telegram, :BOT_NICKNAME) },
-                  scope: 'read:user, user:email'
+                  ENV.fetch('TELEGRAM_BOT_TOKEN') { creds.dig(:telegram, :BOT_TOKEN) }
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

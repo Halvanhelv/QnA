@@ -1,0 +1,4 @@
+<%= mail_heading 'New answer on a question you follow' %>
+<%= mail_paragraph do %>A new answer was posted on a question you subscribed to: <strong><%= link_to @question.title, @url, class: 'plain ink', style: "color:#{MailerHelper::INK};" %></strong><% end %>
+<%= mail_quote @excerpt, attribution: "#{@author} answered" %>
+<%= mail_button 'Read the answer', @url %>
