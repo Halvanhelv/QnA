@@ -2,47 +2,41 @@
 
 class CommentsController < ApplicationController
   before_action :authenticate_user!
-  after_action :publish_comment, only: %i[create]
+  before_action :commentable
 
   authorize_resource
 
+  def new
+    @comment = commentable.comments.new
+  end
+
   def create
-    @comment = set_commentable.comments.new(comment_params)
+    @comment = commentable.comments.new(comment_params)
     @comment.user = current_user
-    @comment.save
+
+    if @comment.save
+      respond_to do |format|
+        format.turbo_stream # the comment itself arrives through the question's Turbo Stream broadcast
+        format.html { redirect_to question }
+      end
+    else
+      render :new, status: :unprocessable_entity
+    end
   end
 
   private
 
-  def publish_comment
-    return if @comment.errors.any?
+  def commentable
+    @commentable ||= commentable_class.find(params[:"#{commentable_class.model_name.singular}_id"])
+  end
+  helper_method :commentable
 
-    ActionCable.server.broadcast("question_#{question_id}_comments", {
-                                   id: @commentable.id,
-                                   type: @commentable.class.name.underscore,
-                                   author: @comment.user.email,
-                                   comment: @comment
-                                 })
+  def commentable_class
+    { 'questions' => Question, 'answers' => Answer }.fetch(params[:commentable])
   end
 
-  def question_id
-    if set_commentable.instance_of?(Question)
-      set_commentable.id
-    else
-      set_commentable.question.id
-    end
-  end
-
-  def set_commentable
-    @commentable = commentable_name.classify.constantize.find(parent_id)
-  end
-
-  def parent_id
-    request.path.split('/')[2]
-  end
-
-  def commentable_name
-    params[:commentable]
+  def question
+    commentable.is_a?(Question) ? commentable : commentable.question
   end
 
   def comment_params

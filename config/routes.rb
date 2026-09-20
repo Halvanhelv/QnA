@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require 'sidekiq/web'
-
 Rails.application.routes.draw do
   authenticate :user, ->(u) { u.admin? } do
-    mount Sidekiq::Web => '/sidekiq'
+    mount MissionControl::Jobs::Engine, at: '/jobs'
   end
 
   use_doorkeeper
@@ -13,8 +11,7 @@ Rails.application.routes.draw do
   devise_scope :user do
     post 'custom_email', to: 'oauth_callbacks#custom_email'
   end
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  # default_url_options host: '127.0.0.1'
+
   concern :votable do
     member do
       patch :positive_vote
@@ -22,17 +19,13 @@ Rails.application.routes.draw do
     end
   end
 
-  concern :commentable do
-    resources :comments, only: :create, shallow: true
-  end
-
-  resources :questions, only: %i[index new show create update destroy], concerns: %i[votable] do
-    resources :comments, defaults: { commentable: 'questions' }
-    resources :answers, shallow: true, only: %i[create update destroy], concerns: %i[votable] do
+  resources :questions, concerns: %i[votable] do
+    resources :comments, only: %i[new create], defaults: { commentable: 'questions' }
+    resources :answers, shallow: true, only: %i[create edit update destroy], concerns: %i[votable] do
       member do
         patch :best_answer
       end
-      resources :comments, defaults: { commentable: 'answers' }
+      resources :comments, only: %i[new create], defaults: { commentable: 'answers' }
     end
     resources :subscriptions, shallow: true, only: %i[create destroy]
   end
@@ -42,8 +35,9 @@ Rails.application.routes.draw do
   resources :rewards, only: :index
   get 'search', to: 'search#search'
 
-  mount ActionCable.server => '/cable'
   root to: 'questions#index'
+
+  get 'up', to: 'rails/health#show', as: :rails_health_check
 
   namespace :api do
     namespace :v1 do

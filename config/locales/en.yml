@@ -3,11 +3,11 @@ en:
   helpers:
     submit:
       question:
-        create: "Create question"
-        update: "Update question"
+        create: "Post question"
+        update: "Save changes"
       answer:
-        create: "Send an answer"
-        update: "Update answer"
+        create: "Post answer"
+        update: "Save changes"
   questions:
    index:
      question:
@@ -17,23 +17,23 @@ en:
      delete: "Delete"
   answers:
     answer:
-      best: "Best"
-  delete_answer: "Delete Answer"
-  edit_answer: "Edit Answer"
-  delete_attachment: "Delete Attachment"
+      best: "Mark as best answer"
+  delete_answer: "Delete answer"
+  edit_answer: "Edit answer"
+  delete_attachment: "Remove"
   links:
     link:
-      delete_link: "Delete Link"
-  add_link: "Add Link"
-  link_name: "Link name"
-  link_url: "Url"
-  delete_form: "Delete form"
-  Reward Name: "Reward Name"
-  Reward Image: "Reward Image"
-  no rewards: "No Rewards"
-  all rewards: "All Rewards"
+      delete_link: "Remove"
+  add_link: "Add link"
+  link_name: "Name"
+  link_url: "URL"
+  delete_form: "Remove link"
+  Reward Name: "Reward name"
+  Reward Image: "Reward image"
+  no rewards: "No rewards yet"
+  all rewards: "My rewards"
   add comment: "Add comment"
-  save comment: "Save comment"
+  save comment: "Post comment"
   oauth:
     error: "An unexpected error has occurred"
     email_blank: "Provider %{provider} did not provide mail"

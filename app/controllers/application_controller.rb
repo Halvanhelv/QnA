@@ -1,27 +1,16 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  before_action :gon_user
-
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
-      format.html do
-        redirect_to root_path, alert: exception.message
+      format.html { redirect_to root_path, alert: exception.message }
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.update('flash', partial: 'shared/flash', locals: { flash: { alert: exception.message } }),
+               status: :forbidden
       end
-      format.json do
-        render json: { error: exception.message }, status: 422
-      end
-      format.js do
-        render json: { error: exception.message }, status: 422
-      end
+      format.json { render json: { error: exception.message }, status: :unprocessable_entity }
     end
   end
 
   check_authorization unless: :devise_controller?
-
-  private
-
-  def gon_user
-    gon.user_id = current_user&.id
-  end
 end

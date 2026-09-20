@@ -1,0 +1,9 @@
+on_question:
+  body: Nice question, thanks
+  commentable: rails (Question)
+  user: bob
+
+on_answer:
+  body: Great answer, thanks
+  commentable: step_by_step (Answer)
+  user: alice

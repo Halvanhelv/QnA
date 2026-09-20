@@ -17,9 +17,9 @@ class FindForOauth
     user = if email
              User.create(email: email, password: pass_generate, password_confirmation: pass_generate,
                          confirmed_at: Time.now)
-           else
+    else
              User.create(email: email_from_user, password: pass_generate, password_confirmation: pass_generate)
-           end
+    end
     user.create_oauth_provider(auth)
     user
   end

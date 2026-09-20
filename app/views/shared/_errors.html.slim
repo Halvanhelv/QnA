@@ -1,5 +1,6 @@
--if resource&.errors.present?
-  b= "#{resource.errors.count} error(s) detected:  "
-  ul
-  -resource.errors.full_messages.each do |message|
-    li= message
+- if resource&.errors.present?
+  div class="rounded-md border border-danger/30 bg-danger-soft px-4 py-3 text-sm text-danger" role="alert"
+    p class="font-semibold" = "#{pluralize(resource.errors.count, 'problem')} to fix"
+    ul class="mt-1 list-disc space-y-0.5 pl-5"
+      - resource.errors.full_messages.each do |message|
+        li= message

@@ -1,0 +1,4 @@
+div id="answers" class="space-y-4"
+  - if question.answers.empty?
+    p class="panel hidden px-5 py-8 text-center text-muted only:block" No answers yet.
+  = render partial: 'answers/answer', collection: question.ordered_answers, as: :answer

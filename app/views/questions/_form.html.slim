@@ -1,0 +1,32 @@
+= render 'shared/errors', resource: question
+= form_with model: question, class: 'space-y-5' do |f|
+  div class="field"
+    = f.label :title, class: 'label'
+    = f.text_field :title, class: 'input', placeholder: 'What are you trying to do?'
+  div class="field"
+    = f.label :body, 'Details', class: 'label'
+    = f.text_area :body, rows: 8, class: 'input', placeholder: 'Describe what you tried and what happened.'
+
+  - if question.persisted? && question.files.attached?
+    ul class="attachments flex flex-wrap gap-2"
+      - question.files.each do |file|
+        = render 'shared/attachment', attachment: file, owner_id: question.user_id
+
+  div class="field"
+    = f.label :files, 'Attachments', class: 'label'
+    = f.file_field :files, multiple: true, class: 'file-input'
+
+  = render 'shared/links_fields', form: f
+
+  - if question.new_record?
+    fieldset class="space-y-3 rounded-md border border-line p-4"
+      legend class="px-1 text-sm font-semibold" Reward for the best answer (optional)
+      = f.fields_for :reward, question.reward || question.build_reward do |reward|
+        div class="field"
+          = reward.label :name, t('Reward Name'), class: 'label'
+          = reward.text_field :name, class: 'input'
+        div class="field"
+          = reward.label :img, t('Reward Image'), class: 'label'
+          = reward.file_field :img, class: 'file-input'
+
+  = f.submit class: 'btn btn-primary'

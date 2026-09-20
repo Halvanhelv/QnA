@@ -1,57 +1,37 @@
-ul.list-group id="answer-id-#{answer.id}"
+- best = answer.best_answer?
+article id=dom_id(answer) class="panel p-5 sm:p-6 #{best ? 'border-l-4 !border-l-accepted' : ''}"
+  - if best
+    p class="mb-3 inline-flex items-center gap-1.5 rounded-full bg-accepted-soft px-2.5 py-0.5 text-xs font-semibold text-accepted"
+      = icon(:check, 'size-3.5')
+      | Accepted answer
 
-  -if answer.best_answer?
-    div#best-answer
-      = answer.body
-  - else
-    div
-      = answer.body
-  div id="vote-block"
-    = render 'shared/votes', resource: answer
-  .links
-    p Links:
-    ul
-      = render partial: "links/link_without_delete_link", collection: answer.links, :as => :link
-  .answer_comments
+  div class="flex gap-4 sm:gap-6"
+    div class="flex shrink-0 flex-col items-center gap-3"
+      = render 'shared/votes', resource: answer
+      - unless best
+        div data-controller="visibility" data-visibility-rule-value="owner" data-visibility-owner-id-value=answer.question.user_id hidden=true
+          = button_to best_answer_answer_path(answer), method: :patch, class: 'vote-btn hover:!border-accepted hover:!bg-accepted-soft hover:!text-accepted', 'aria-label': t('answers.answer.best'), title: t('answers.answer.best') do
+            = icon(:check, 'size-5')
 
-    - if answer.comments.exists?
-      = render answer.comments
-    - else
-      span.text-secondary.empty style='font-size: 10pt' 0 comment's
-  - if signed_in?
-    = content_tag(:span, class: 'text-primary comment-button', style: 'font-size: 8pt')
-      = link_to t('add comment'), '', class: 'add_comment_button', style: 'text-decoration: none;', remote: true, data: {answer_id: answer.id}
-    =render 'comments/form', resource: answer
-  ul.list-group
-    -answer.files.each do |file|
-      li class="attachment-id-#{file.id} list-group-item list-group-item-action"
-        = link_to file.filename, url_for(file)
+    div class="flex min-w-0 flex-1 flex-col gap-4"
+      p class="prose-body" = answer.body
 
-    p.btn.btn-outline-info
-      =answer.user.email
+      - if answer.files.attached?
+        ul class="flex flex-wrap gap-2"
+          - answer.files.each do |file|
+            = render 'shared/attachment', attachment: file, owner_id: answer.user_id
 
-  -if %i[update destroy].any? { |action| can? action, answer } # analogue of current_user && current_user.author_of? but there are nuances
-    = button_to t('delete_answer'), answer_path(answer), method: :delete, remote: true, class: 'btn btn-outline-danger'
-    p= link_to t('edit_answer'), '#', class: 'edit-answer-link btn btn-outline-warning', data: { answer_id: answer.id }
+      - if answer.links.any?
+        ul class="links flex flex-wrap gap-2"
+          = render partial: 'links/link', collection: answer.links, as: :link
 
-    = form_with model: answer, class: 'hidden', html: {id: "edit-answer-#{answer.id}"} do |f|
-      p.list-group
-      = f.label :body, 'Your answer'
-      = f.text_area :body, class: 'form-control'
-      ul.attachments
-        = render answer.files
-      = f.label :files
-      = f.file_field :files, multiple: true
-      ul.links
+      = render 'comments/section', commentable: answer
 
-        = render answer.links
-      p
-        = link_to_add_association t('add_link'), f, :links, partial: 'shared/nested_links_form', 'data-association-insertion-method' => 'after', form_name: 'link'
-        ul.links
+      div class="flex flex-wrap items-center justify-between gap-2"
+        = byline(answer.user, answer.created_at, verb: 'answered')
+        div data-controller="visibility" data-visibility-rule-value="owner" data-visibility-owner-id-value=answer.user_id hidden=true
+          div class="flex items-center gap-1"
+            = link_to t('edit_answer'), edit_answer_path(answer), class: 'btn btn-quiet', data: { turbo_frame: dom_id(answer, :edit) }
+            = button_to t('delete_answer'), answer_path(answer), method: :delete, class: 'btn btn-danger'
 
-      = f.submit class: "btn btn-primary"
-
-  -if can? :best_answer, answer
-    p= link_to t('.best'), best_answer_answer_path(answer), class: 'best-answer-link btn btn-dark', method: :patch , remote: true
-
-  .answer-errors
+      = turbo_frame_tag dom_id(answer, :edit), class: 'empty:hidden'

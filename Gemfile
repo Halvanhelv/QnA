@@ -1,102 +1,77 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-# ruby '2.6.6'
+gem 'rails', '~> 8.1.3'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.3', '>= 6.0.3.1'
-# Use postgresql as the database for Active Record
-gem 'pg', '>= 0.18', '< 2.0'
-# Use Puma as the app server
-gem 'puma'
-# Use SCSS for stylesheets
-gem 'sass-rails'
-# Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem 'sprockets'
-gem 'webpacker'
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'cocoon'
-gem 'gon'
-gem 'handlebars-source'
-gem 'jbuilder'
+# Core
+gem 'bootsnap', require: false
+# json 3.x breaks ActiveSupport::JSON.decode on Rails 8.1
+gem 'json', '~> 2.10'
+gem 'pg', '~> 1.5'
+gem 'puma', '>= 6.0'
+gem 'tzinfo-data', platforms: %i[windows jruby]
 
-gem 'octicons'
-gem 'octicons_helper'
-gem 'octokit'
+# Hotwire stack
+gem 'importmap-rails'
+gem 'propshaft'
+gem 'stimulus-rails'
+gem 'tailwindcss-rails'
+gem 'turbo-rails'
+
+# Solid stack (queue, cache, cable in the database)
+gem 'solid_cable'
+gem 'solid_cache'
+gem 'solid_queue'
+gem 'mission_control-jobs'
+
+# Deployment
+gem 'kamal', require: false
+gem 'thruster', require: false
+
+# Views
+gem 'slim-rails'
+gem 'will_paginate'
+
+# Active Storage variants
+gem 'image_processing', '~> 1.2'
+
+# Auth
+gem 'cancancan'
+gem 'devise'
+gem 'doorkeeper'
 gem 'omniauth'
 gem 'omniauth-github'
+gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-telegram'
 
+# API
 gem 'active_model_serializers'
-gem 'cancancan'
-gem 'capybara-email'
-gem 'database_cleaner'
-gem 'doorkeeper'
-gem 'mini_racer'
-gem 'mysql2'
-gem 'oj'
-gem 'redis'
-gem 'sidekiq'
-gem 'sinatra', require: false
-gem 'slim-rails'
-gem 'thinking-sphinx'
-gem 'unicorn'
-gem 'whenever', require: false
-gem 'will_paginate'
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
-# Use Active Model has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
 
-# Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
-# Auth
-gem 'devise'
-# Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', require: false
-gem 'decent_exposure'
+# Search
+gem 'pg_search'
+
+# External services
 gem 'google-cloud-storage', require: false
+gem 'faraday-retry'
+gem 'octokit'
+
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: %i[mri mingw x64_mingw]
-  gem 'factory_bot_rails'
-  gem 'localtunnel'
-  gem 'pry-rails'
-  gem 'rspec-rails'
-  gem 'selenium-webdriver'
+  gem 'brakeman', require: false
+  gem 'bundler-audit', require: false
+  gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
+  gem 'rubocop-rails-omakase', require: false
 end
 
 group :development do
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'listen'
-  gem 'web-console'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'capistrano', require: false
-  gem 'capistrano3-unicorn', require: false
-  gem 'capistrano-bundler', require: false
-  gem 'capistrano-passenger', require: false
-  gem 'capistrano-rails', require: false
-  gem 'capistrano-rvm', require: false
-  gem 'capistrano-sidekiq', require: false
   gem 'letter_opener'
-  gem 'rubocop-rails'
-  gem 'spring'
-  gem 'spring-watcher-listen'
+  # letter_opener needs kconv, which left the standard library in Ruby 3.4+
+  gem 'nkf'
+  gem 'web-console'
 end
 
 group :test do
-  # Adds support for Capybara system testing and selenium driver
+  gem 'minitest-mock'
   gem 'capybara'
-  # Easy installation and use of web drivers to run system tests with browsers
-  gem 'launchy'
-  gem 'rails-controller-testing'
-  gem 'shoulda-matchers'
-  gem 'webdrivers'
+  gem 'selenium-webdriver'
 end
-
-# Windows does not include zoneinfo attachment, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

@@ -1,0 +1,16 @@
+= turbo_frame_tag dom_id(answer, :edit)
+  div class="rounded-md bg-canvas p-4"
+    = render 'shared/errors', resource: answer
+    = form_with model: answer, namespace: dom_id(answer), class: 'space-y-4' do |f|
+      div class="field"
+        = f.label :body, 'Your answer', class: 'label'
+        = f.text_area :body, rows: 6, class: 'input'
+      - if answer.files.attached?
+        ul class="attachments flex flex-wrap gap-2"
+          - answer.files.each do |file|
+            = render 'shared/attachment', attachment: file, owner_id: answer.user_id
+      div class="field"
+        = f.label :files, 'Attachments', class: 'label'
+        = f.file_field :files, multiple: true, class: 'file-input'
+      = render 'shared/links_fields', form: f
+      = f.submit class: 'btn btn-primary'

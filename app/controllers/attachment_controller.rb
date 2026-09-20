@@ -8,6 +8,10 @@ class AttachmentController < ApplicationController
 
   def destroy
     attachment.purge
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.remove(attachment) }
+      format.html { redirect_back_or_to root_path }
+    end
   end
 
   private

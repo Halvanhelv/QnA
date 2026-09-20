@@ -1,13 +1,12 @@
--if link.persisted?
-  - cache_unless current_user.try(:admin), link do
-    li class="link-id-#{link.id}"
-      - if link.gist?
-        - link.get_gist.files.each do |name, data|
-          p
-          = link_to link.name, link.url
-          p
-          = data.content
-      - else
-        =link_to link.name, link.url
-
-      = link_to t('.delete_link'), link_path(link), method: :delete, class: "btn btn-outline-danger", remote: true
+- if link.persisted?
+  - if link.gist?
+    li id=dom_id(link) class="w-full space-y-2"
+      = link_to link.url, class: 'chip' do
+        = icon(:link, 'size-3.5')
+        = link.name
+      - link.gist_files.each do |_name, content|
+        pre class="overflow-x-auto rounded-md bg-ink p-4 text-sm leading-6 text-white" = content
+  - else
+    li id=dom_id(link) class="chip"
+      = icon(:link, 'size-3.5')
+      = link_to link.name, link.url, target: '_blank', rel: 'noopener'

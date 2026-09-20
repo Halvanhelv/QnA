@@ -1,4 +1,9 @@
-= button_to "+", polymorphic_path(resource, action: 'positive_vote'), method: :patch, remote: true, data: {type: :json}
-p#vote-rating
-  =resource.rating
-= button_to "-",  polymorphic_path(resource, action: 'negative_vote'), method: :patch, remote: true, data: {type: :json}
+div class="flex flex-col items-center gap-1"
+  div data-controller="visibility" data-visibility-rule-value="not_owner" data-visibility-owner-id-value=resource.user_id hidden=true
+    = button_to polymorphic_path(resource, action: 'positive_vote'), method: :patch, class: 'vote-btn', 'aria-label': 'Upvote', title: 'Upvote' do
+      = icon(:chevron_up, 'size-5')
+  p id=dom_id(resource, :rating) class="font-display text-xl font-bold tabular-nums leading-none" title="Rating" = resource.rating
+  span class="-mt-0.5 text-xs text-muted" votes
+  div data-controller="visibility" data-visibility-rule-value="not_owner" data-visibility-owner-id-value=resource.user_id hidden=true
+    = button_to polymorphic_path(resource, action: 'negative_vote'), method: :patch, class: 'vote-btn', 'aria-label': 'Downvote', title: 'Downvote' do
+      = icon(:chevron_down, 'size-5')

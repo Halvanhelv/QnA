@@ -1,66 +1,69 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show]
-  before_action :answer, except: %i[new show edit]
+  before_action :authenticate_user!
+  before_action :answer
+
   include Voted
 
   authorize_resource
 
   def create
     answer.user = current_user
-    answer.save
-    files_params
+
+    if answer.save
+      respond_to do |format|
+        format.turbo_stream { render :form_reset }
+        format.html { redirect_to question }
+      end
+    else
+      render :form_errors, status: :unprocessable_entity
+    end
   end
-
-  def new; end
-
-  def show; end
 
   def edit; end
 
   def update
-    answer.update(answer_params)
-    files_params
+    if answer.update(answer_params)
+      respond_to do |format|
+        format.turbo_stream { render :replace }
+        format.html { redirect_to answer.question }
+      end
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def destroy
     answer.destroy
-    flash[:delete] = 'Answer successfully deleted.'
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to answer.question, notice: 'Answer successfully deleted.' }
+    end
   end
 
   def best_answer
     authorize! :best_answer, answer
     answer.make_best_answer
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.replace('answers', partial: 'answers/list', locals: { question: answer.question }) }
+      format.html { redirect_to answer.question }
+    end
   end
 
   private
 
   def answer
-    @answer ||= params[:id] ? Answer.with_attached_files.find(params[:id]) : answers.build(answer_params)
+    @answer ||= params[:id] ? Answer.with_attached_files.find(params[:id]) : question.answers.build(answer_params)
   end
   helper_method :answer
 
-  def answers
-    @answers ||= question.reload.answers
-  end
-  helper_method :answers
-
-  def answer_params
-    params.require(:answer).permit(:body,
-                                   links_attributes: %i[name url])
-  end
-
   def question
-    @question = Question.with_attached_files.find(params[:question_id])
+    @question ||= params[:question_id] ? Question.find(params[:question_id]) : answer.question
   end
   helper_method :question
 
-  def files_params
-    return unless params[:answer][:files].present?
-
-    params[:answer][:files].each do |file|
-      answer.files.attach(file)
-    end
+  def answer_params
+    params.require(:answer).permit(:body, files: [], links_attributes: %i[id name url _destroy])
   end
 end

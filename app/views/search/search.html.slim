@@ -1,15 +1,25 @@
-ul.list-group.search-results
-  p Найдено результатов: #{@search.result.count}
+- query = params.dig(:search, :body)
+h1 class="font-display text-3xl font-bold" Search
+p class="mt-1 text-muted"
+  - if query.blank?
+    | Type something in the search box above.
+  - else
+    = "#{pluralize(@search.result.total_entries, 'result')} for “#{query}”"
 
-
+ul class="search-results panel mt-6 divide-y divide-line overflow-hidden empty:hidden"
   - @search.result.each do |item|
-    li.list-group-item
-      - if item.is_a?(Question)
-        = link_to item.title, question_path(item)
-      - if item.is_a?(User)
-        = item.email
-      - if item.is_a?(Answer)
-        = link_to item.body, question_path(item.question)
-      - if item.is_a?(Comment)
-        = item.body
-  = will_paginate @search.result, param_name: "search[page]"
+    - record = item.respond_to?(:searchable) ? item.searchable : item
+    li class="flex items-start gap-3 px-4 py-3 sm:px-5"
+      span class="chip mt-0.5 shrink-0" = record.class.model_name.human
+      div class="min-w-0"
+        - case record
+        - when Question
+          = link_to record.title, question_path(record), class: 'font-semibold'
+        - when Answer
+          = link_to record.body.truncate(140), question_path(record.question), class: 'font-semibold'
+        - when Comment
+          span = record.body
+        - when User
+          span class="font-semibold" = record.email
+
+div class="mt-6" = will_paginate @search.result, param_name: 'search[page]'

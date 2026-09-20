@@ -1,14 +1,19 @@
-nav.navbar.navbar-light.bg-light
-  - if current_user
-    li= current_user.email
-    =link_to t('all rewards'), rewards_path
-    li= link_to 'Log out', destroy_user_session_path, method: :delete
-  -else
-    li= link_to 'Login', new_user_session_path, method: :get
+header class="sticky top-0 z-40 border-b border-line bg-surface/90 backdrop-blur"
+  div class="mx-auto flex w-full max-w-5xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3"
+    = link_to root_path, class: 'flex items-center gap-2 font-display text-xl font-bold tracking-tight text-ink no-underline' do
+      span class="grid size-7 place-items-center rounded-md bg-brand text-base leading-none text-white" aria-hidden="true" ?
+      | Qna
 
-= form_with url: search_path, scope: :search, method: :get, local: true do |f|
-  .input-group.mb-3
-    .input-group-append
-    = f.text_area :body, class: 'form-control input', html: { "aria-describedby" => "basic-addon2", "aria-label" => ("Recipient's username"), "placeholder" => ("Recipient's username"), "type" => "text" }
-    = f.select :scope, collection: Services::SphinxSearch::SCOPE
-    = f.submit 'Search', class: 'button btn btn-outline-secondary'
+    div class="order-3 w-full sm:order-none sm:w-auto sm:flex-1"
+      = render 'layouts/shared/search'
+
+    nav class="ml-auto flex items-center gap-1" aria-label="Account"
+      - if current_user
+        = link_to t('all rewards'), rewards_path, class: 'btn btn-quiet'
+        span class="mx-1 hidden items-center gap-2 text-sm text-muted md:inline-flex"
+          = avatar(current_user)
+          = current_user.email
+        = button_to 'Log out', destroy_user_session_path, method: :delete, class: 'btn btn-ghost'
+      - else
+        = link_to 'Log in', new_user_session_path, class: 'btn btn-quiet'
+        = link_to 'Sign up', new_user_registration_path, class: 'btn btn-primary'

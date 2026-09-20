@@ -1,0 +1,12 @@
+section id="new-answer" class="panel mt-8 p-5 sm:p-6"
+  h2 class="mb-4 font-display text-xl font-bold" Your answer
+  = render 'shared/errors', resource: answer
+  = form_with model: [question, answer], class: 'new-answer space-y-4' do |f|
+    div class="field"
+      = f.label :body, 'Answer', class: 'label'
+      = f.text_area :body, rows: 6, class: 'input', placeholder: 'Explain what worked and why.'
+    div class="field"
+      = f.label :files, 'Attachments', class: 'label'
+      = f.file_field :files, multiple: true, class: 'file-input'
+    = render 'shared/links_fields', form: f
+    = f.submit class: 'btn btn-primary'

@@ -3,6 +3,10 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
+  # Turbo: failed form submissions must respond 422, redirects 303
+  config.responder.error_status = :unprocessable_entity
+  config.responder.redirect_status = :see_other
+
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
@@ -18,7 +22,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = Rails.application.credentials[:production][:gmail][:email]
+  config.mailer_sender = Rails.application.credentials.dig(:production, :gmail, :email) || 'from@example.com'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -251,7 +255,7 @@ Devise.setup do |config|
   # should add them to the navigational formats lists.
   #
   # The "*/*" below is required to match Internet Explorer requests.
-  # config.navigational_formats = ['*/*', :html]
+  config.navigational_formats = ['*/*', :html, :turbo_stream]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
@@ -259,13 +263,13 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
+  creds = Rails.application.credentials[Rails.env.to_sym] || {}
   config.omniauth :github,
-                  Rails.application.credentials[Rails.env.to_sym][:github][:client_id],
-                  Rails.application.credentials[Rails.env.to_sym][:github][:client_secret],
+                  ENV.fetch('GITHUB_CLIENT_ID') { creds.dig(:github, :client_id) },
+                  ENV.fetch('GITHUB_CLIENT_SECRET') { creds.dig(:github, :client_secret) },
                   scope: 'read:user, user:email'
   config.omniauth :telegram,
-                  Rails.application.credentials[Rails.env.to_sym][:telegram][:BOT_NICKNAME],
-                  # Rails.application.credentials[Rails.env.to_sym][:telegram][:BOT_SECRET],
+                  ENV.fetch('TELEGRAM_BOT_NICKNAME') { creds.dig(:telegram, :BOT_NICKNAME) },
                   scope: 'read:user, user:email'
 
   # ==> Warden configuration
