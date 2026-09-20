@@ -1,10 +1,10 @@
 = turbo_frame_tag dom_id(answer, :edit)
   div class="rounded-md bg-canvas p-4"
     = render 'shared/errors', resource: answer
-    = form_with model: answer, namespace: dom_id(answer), class: 'space-y-4' do |f|
+    = form_with model: answer, namespace: dom_id(answer), class: 'space-y-4', data: { controller: 'submit-shortcut', action: 'keydown->submit-shortcut#submit' } do |f|
       div class="field"
         = f.label :body, 'Your answer', class: 'label'
-        = f.rich_text_area :body
+        = f.rich_text_area :body, autofocus: true
       - if answer.files.attached?
         ul class="attachments flex flex-wrap gap-2"
           - answer.files.each do |file|
@@ -13,4 +13,4 @@
         = f.label :files, 'Attachments', class: 'label'
         = f.file_field :files, multiple: true, class: 'file-input'
       = render 'shared/links_fields', form: f
-      = f.submit class: 'btn btn-primary'
+      = f.submit class: 'btn btn-primary', data: { turbo_submits_with: 'Saving...' }

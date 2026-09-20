@@ -33,13 +33,13 @@ module ApplicationHelper
   end
 
   def ago(time)
-    "#{time_ago_in_words(time)} ago"
+    time_tag(time, "#{time_ago_in_words(time)} ago", title: l(time, format: :long))
   end
 
   # Author avatar, address and relative time on one line.
   def byline(user, time, verb: 'asked')
-    tag.span(class: 'inline-flex items-center gap-2 text-sm text-muted') do
-      safe_join([avatar(user), tag.span(user.email, class: 'font-medium text-ink'), tag.span("#{verb} #{ago(time)}")], ' ')
+    tag.span(class: 'inline-flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm text-muted') do
+      safe_join([avatar(user), tag.span(user.email, class: 'font-medium text-ink'), tag.span(safe_join([verb, ago(time)], ' '))], ' ')
     end
   end
 end

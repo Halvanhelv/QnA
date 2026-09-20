@@ -1,12 +1,13 @@
 / Live updates only make sense while the list is the plain newest-first first page
 - live = @sort == 'newest' && @tag.blank? && @questions.current_page == 1
 = turbo_stream_from 'questions' if live
+- content_for :title, (@tag ? "Questions tagged #{@tag}" : 'Questions')
 
 div class="mb-6 flex flex-wrap items-end justify-between gap-4"
   div
     h1 class="font-display text-3xl font-bold sm:text-4xl" Questions
     p class="mt-1 text-muted" Ask something, or help someone get unstuck.
-  = link_to new_question_path, class: 'btn btn-primary' do
+  = link_to new_question_path, class: "btn btn-primary #{'sm:hidden' if current_user}" do
     = icon(:plus)
     = t('.question.new_button')
 

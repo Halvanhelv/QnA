@@ -1,6 +1,6 @@
 = turbo_frame_tag dom_id(commentable, :new_comment)
   = render 'shared/errors', resource: @comment
-  = form_with model: [commentable, @comment], namespace: dom_id(commentable), class: 'mt-2 space-y-2' do |f|
+  = form_with model: [commentable, @comment], namespace: dom_id(commentable), class: 'mt-2 space-y-2', data: { controller: 'submit-shortcut', action: 'keydown->submit-shortcut#submit' } do |f|
     = f.label :body, 'Comment', class: 'sr-only'
-    = f.text_area :body, rows: 2, placeholder: 'Add a comment (at least 10 characters)', class: 'input'
-    = f.submit t('save comment'), class: 'btn btn-primary'
+    = f.text_area :body, rows: 2, autofocus: true, placeholder: 'Add a comment (at least 10 characters)', class: 'input'
+    = f.submit t('save comment'), class: 'btn btn-primary', data: { turbo_submits_with: 'Posting...' }

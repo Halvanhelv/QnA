@@ -102,4 +102,39 @@ class HotwireTest < ApplicationSystemTestCase
     page.go_back
     assert_selector '.choices', count: 1
   end
+
+  test 'your vote stays highlighted and cancels on a second click' do
+    sign_in_through_form(users(:alice))
+    visit question_path(questions(:hotwire))
+
+    click_on 'Upvote'
+    assert_selector "button[aria-label='Upvote'][aria-pressed='true']"
+
+    page.refresh
+    assert_selector "button[aria-label='Upvote'][aria-pressed='true']"
+
+    click_on 'Upvote'
+    assert_selector "button[aria-label='Upvote'][aria-pressed='false']"
+  end
+
+  test 'deleting an answer asks for confirmation' do
+    sign_in_through_form(users(:bob))
+    visit question_path(questions(:rails))
+
+    dismiss_confirm { click_on 'Delete answer' }
+    assert_selector '#answers', text: 'Upgrade one minor at a time'
+
+    accept_confirm { click_on 'Delete answer' }
+    assert_no_selector '#answers', text: 'Upgrade one minor at a time'
+  end
+
+  test 'a new answer scrolls into view for its author and is highlighted' do
+    sign_in_through_form(users(:bob))
+    visit question_path(questions(:hotwire))
+
+    fill_in_editor 'Posted with the keyboard shortcut', within: '#new-answer'
+    find('#new-answer lexxy-editor [contenteditable]').send_keys([:control, :enter])
+
+    assert_selector '#answers article.arrival', text: 'Posted with the keyboard shortcut'
+  end
 end
