@@ -11,6 +11,7 @@ class Answer < ApplicationRecord
   include Attachable
   include Votable
   include Searchable
+  include Acceptable
 
   has_rich_text :body
   searchable_by rich_text: :body
@@ -21,18 +22,6 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
   validate :body_long_enough
-
-  scope :best, -> { where(best_answer: true) }
-  scope :order_by_best, -> { order(best_answer: :desc) }
-
-  def make_best_answer
-    Answer.transaction do
-      user.id == question.reward&.user&.id && id == question.best_answer&.id ? question.reward&.update!(user: nil) : question.reward&.update!(user: user)
-      question.best_answer&.update!(best_answer: false)
-      update!(best_answer: true)
-    end
-    question.broadcast_answers
-  end
 
   private
 

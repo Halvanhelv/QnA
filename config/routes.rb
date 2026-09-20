@@ -13,18 +13,14 @@ Rails.application.routes.draw do
   end
 
   concern :votable do
-    member do
-      patch :positive_vote
-      patch :negative_vote
-    end
+    resource :upvote, only: :create
+    resource :downvote, only: :create
   end
 
   resources :questions, concerns: %i[votable] do
     resources :comments, only: %i[new create], defaults: { commentable: 'questions' }
     resources :answers, shallow: true, only: %i[create edit update destroy], concerns: %i[votable] do
-      member do
-        patch :best_answer
-      end
+      resource :acceptance, only: :create
       resources :comments, only: %i[new create], defaults: { commentable: 'answers' }
     end
     resources :subscriptions, shallow: true, only: %i[create destroy]

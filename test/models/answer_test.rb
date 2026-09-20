@@ -11,23 +11,25 @@ class AnswerTest < ActiveSupport::TestCase
     assert answer.valid?
   end
 
-  test 'make_best_answer replaces the previous best answer' do
+  test 'accept replaces the previous accepted answer' do
     question = questions(:rails)
-    old_best = question.answers.create!(body: 'Old best answer', user: users(:alice), best_answer: true)
+    old_best = question.answers.create!(body: 'Old best answer', user: users(:alice))
+    old_best.accept
     new_best = answers(:step_by_step)
 
-    new_best.make_best_answer
+    new_best.accept
 
-    assert new_best.reload.best_answer
-    assert_not old_best.reload.best_answer
+    assert new_best.reload.accepted?
+    assert_not old_best.reload.accepted?
+    assert_equal new_best, question.reload.accepted_answer
   end
 
-  test 'make_best_answer gives the reward to the answer author' do
+  test 'accept gives the reward to the answer author' do
     question = questions(:rails)
     reward = question.create_reward!(name: 'Trophy', img: Rack::Test::UploadedFile.new(file_fixture('reward.png'), 'image/png'))
     answer = answers(:step_by_step)
 
-    answer.make_best_answer
+    answer.accept
 
     assert_equal answer.user, reward.reload.user
   end

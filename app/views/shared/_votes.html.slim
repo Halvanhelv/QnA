@@ -1,9 +1,10 @@
-div class="flex flex-col items-center gap-1"
+- explicit = local_assigns.key?(:score)
+div id=dom_id(resource, :votes) class="flex flex-col items-center gap-1" data-controller="vote-rail" data-vote-rail-key-value="#{resource.class.name}:#{resource.id}" data-vote-rail-explicit-value=explicit.to_s data-vote-rail-score-value=(explicit ? score : 0)
   div data-controller="visibility" data-visibility-rule-value="not_owner" data-visibility-owner-id-value=resource.user_id hidden=true
-    = button_to polymorphic_path(resource, action: 'positive_vote'), method: :patch, class: 'vote-btn', 'aria-label': 'Upvote', title: 'Upvote' do
+    = button_to polymorphic_path([resource, :upvote]), class: 'vote-btn', 'aria-label': 'Upvote', 'aria-pressed': 'false', title: 'Upvote', data: { vote_rail_target: 'up' } do
       = icon(:chevron_up, 'size-5')
-  p id=dom_id(resource, :rating) class="font-display text-xl font-bold tabular-nums leading-none" title="Rating" = resource.rating
+  p id=dom_id(resource, :rating) class="font-display text-xl font-bold tabular-nums leading-none" title="Rating" aria-live="polite" = resource.rating
   span class="-mt-0.5 text-xs text-muted" votes
   div data-controller="visibility" data-visibility-rule-value="not_owner" data-visibility-owner-id-value=resource.user_id hidden=true
-    = button_to polymorphic_path(resource, action: 'negative_vote'), method: :patch, class: 'vote-btn', 'aria-label': 'Downvote', title: 'Downvote' do
+    = button_to polymorphic_path([resource, :downvote]), class: 'vote-btn', 'aria-label': 'Downvote', 'aria-pressed': 'false', title: 'Downvote', data: { vote_rail_target: 'down' } do
       = icon(:chevron_down, 'size-5')

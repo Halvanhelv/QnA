@@ -15,17 +15,17 @@ class QuestionTest < ActiveSupport::TestCase
     assert question.subscribed?(users(:alice))
   end
 
-  test 'best_answer returns the answer marked as best' do
+  test 'accepted_answer returns the accepted answer' do
     question = questions(:rails)
     answer = answers(:step_by_step)
-    answer.update!(best_answer: true)
-    assert_equal answer, question.best_answer
+    answer.accept
+    assert_equal answer, question.reload.accepted_answer
   end
 
-  test 'ordered_answers puts the best answer first' do
+  test 'ordered_answers puts the accepted answer first' do
     question = questions(:rails)
     second = question.answers.create!(body: 'Another answer', user: users(:alice))
-    second.update!(best_answer: true)
+    second.accept
     assert_equal second, question.ordered_answers.first
   end
 
