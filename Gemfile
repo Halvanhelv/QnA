@@ -35,7 +35,7 @@ gem 'lexxy', '~> 0.9'
 gem 'will_paginate'
 
 # Active Storage variants
-gem 'image_processing', '~> 1.2'
+gem 'image_processing', '~> 2.1'
 
 # Auth
 gem 'cancancan'
