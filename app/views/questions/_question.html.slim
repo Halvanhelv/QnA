@@ -7,7 +7,7 @@ article id=dom_id(question) class="panel mt-3 p-5 sm:p-6"
       = render 'shared/votes', resource: question
 
     div class="flex min-w-0 flex-1 flex-col gap-5"
-      p class="prose-body" = question.body
+      div class="prose-body" = question.body.to_s
 
       - if question.files.attached?
         ul class="flex flex-wrap gap-2"

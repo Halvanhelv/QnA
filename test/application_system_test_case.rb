@@ -22,6 +22,14 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     ActionCable.server.restart
   end
 
+  # Lexxy renders a contenteditable instead of a textarea
+  def fill_in_editor(text, within: nil)
+    scope = within ? find(within) : page
+    editor = scope.find('lexxy-editor [contenteditable]', match: :first)
+    editor.click
+    editor.send_keys(text)
+  end
+
   def sign_in_through_form(user)
     visit new_user_session_path
     fill_in 'Email', with: user.email

@@ -14,7 +14,7 @@ article id=dom_id(answer) class="panel p-5 sm:p-6 #{best ? 'border-l-4 !border-l
             = icon(:check, 'size-5')
 
     div class="flex min-w-0 flex-1 flex-col gap-4"
-      p class="prose-body" = answer.body
+      div class="prose-body" = answer.body.to_s
 
       - if answer.files.attached?
         ul class="flex flex-wrap gap-2"

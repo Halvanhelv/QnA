@@ -114,4 +114,29 @@ class QuestionsTest < ActionDispatch::IntegrationTest
       delete question_path(questions(:rails))
     end
   end
+
+  test 'rich text body is rendered as HTML, not escaped' do
+    questions(:rails).update!(body: '<h2>Steps</h2><pre data-language="ruby">puts 1</pre>')
+
+    get question_path(questions(:rails))
+
+    assert_select '.lexxy-content h2', 'Steps'
+    assert_select '.lexxy-content pre'
+  end
+
+  test 'script tags in the body are sanitized' do
+    questions(:rails).update!(body: '<p>Hi</p><script>alert(1)</script>')
+
+    get question_path(questions(:rails))
+
+    assert_select '.lexxy-content script', 0
+  end
+
+  test 'new question form uses the Lexxy editor' do
+    sign_in users(:alice)
+
+    get new_question_path
+
+    assert_select 'lexxy-editor'
+  end
 end

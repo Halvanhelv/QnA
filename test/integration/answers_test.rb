@@ -65,7 +65,7 @@ class AnswersTest < ActionDispatch::IntegrationTest
 
     patch answer_path(answer), params: { answer: { body: 'Edited answer' } }, headers: turbo_headers
 
-    assert_equal 'Edited answer', answer.reload.body
+    assert_equal 'Edited answer', answer.reload.plain_body
     assert_turbo_stream action: 'replace', target: dom_id(answer)
   end
 
@@ -83,7 +83,7 @@ class AnswersTest < ActionDispatch::IntegrationTest
 
     patch answer_path(answers(:step_by_step)), params: { answer: { body: 'Hijacked answer' } }
 
-    assert_not_equal 'Hijacked answer', answers(:step_by_step).reload.body
+    assert_not_equal 'Hijacked answer', answers(:step_by_step).reload.plain_body
   end
 
   test 'the author deletes an answer' do

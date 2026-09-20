@@ -5,7 +5,7 @@
     = f.text_field :title, class: 'input', placeholder: 'What are you trying to do?'
   div class="field"
     = f.label :body, 'Details', class: 'label'
-    = f.text_area :body, rows: 8, class: 'input', placeholder: 'Describe what you tried and what happened.'
+    = f.rich_text_area :body, placeholder: 'Describe what you tried and what happened. Markdown and code blocks work.'
 
   - if question.persisted? && question.files.attached?
     ul class="attachments flex flex-wrap gap-2"

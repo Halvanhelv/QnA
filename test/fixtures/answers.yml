@@ -1,9 +1,7 @@
 step_by_step:
-  body: Upgrade one minor at a time
   question: rails
   user: bob
 
 use_hotwire:
-  body: Use Turbo Streams for live updates
   question: hotwire
   user: alice

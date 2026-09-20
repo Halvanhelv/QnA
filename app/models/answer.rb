@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Answer < ApplicationRecord
+  MIN_BODY_LENGTH = 6
+
   belongs_to :question
   belongs_to :user
   has_many :comments, dependent: :destroy, as: :commentable
@@ -10,14 +12,15 @@ class Answer < ApplicationRecord
   include Votable
   include Searchable
 
-  searchable_by :body
+  has_rich_text :body
+  searchable_by rich_text: :body
 
   after_create_commit :broadcast_creation, :send_notification
   after_update_commit :broadcast_changes
   after_destroy_commit :broadcast_removal
 
   validates :body, presence: true
-  validates :body, length: { minimum: 6 }
+  validate :body_long_enough
 
   scope :best, -> { where(best_answer: true) }
   scope :order_by_best, -> { order(best_answer: :desc) }
@@ -32,6 +35,12 @@ class Answer < ApplicationRecord
   end
 
   private
+
+  def body_long_enough
+    return if body.blank? || plain_body.length >= MIN_BODY_LENGTH
+
+    errors.add(:body, :too_short, count: MIN_BODY_LENGTH)
+  end
 
   def broadcast_creation
     broadcast_append_to question, target: 'answers', partial: 'answers/answer', locals: { answer: self }

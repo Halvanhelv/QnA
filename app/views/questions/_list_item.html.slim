@@ -9,5 +9,5 @@ li id=dom_id(question, :list_item) class="flex gap-4 px-4 py-4 transition-colors
       span class="text-xs" answers
   div class="min-w-0 flex-1"
     = link_to question.title, question_path(question), class: 'font-display text-lg font-semibold leading-snug text-ink no-underline hover:text-brand'
-    p class="mt-1 line-clamp-2 text-sm text-muted" = question.body
+    p class="mt-1 line-clamp-2 text-sm text-muted" = question.plain_body.truncate(240)
     div class="mt-2" = byline(question.user, question.created_at)

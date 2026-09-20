@@ -1,0 +1,19 @@
+rails_body:
+  record: rails (Question)
+  name: body
+  body: <div>Upgrade from 6.0 to the latest version</div>
+
+hotwire_body:
+  record: hotwire (Question)
+  name: body
+  body: <div>Turbo and Stimulus explained</div>
+
+step_by_step_body:
+  record: step_by_step (Answer)
+  name: body
+  body: <div>Upgrade one minor at a time</div>
+
+use_hotwire_body:
+  record: use_hotwire (Answer)
+  name: body
+  body: <div>Use Turbo Streams for live updates</div>

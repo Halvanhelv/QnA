@@ -31,6 +31,7 @@ gem 'thruster', require: false
 
 # Views
 gem 'slim-rails'
+gem 'lexxy', '~> 0.9'
 gem 'will_paginate'
 
 # Active Storage variants

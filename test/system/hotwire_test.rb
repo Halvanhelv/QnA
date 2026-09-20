@@ -24,7 +24,7 @@ class HotwireTest < ApplicationSystemTestCase
       sign_in_through_form(users(:bob))
       visit new_question_path
       fill_in 'Title', with: 'Live question'
-      fill_in 'Details', with: 'Appears without reload'
+      fill_in_editor 'Appears without reload'
       click_on 'Post question'
       assert_text 'Your question successfully created.'
     end
@@ -40,10 +40,10 @@ class HotwireTest < ApplicationSystemTestCase
     sign_in_through_form(users(:bob))
     visit question_path(question)
 
-    fill_in 'Answer', with: 'A brand new live answer'
+    fill_in_editor 'A brand new live answer', within: '#new-answer'
     click_on 'Post answer'
     assert_selector '#answers', text: 'A brand new live answer'
-    assert_field 'answer_body', with: ''
+    assert_no_selector '#new-answer lexxy-editor', text: 'A brand new live answer'
 
     using_session(:watcher) do
       assert_selector '#answers', text: 'A brand new live answer'
@@ -70,10 +70,8 @@ class HotwireTest < ApplicationSystemTestCase
     visit question_path(questions(:rails))
 
     click_on 'Edit answer'
-    within "##{dom_id(answers(:step_by_step), :edit)}" do
-      fill_in 'Your answer', with: 'Edited in place'
-      click_on 'Save changes'
-    end
+    fill_in_editor 'Edited in place', within: "##{dom_id(answers(:step_by_step), :edit)}"
+    within("##{dom_id(answers(:step_by_step), :edit)}") { click_on 'Save changes' }
 
     assert_selector '#answers', text: 'Edited in place'
   end

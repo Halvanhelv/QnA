@@ -4,7 +4,7 @@
     = form_with model: answer, namespace: dom_id(answer), class: 'space-y-4' do |f|
       div class="field"
         = f.label :body, 'Your answer', class: 'label'
-        = f.text_area :body, rows: 6, class: 'input'
+        = f.rich_text_area :body
       - if answer.files.attached?
         ul class="attachments flex flex-wrap gap-2"
           - answer.files.each do |file|

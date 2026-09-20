@@ -13,7 +13,8 @@ class Question < ApplicationRecord
   include Votable
   include Searchable
 
-  searchable_by :title, :body
+  has_rich_text :body
+  searchable_by :title, rich_text: :body
 
   after_create :create_subscription
   after_create_commit :broadcast_to_index

@@ -221,6 +221,8 @@ GEM
       addressable (~> 2.7)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
+    lexxy (0.9.32)
+      railties (>= 8.0.2)
     lint_roller (1.1.0)
     logger (1.7.0)
     loofah (2.25.2)
@@ -541,6 +543,7 @@ DEPENDENCIES
   json (~> 2.10)
   kamal
   letter_opener
+  lexxy (~> 0.9)
   minitest-mock
   mission_control-jobs
   nkf

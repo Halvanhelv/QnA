@@ -15,7 +15,7 @@ class MailersTest < ActionMailer::TestCase
     mail = NewAnswerNotificationMailer.notification_for_user(users(:bob), answers(:step_by_step))
 
     assert_equal ['bob@example.com'], mail.to
-    assert_match answers(:step_by_step).body, mail.body.encoded
+    assert_match answers(:step_by_step).plain_body, mail.body.encoded
   end
 
   test 'notification for the question owner' do

@@ -95,7 +95,7 @@ class ApiV1Test < ActionDispatch::IntegrationTest
     assert_equal 1, response.parsed_body['answers'].size
 
     api_get api_v1_answer_path(answer)
-    assert_equal answer.body, response.parsed_body.dig('answer', 'body')
+    assert_equal answer.plain_body, response.parsed_body.dig('answer', 'body')
 
     assert_difference -> { question.answers.count } => 1 do
       api_request :post, api_v1_question_answers_path(question), params: { answer: { body: 'API answer body' } }
