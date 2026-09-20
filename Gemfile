@@ -49,8 +49,6 @@ gem 'omniauth-telegram'
 # API
 gem 'active_model_serializers'
 
-# Search
-gem 'pg_search'
 
 # External services
 gem 'google-cloud-storage', require: false

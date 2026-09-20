@@ -23,13 +23,49 @@ class MiscTest < ActionDispatch::IntegrationTest
     assert_select 'body', /#{reward.name}/
   end
 
-  test 'search finds records and paginates' do
-    [Question, Answer, Comment, User].each { |model| PgSearch::Multisearch.rebuild(model) }
+  test 'search finds records and highlights the match' do
+    SearchDocument.rebuild
 
     get search_path, params: { search: { body: 'Hotwire', scope: 'questions' } }
 
     assert_response :success
-    assert_select '.search-results li', 1
+    assert_select '.search-results > li', 1
+    assert_select '.search-results mark', /hotwire/i
+    assert_select '.search-results a[href=?]', question_path(questions(:hotwire))
+  end
+
+  test 'search shows help when nothing is found' do
+    SearchDocument.rebuild
+
+    get search_path, params: { search: { body: 'zzzzqqqq', scope: 'questions' } }
+
+    assert_select 'p', 'Nothing found'
+    assert_select "a[href*='scope%5D=all'], a[href*='scope]=all']"
+  end
+
+  test 'answers and comments link to their place on the question page' do
+    SearchDocument.rebuild
+
+    get search_path, params: { search: { body: 'minor', scope: 'answers' } }
+
+    assert_select ".search-results a[href='#{question_path(questions(:rails))}##{dom_id(answers(:step_by_step))}']"
+  end
+
+  test 'users are not searchable' do
+    SearchDocument.rebuild
+
+    get search_path, params: { search: { body: 'alice', scope: 'users' } }
+
+    assert_response :success
+    assert_select '.search-results > li', 0
+    assert_no_match(/alice@example.com/, response.body.sub(/<header.*?<\/header>/m, ''))
+  end
+
+  test 'search scope select does not offer users' do
+    get root_path
+
+    assert_select "select[name='search[scope]'] option", count: 4
+    assert_select "select[name='search[scope]'] option[value='users']", 0
   end
 
   test 'search without params does not fail' do

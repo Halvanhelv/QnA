@@ -14,7 +14,7 @@ class Answer < ApplicationRecord
   include Acceptable
 
   has_rich_text :body
-  searchable_by rich_text: :body
+  searchable body: :plain_body
 
   after_create_commit :broadcast_creation, :send_notification
   after_update_commit :broadcast_changes

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Tag < ApplicationRecord
-  NAME_FORMAT = /\A[a-z0-9][a-z0-9.+#-]*\z/
+  # Letters of any alphabet (Cyrillic included), digits, and . + # - inside the name
+  NAME_FORMAT = /\A[\p{L}\p{N}][\p{L}\p{N}.+#-]*\z/
   MAX_LENGTH = 30
 
   has_many :taggings, dependent: :destroy

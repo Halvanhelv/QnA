@@ -6,10 +6,6 @@ class User < ApplicationRecord
          :confirmable,
          :omniauthable, omniauth_providers: %i[github telegram]
 
-  include Searchable
-
-  searchable_by :email
-
   has_many :questions
   has_many :answers
   has_many :rewards

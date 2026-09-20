@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_20_210000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_21_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pg_trgm"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
@@ -143,15 +144,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_210000) do
     t.index ["user_id"], name: "index_oauth_providers_on_user_id"
   end
 
-  create_table "pg_search_documents", force: :cascade do |t|
-    t.text "content"
-    t.datetime "created_at", null: false
-    t.bigint "searchable_id"
-    t.string "searchable_type"
-    t.datetime "updated_at", null: false
-    t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable"
-  end
-
   create_table "questions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "title", null: false
@@ -168,6 +160,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_210000) do
     t.bigint "user_id"
     t.index ["question_id"], name: "index_rewards_on_question_id"
     t.index ["user_id"], name: "index_rewards_on_user_id"
+  end
+
+  create_table "search_documents", force: :cascade do |t|
+    t.text "body", default: "", null: false
+    t.datetime "created_at", null: false
+    t.bigint "searchable_id", null: false
+    t.string "searchable_type", null: false
+    t.text "tags", default: "", null: false
+    t.text "title", default: "", null: false
+    t.virtual "tsv", type: :tsvector, as: "(((setweight(to_tsvector('english'::regconfig, ((title || ' '::text) || tags)), 'A'::\"char\") || setweight(to_tsvector('russian'::regconfig, ((title || ' '::text) || tags)), 'A'::\"char\")) || setweight(to_tsvector('english'::regconfig, body), 'B'::\"char\")) || setweight(to_tsvector('russian'::regconfig, body), 'B'::\"char\"))", stored: true
+    t.datetime "updated_at", null: false
+    t.index "lower(((title || ' '::text) || tags)) gin_trgm_ops", name: "index_search_documents_on_title_and_tags_trgm", using: :gin
+    t.index ["searchable_type", "searchable_id"], name: "index_search_documents_on_searchable_type_and_searchable_id", unique: true
+    t.index ["tsv"], name: "index_search_documents_on_tsv", using: :gin
   end
 
   create_table "subscriptions", force: :cascade do |t|

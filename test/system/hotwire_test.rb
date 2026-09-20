@@ -89,15 +89,17 @@ class HotwireTest < ApplicationSystemTestCase
   end
 
   test 'search scope is a Choices.js select that submits its value' do
+    SearchDocument.rebuild
     visit root_path
     find('.choices').click
-    find('.choices__item--choice', text: 'users').click
+    find('.choices__item--choice', text: 'answers').click
 
-    fill_in 'Search', with: 'alice', match: :first
+    fill_in 'Search', with: 'upgrading', match: :first
     find('input[type=submit]').click
 
     assert_text '1 result'
-    assert_selector '.choices__list--single .choices__item', text: 'users'
+    assert_selector '.search-results mark', text: 'Upgrade'
+    assert_selector '.choices__list--single .choices__item', text: 'answers'
 
     page.go_back
     assert_selector '.choices', count: 1
