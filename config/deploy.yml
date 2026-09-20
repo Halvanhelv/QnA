@@ -30,6 +30,7 @@ env:
     - GITHUB_CLIENT_ID
     - GITHUB_CLIENT_SECRET
     - TELEGRAM_BOT_NICKNAME
+    - TELEGRAM_BOT_TOKEN
   clear:
     SOLID_QUEUE_IN_PUMA: true
     DB_HOST: qna-db
