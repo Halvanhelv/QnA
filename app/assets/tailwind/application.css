@@ -341,3 +341,6 @@ turbo-frame[busy] { opacity: 0.6; transition: opacity 0.15s; }
 /* Skip link becomes visible on keyboard focus */
 .skip-link { position: absolute; left: 0.75rem; top: -3rem; z-index: 60; padding: 0.5rem 0.75rem; border-radius: 0.375rem; background: var(--color-brand); color: var(--color-on-brand); font-weight: 600; }
 .skip-link:focus { top: 0.75rem; }
+
+/* Search hits: the matching words, marked */
+mark { border-radius: 2px; padding: 0 1px; background: color-mix(in oklab, var(--color-brand) 22%, transparent); color: inherit; }

@@ -6,7 +6,7 @@ class Comment < ApplicationRecord
 
   include Searchable
 
-  searchable_by :body
+  searchable body: :plain_body
 
   validates :body, presence: true, length: { minimum: 10 }
 

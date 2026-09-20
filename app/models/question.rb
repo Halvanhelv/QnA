@@ -12,7 +12,7 @@ class Question < ApplicationRecord
   has_one :accepted_answer, through: :acceptance, source: :answer
 
   has_rich_text :body
-  searchable_by :title, rich_text: :body
+  searchable title: :title, body: :plain_body, tags: :tag_list
 
   accepts_nested_attributes_for :reward, reject_if: :all_blank
 

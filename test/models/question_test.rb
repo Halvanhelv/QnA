@@ -36,9 +36,32 @@ class QuestionTest < ActiveSupport::TestCase
     end
   end
 
-  test 'is added to the multisearch index' do
-    question = Question.create!(title: 'Kamal deployment', body: 'How to deploy', user: users(:alice))
-    assert_includes PgSearch.multisearch('Kamal').map(&:searchable), question
+  test 'is added to the search index with its tags' do
+    question = Question.create!(title: 'Kamal deployment', body: 'How to deploy', user: users(:alice), tag_list: 'kamal, servers')
+
+    document = SearchDocument.find_by!(searchable: question)
+    assert_equal 'Kamal deployment', document.title
+    assert_equal 'How to deploy', document.body
+    assert_equal 'kamal, servers', document.tags
+  end
+
+  test 'search entry follows edits and disappears with the record' do
+    question = questions(:rails)
+    question.update!(title: 'Renamed question', body: 'Completely new text')
+
+    document = SearchDocument.find_by!(searchable: question)
+    assert_equal 'Renamed question', document.title
+    assert_equal 'Completely new text', document.body
+
+    question.destroy
+    assert_nil SearchDocument.find_by(searchable_type: 'Question', searchable_id: question.id)
+  end
+
+  test 'changing only the tags refreshes the search entry' do
+    question = questions(:rails)
+    question.update!(tag_list: 'rails, kamal')
+
+    assert_includes SearchDocument.find_by!(searchable: question).tags, 'kamal'
   end
 
   test 'creation broadcasts to the questions list' do
