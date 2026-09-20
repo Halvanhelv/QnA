@@ -1,0 +1,63 @@
+# Deploy with Kamal: https://kamal-deploy.org
+# Usage: bin/kamal setup (first time), then bin/kamal deploy
+service: qna
+
+# TODO: point to your container registry
+image: your-registry-user/qna
+
+servers:
+  web:
+    - 128.199.55.204
+
+# Solid Queue runs inside Puma (SOLID_QUEUE_IN_PUMA), so a single web role is enough.
+proxy:
+  ssl: false
+  app_port: 3000
+  healthcheck:
+    path: /up
+
+registry:
+  username: your-registry-user
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+env:
+  secret:
+    - RAILS_MASTER_KEY
+    - QNA_DATABASE_PASSWORD
+    - GMAIL_EMAIL
+    - GMAIL_PASSWORD
+    - GITHUB_CLIENT_ID
+    - GITHUB_CLIENT_SECRET
+    - TELEGRAM_BOT_NICKNAME
+  clear:
+    SOLID_QUEUE_IN_PUMA: true
+    DB_HOST: qna-db
+    APP_HOST: 128.199.55.204
+    RAILS_SERVE_STATIC_FILES: true
+
+# Uploaded files (Active Storage :local service)
+volumes:
+  - 'qna_storage:/rails/storage'
+
+asset_path: /rails/public/assets
+
+builder:
+  arch: amd64
+
+# PostgreSQL hosts the primary, cache, queue and cable databases
+accessories:
+  db:
+    image: postgres:17
+    host: 128.199.55.204
+    port: 5432
+    env:
+      clear:
+        POSTGRES_USER: qna
+        POSTGRES_DB: qna_production
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data
+    files:
+      - db/production_setup.sql:/docker-entrypoint-initdb.d/setup.sql

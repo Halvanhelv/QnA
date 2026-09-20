@@ -1,38 +1,49 @@
-## The QnA project is analogous to the Stack Overflow site
+# QnA
 
+Questions and answers app built on the Hotwire stack.
 
-Main development took place from June 23, 2020 to September 20, 2020
+- **Ruby 4.0**, **Rails 8.1**, PostgreSQL
+- **Hotwire**: Turbo Drive/Frames/Streams (live answers, comments, questions list) and Stimulus, served through importmap and Propshaft, no Node build step
+- **Solid stack**: Solid Queue (jobs and recurring digest), Solid Cache, Solid Cable, all backed by PostgreSQL
+- **Search**: PostgreSQL full text search via `pg_search`
+- Auth: Devise + OmniAuth (GitHub, Telegram), CanCanCan; JSON API v1 secured by Doorkeeper
+- Deployment: Kamal (`config/deploy.yml`), Docker
+- Tests: Minitest with fixtures, Capybara system tests
 
-##### The goal of the project is to create an alternative to the open source Stack Overflow project
+## Setup
 
-- project implemented via BDD
-- background tasks are in use(Active job)
-- used by WebSockets (Action Cable)
+```bash
+cp config/database.yml.sample config/database.yml
+bin/rails db:setup
+bin/dev            # or bin/rails server
+```
 
+OAuth keys and the mail account come from ENV (`GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`,
+`TELEGRAM_BOT_NICKNAME`, `GMAIL_EMAIL`, `GMAIL_PASSWORD`) or from Rails credentials
+(`bin/rails credentials:edit`, keys `<env>.github`, `<env>.telegram`, `<env>.gmail`).
 
-##### gems (libraries) were used in the development of the QnA project:
-- omniauth
-- cancancan
-- sidekiq
-- sphinx
-- postgres
-  and others (see Gemfile for full list)
+## Tests and checks
 
-### in the project were implemented:
-- the ability to create - questions and answers
-- attach files to questions and answers
-- comment on answers
-- vote for the best answer
-- the ability to get achievements for answers
-- global search
-- the ability to subscribe to a question to receive notifications of answers
-- log in through social networks
-- api
-  
-  
-Status of Last Deployment:<br>
+```bash
+bin/rails test           # unit and integration tests
+bin/rails test:system    # Turbo/Stimulus behaviour in headless Chrome
+bin/rubocop
+bin/brakeman
+```
 
-<img src="https://github.com/SynthesisOne/QnA/workflows/Rails_tests/badge.svg?branch=master"><br>
+## How live updates work
 
+Broadcasts are rendered once and sent to every subscriber, so partials used in broadcasts
+(`questions/_question`, `answers/_answer`, `comments/_comment`) never depend on `current_user`.
+User-specific controls are rendered hidden and revealed by the `visibility` Stimulus controller
+using the `current-user-id` meta tag. This is a UX convenience only; every request is authorized on the server.
 
-Copyleft by me 2020 
+## Deployment
+
+```bash
+bin/kamal setup    # first time
+bin/kamal deploy
+```
+
+Secrets are listed in `.kamal/secrets`. The production database hosts the primary, cache, queue and cable
+databases (`db/production_setup.sql` creates the extra ones).

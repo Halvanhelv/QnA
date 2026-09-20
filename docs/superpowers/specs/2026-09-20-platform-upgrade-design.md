@@ -57,3 +57,13 @@ Ruby и Rails обновляются **раздельно** (рекоменда�
 ## Вне scope
 
 Изменения фронтенда, замена очередей/кэша/деплоя/поиска, миграция на Minitest.
+
+## Outcome (2026-09-20)
+
+Executed as one branch (`upgrade/rails-8-hotwire`) instead of hop-by-hop upgrades:
+the baseline could not be built on Ruby 2.7 (native gems), and the app is small, so the tests
+were rebuilt in Minitest against the new stack rather than kept as a baseline.
+
+- Ruby 4.0.5, Rails 8.1.3, `load_defaults 8.1`
+- Stages 2-5 (assets, Hotwire, Solid stack/Kamal/pg_search, Minitest) landed in the same branch
+- `mysql2` and `thinking-sphinx` were removed together (Sphinx needed mysql2)

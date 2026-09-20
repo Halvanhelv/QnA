@@ -17,5 +17,7 @@ module Qna
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # The jobs dashboard is mounted behind Devise (admins only), not HTTP basic auth.
+    config.mission_control.jobs.http_basic_auth_enabled = false
   end
 end
