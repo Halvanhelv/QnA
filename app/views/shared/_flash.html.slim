@@ -1,2 +1,3 @@
--flash.each do |key, message|
-  =content_tag :div, message.html_safe, class: "alert alert-info"
+- flash.each do |key, message|
+  div class="alert #{key.to_s == 'alert' ? 'alert-danger' : 'alert-info'}" data-controller="flash"
+    = message

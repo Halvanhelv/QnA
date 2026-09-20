@@ -1,4 +1,4 @@
-= button_to "+", polymorphic_path(resource, action: 'positive_vote'), method: :patch, remote: true, data: {type: :json}
-p#vote-rating
-  =resource.rating
-= button_to "-",  polymorphic_path(resource, action: 'negative_vote'), method: :patch, remote: true, data: {type: :json}
+div data-controller="visibility" data-visibility-rule-value="not_owner" data-visibility-owner-id-value=resource.user_id hidden=true
+  = button_to '+', polymorphic_path(resource, action: 'positive_vote'), method: :patch, class: 'btn btn-outline-secondary btn-sm'
+  p id=dom_id(resource, :rating) = resource.rating
+  = button_to '-', polymorphic_path(resource, action: 'negative_vote'), method: :patch, class: 'btn btn-outline-secondary btn-sm'

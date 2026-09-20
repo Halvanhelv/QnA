@@ -1,0 +1,5 @@
+.comments-section
+  ul.list-group.comments id=dom_id(commentable, :comments)
+    = render commentable.comments
+  div data-controller="visibility" data-visibility-rule-value="signed_in" hidden=true
+    = render 'comments/new_link', commentable: commentable

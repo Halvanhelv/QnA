@@ -1,0 +1,5 @@
+= form_with url: search_path, scope: :search, method: :get do |f|
+  .input-group.mb-3
+    = f.text_area :body, class: 'form-control input', placeholder: 'Search', 'aria-label': 'Search'
+    = f.select :scope, Services::Search::SCOPES, {}, class: 'form-select'
+    = f.submit 'Search', class: 'button btn btn-outline-secondary'

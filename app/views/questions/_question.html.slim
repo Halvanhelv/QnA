@@ -1,43 +1,31 @@
-- cache_unless current_user.try(:admin), ['question_attrs', question] do
+div id=dom_id(question)
   h1= question.title
   p= question.body
   p= question.user.email
-- cache_unless current_user.try(:admin), ['question_vote', question] do
-  div id="vote-block"
-     =render 'shared/votes', resource: question
-div class= 'question-subscriptions-block'
-   =render 'subscriptions/subscriptions', question: question
-- cache_unless current_user.try(:admin), ['question_files', question] do
-  -if question.files.attached?
-  ul.list-group
-     -question.files.each do |file|
-        li class="attachment-id-#{file.id} form-control"
-           = link_to file.filename, url_for(file)
-- cache_unless current_user.try(:admin), ['question_links_and_comments'] do
+
+  = render 'shared/votes', resource: question
+  = render 'subscriptions/subscriptions', question: question
+
+  - if question.files.attached?
+    ul.list-group
+      - question.files.each do |file|
+        = render 'shared/attachment', attachment: file, owner_id: question.user_id
+
   .links
-     p Links:
-     ul
-        = render partial: "links/link_without_delete_link", collection: question.links, :as => :link
-  .question_comments
-     -if question.comments.exists?
-        ul.list-group
-        =render question.comments
-     -else
-        span.text-secondary.empty style='font-size: 10pt' 0 comment's
-- if signed_in?
-   = content_tag(:span, class: 'text-primary comment-button', style: 'font-size: 8pt')
-      = link_to t('add comment'), '', class: 'add_comment_button', style: 'text-decoration: none;', remote: true
+    p Links:
+    ul
+      = render partial: 'links/link', collection: question.links, as: :link
 
-   =render 'comments/form', resource: question
-- cache_unless current_user.try(:admin), ['question_reward', question] do
+  = render 'comments/section', commentable: question
+
   #reward
-     p Reward:
+    p Reward:
+    - if question.reward
+      = question.reward.name
+      - if question.reward.img.attached?
+        = image_tag rails_blob_path(question.reward.img, only_path: true), size: 200
 
-     -if question.reward
-        = question.reward.name
-        = image_tag(url_for(question.reward.img), size: 200)
--if %i[edit destroy].any? { |action| can? action, question }
-   = button_to t('.delete'), question_path(question), method: :delete, class: "btn btn-outline-danger"
-   p= link_to t('.edit'), '#', class: 'edit-question-link btn btn-outline-warning'
-   =render 'form'
-#question-errors
+  div data-controller="visibility" data-visibility-rule-value="owner" data-visibility-owner-id-value=question.user_id hidden=true
+    = button_to t('questions.question.delete'), question_path(question), method: :delete, class: 'btn btn-outline-danger', form: { data: { turbo_confirm: 'Delete this question?' } }
+    p= link_to t('questions.question.edit'), edit_question_path(question), class: 'btn btn-outline-warning', data: { turbo_frame: dom_id(question, :edit) }
+    = turbo_frame_tag dom_id(question, :edit)

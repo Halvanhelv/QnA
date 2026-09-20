@@ -2,19 +2,20 @@ doctype html
 html
   head
     title Qna
+    meta name="viewport" content="width=device-width,initial-scale=1"
+    - if user_signed_in?
+      meta name="current-user-id" content=current_user.id
+      meta name="current-user-admin" content=current_user.admin?.to_s
     = csrf_meta_tags
     = csp_meta_tag
 
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
-    = action_cable_meta_tag
+    = stylesheet_link_tag 'bootstrap.min', 'data-turbo-track': 'reload'
+    = stylesheet_link_tag 'application', 'data-turbo-track': 'reload'
+    = javascript_importmap_tags
 
   body
-    = Gon::Base.render_data
-    div.container-fluid
-      p.notice
-      p.alert
-
-      = render 'shared/flash'
+    .container-fluid
+      #flash
+        = render 'shared/flash'
       = render 'layouts/shared/navbar'
       = yield

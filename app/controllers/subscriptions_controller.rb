@@ -9,19 +9,30 @@ class SubscriptionsController < ApplicationController
 
   def create
     question.subscriptions.create(user_id: current_user.id)
+    respond_with_subscription
   end
 
   def destroy
     @question = subscription.question
     subscription.destroy
+    respond_with_subscription
   end
 
   private
 
+  def respond_with_subscription
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace('question-subscription', partial: 'subscriptions/subscriptions',
+                                                                            locals: { question: @question })
+      end
+      format.html { redirect_to @question }
+    end
+  end
+
   def question
     @question = Question.find(params[:question_id])
   end
-  helper_method :question
 
   def subscription
     @subscription = Subscription.find(params[:id])

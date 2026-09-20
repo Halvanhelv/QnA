@@ -1,0 +1,10 @@
+/ Nested fields for links: existing ones plus a template for new ones (Stimulus nested-form).
+div data-controller="nested-form"
+  template data-nested-form-target="template"
+    = form.fields_for :links, Link.new, child_index: 'NEW_RECORD' do |link|
+      = render 'shared/nested_links_form', link: link
+  div data-nested-form-target="container"
+    = form.fields_for :links do |link|
+      - if link.object.persisted?
+        = render 'shared/nested_links_form', link: link
+  = link_to t('add_link'), '#', data: { action: 'nested-form#add' }

@@ -1,8 +1,10 @@
-.nested-fields
+/ One nested link fields row. Existing links carry an id and a _destroy flag.
+div.nested-fields data-new-record=link.object.new_record?.to_s
   .field
     = link.label :name, t('link_name')
     = link.text_field :name
   .field
     = link.label :url, t('link_url')
     = link.text_field :url
-    = link_to_remove_association t('delete_form'), link
+    = link.hidden_field :_destroy
+    = link_to t('delete_form'), '#', data: { action: 'nested-form#remove' }

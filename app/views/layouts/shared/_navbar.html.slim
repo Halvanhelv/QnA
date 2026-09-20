@@ -1,14 +1,11 @@
-nav.navbar.navbar-light.bg-light
-  - if current_user
-    li= current_user.email
-    =link_to t('all rewards'), rewards_path
-    li= link_to 'Log out', destroy_user_session_path, method: :delete
-  -else
-    li= link_to 'Login', new_user_session_path, method: :get
+nav.navbar.navbar-light.bg-light.px-3
+  ul.navbar-nav.flex-row.gap-3
+    li.nav-item= link_to 'Qna', root_path, class: 'nav-link'
+    - if current_user
+      li.nav-item.nav-link= current_user.email
+      li.nav-item= link_to t('all rewards'), rewards_path, class: 'nav-link'
+      li.nav-item= button_to 'Log out', destroy_user_session_path, method: :delete, class: 'btn btn-link nav-link'
+    - else
+      li.nav-item= link_to 'Login', new_user_session_path, class: 'nav-link'
 
-= form_with url: search_path, scope: :search, method: :get, local: true do |f|
-  .input-group.mb-3
-    .input-group-append
-    = f.text_area :body, class: 'form-control input', html: { "aria-describedby" => "basic-addon2", "aria-label" => ("Recipient's username"), "placeholder" => ("Recipient's username"), "type" => "text" }
-    = f.select :scope, collection: Services::SphinxSearch::SCOPE
-    = f.submit 'Search', class: 'button btn btn-outline-secondary'
+= render 'layouts/shared/search'

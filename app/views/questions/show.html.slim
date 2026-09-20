@@ -1,8 +1,6 @@
-div#question
-  =render question
-br=
-.answers
-    = render question.answers.unscoped.order_by_best
-= render 'answers/form'
+= turbo_stream_from question
 
-
+= render 'questions/question', question: question
+br
+= render 'answers/list', question: question
+= render 'answers/form', question: question, answer: answer

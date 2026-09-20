@@ -1,57 +1,30 @@
-ul.list-group id="answer-id-#{answer.id}"
-
-  -if answer.best_answer?
-    div#best-answer
+ul.list-group id=dom_id(answer)
+  - if answer.best_answer?
+    div.best-answer
       = answer.body
   - else
     div
       = answer.body
-  div id="vote-block"
-    = render 'shared/votes', resource: answer
+
+  = render 'shared/votes', resource: answer
+
   .links
     p Links:
     ul
-      = render partial: "links/link_without_delete_link", collection: answer.links, :as => :link
-  .answer_comments
+      = render partial: 'links/link', collection: answer.links, as: :link
 
-    - if answer.comments.exists?
-      = render answer.comments
-    - else
-      span.text-secondary.empty style='font-size: 10pt' 0 comment's
-  - if signed_in?
-    = content_tag(:span, class: 'text-primary comment-button', style: 'font-size: 8pt')
-      = link_to t('add comment'), '', class: 'add_comment_button', style: 'text-decoration: none;', remote: true, data: {answer_id: answer.id}
-    =render 'comments/form', resource: answer
+  = render 'comments/section', commentable: answer
+
   ul.list-group
-    -answer.files.each do |file|
-      li class="attachment-id-#{file.id} list-group-item list-group-item-action"
-        = link_to file.filename, url_for(file)
-
+    - answer.files.each do |file|
+      = render 'shared/attachment', attachment: file, owner_id: answer.user_id
     p.btn.btn-outline-info
-      =answer.user.email
+      = answer.user.email
 
-  -if %i[update destroy].any? { |action| can? action, answer } # analogue of current_user && current_user.author_of? but there are nuances
-    = button_to t('delete_answer'), answer_path(answer), method: :delete, remote: true, class: 'btn btn-outline-danger'
-    p= link_to t('edit_answer'), '#', class: 'edit-answer-link btn btn-outline-warning', data: { answer_id: answer.id }
+  div data-controller="visibility" data-visibility-rule-value="owner" data-visibility-owner-id-value=answer.user_id hidden=true
+    = button_to t('delete_answer'), answer_path(answer), method: :delete, class: 'btn btn-outline-danger'
+    p= link_to t('edit_answer'), edit_answer_path(answer), class: 'btn btn-outline-warning', data: { turbo_frame: dom_id(answer, :edit) }
+    = turbo_frame_tag dom_id(answer, :edit)
 
-    = form_with model: answer, class: 'hidden', html: {id: "edit-answer-#{answer.id}"} do |f|
-      p.list-group
-      = f.label :body, 'Your answer'
-      = f.text_area :body, class: 'form-control'
-      ul.attachments
-        = render answer.files
-      = f.label :files
-      = f.file_field :files, multiple: true
-      ul.links
-
-        = render answer.links
-      p
-        = link_to_add_association t('add_link'), f, :links, partial: 'shared/nested_links_form', 'data-association-insertion-method' => 'after', form_name: 'link'
-        ul.links
-
-      = f.submit class: "btn btn-primary"
-
-  -if can? :best_answer, answer
-    p= link_to t('.best'), best_answer_answer_path(answer), class: 'best-answer-link btn btn-dark', method: :patch , remote: true
-
-  .answer-errors
+  div data-controller="visibility" data-visibility-rule-value="owner" data-visibility-owner-id-value=answer.question.user_id hidden=true
+    p= button_to t('answers.answer.best'), best_answer_answer_path(answer), method: :patch, class: 'btn btn-dark'

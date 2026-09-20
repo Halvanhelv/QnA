@@ -1,0 +1,13 @@
+= turbo_frame_tag dom_id(answer, :edit) do
+  = render 'shared/errors', resource: answer
+  = form_with model: answer do |f|
+    p.list-group
+    = f.label :body, 'Your answer'
+    = f.text_area :body, class: 'form-control'
+    ul.attachments
+      - answer.files.each do |file|
+        = render 'shared/attachment', attachment: file, owner_id: answer.user_id
+    = f.label :files
+    = f.file_field :files, multiple: true
+    = render 'shared/links_fields', form: f
+    = f.submit class: 'btn btn-primary'

@@ -1,15 +1,20 @@
 # frozen_string_literal: true
 
 class Answer < ApplicationRecord
-  belongs_to :question, touch: true
+  belongs_to :question
   belongs_to :user
   has_many :comments, dependent: :destroy, as: :commentable
-
-  after_commit :publish_answer, :send_notification
 
   include Linkable
   include Attachable
   include Votable
+  include Searchable
+
+  searchable_by :body
+
+  after_create_commit :broadcast_creation, :send_notification
+  after_update_commit :broadcast_changes
+  after_destroy_commit :broadcast_removal
 
   validates :body, presence: true
   validates :body, length: { minimum: 6 }
@@ -23,17 +28,21 @@ class Answer < ApplicationRecord
       question.best_answer&.update!(best_answer: false)
       update!(best_answer: true)
     end
+    question.broadcast_answers
   end
 
   private
 
-  def publish_answer
-    ActionCable.server.broadcast("answers_for_question_#{question.id}", {
-                                   author: user.email,
-                                   rating: rating,
-                                   links: links,
-                                   answer: self
-                                 })
+  def broadcast_creation
+    broadcast_append_to question, target: 'answers', partial: 'answers/answer', locals: { answer: self }
+  end
+
+  def broadcast_changes
+    broadcast_replace_to question, target: self, partial: 'answers/answer', locals: { answer: self }
+  end
+
+  def broadcast_removal
+    broadcast_remove_to question
   end
 
   def send_notification
