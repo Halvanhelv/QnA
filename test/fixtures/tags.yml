@@ -1,0 +1,7 @@
+rails:
+  name: rails
+  taggings_count: 1
+
+hotwire:
+  name: hotwire
+  taggings_count: 1

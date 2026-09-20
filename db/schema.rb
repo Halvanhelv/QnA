@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_20_182724) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_20_210000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.bigint "blob_id", null: false
@@ -42,9 +52,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_182724) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "answer_acceptances", force: :cascade do |t|
+    t.bigint "answer_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "question_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["answer_id"], name: "index_answer_acceptances_on_answer_id", unique: true
+    t.index ["question_id"], name: "index_answer_acceptances_on_question_id", unique: true
+  end
+
   create_table "answers", force: :cascade do |t|
-    t.boolean "best_answer", default: false
-    t.text "body", null: false
     t.datetime "created_at", null: false
     t.bigint "question_id", null: false
     t.datetime "updated_at", null: false
@@ -136,7 +153,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_182724) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.text "body", null: false
     t.datetime "created_at", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
@@ -162,6 +178,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_182724) do
     t.index ["question_id", "user_id"], name: "index_subscriptions_on_question_id_and_user_id"
     t.index ["question_id"], name: "index_subscriptions_on_question_id"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
+  create_table "taggings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "question_id", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id", "tag_id"], name: "index_taggings_on_question_id_and_tag_id", unique: true
+    t.index ["question_id"], name: "index_taggings_on_question_id"
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.integer "taggings_count", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -194,6 +228,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_182724) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "answer_acceptances", "answers"
+  add_foreign_key "answer_acceptances", "questions"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
   add_foreign_key "comments", "users"
@@ -205,5 +241,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_182724) do
   add_foreign_key "rewards", "users"
   add_foreign_key "subscriptions", "questions"
   add_foreign_key "subscriptions", "users"
+  add_foreign_key "taggings", "questions"
+  add_foreign_key "taggings", "tags"
   add_foreign_key "votes", "users"
 end

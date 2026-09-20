@@ -5,7 +5,7 @@
         = icon(:link, 'size-3.5')
         = link.name
       - link.gist_files.each do |_name, content|
-        pre class="overflow-x-auto rounded-md bg-ink p-4 text-sm leading-6 text-white" = content
+        pre class="overflow-x-auto rounded-md border border-line bg-canvas p-4 text-sm leading-6 text-ink" = content
   - else
     li id=dom_id(link) class="chip"
       = icon(:link, 'size-3.5')

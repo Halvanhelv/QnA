@@ -1,0 +1,9 @@
+Your email address changed
+
+<% if @resource.try(:unconfirmed_email?) -%>
+A change of your email address to <%= @resource.unconfirmed_email %> was requested. It takes effect once the new address is confirmed.
+<% else -%>
+The email address for your account is now <%= @resource.email %>.
+<% end -%>
+
+If you did not make this change, contact us as soon as possible.

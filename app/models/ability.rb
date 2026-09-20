@@ -24,13 +24,13 @@ class Ability
   end
 
   def user_abilities
-    can %i[positive_vote negative_vote], [Question, Answer] do |resource|
+    can :vote, [Question, Answer] do |resource|
       !user.author_of?(resource)
     end
 
     can :read, :all
     can :me, User, { user_id: user.id }
-    can :best_answer, Answer, question: { user_id: user.id }
+    can :accept, Answer, question: { user_id: user.id }
     can :create, [Question, Answer, Comment, Link, Subscription]
     can %i[update destroy], [Question, Answer, Comment, Subscription], { user_id: user.id }
     can :destroy, ActiveStorage::Attachment, record: { user_id: user.id }

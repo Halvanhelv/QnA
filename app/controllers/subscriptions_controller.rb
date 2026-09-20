@@ -8,7 +8,7 @@ class SubscriptionsController < ApplicationController
   authorize_resource
 
   def create
-    question.subscriptions.create(user_id: current_user.id)
+    question.subscribe(current_user)
     respond_with_subscription
   end
 

@@ -1,0 +1,10 @@
+New on Qna today
+
+<%= @greeting %>. <%= @questions.size == 1 ? 'Here is the question' : "Here are the #{@questions.size} questions" %> asked in the last day.
+
+<% @questions.each do |question| -%>
+* <%= question.title %>
+  <%= question_url(question) %>
+<% end -%>
+
+All questions: <%= root_url %>

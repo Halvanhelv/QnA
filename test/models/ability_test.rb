@@ -28,15 +28,15 @@ class AbilityTest < ActiveSupport::TestCase
 
   test 'user cannot vote for own resources but can for others' do
     ability = Ability.new(users(:alice))
-    assert ability.cannot?(:positive_vote, questions(:rails))
-    assert ability.can?(:positive_vote, questions(:hotwire))
-    assert ability.can?(:negative_vote, answers(:step_by_step))
+    assert ability.cannot?(:vote, questions(:rails))
+    assert ability.can?(:vote, questions(:hotwire))
+    assert ability.can?(:vote, answers(:step_by_step))
   end
 
-  test 'only the question author picks the best answer' do
+  test 'only the question author accepts the best answer' do
     answer = answers(:step_by_step)
-    assert Ability.new(users(:alice)).can?(:best_answer, answer)
-    assert Ability.new(users(:bob)).cannot?(:best_answer, answer)
+    assert Ability.new(users(:alice)).can?(:accept, answer)
+    assert Ability.new(users(:bob)).cannot?(:accept, answer)
   end
 
   test 'user destroys own links' do

@@ -8,7 +8,12 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   Capybara.default_max_wait_time = 5
   Capybara.enable_aria_label = true
 
-  driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400]
+  driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400] do |options|
+    # The "save password?" bubble that follows a form sign-in swallows clicks
+    options.add_preference('credentials_enable_service', false)
+    options.add_preference('profile.password_manager_enabled', false)
+    options.add_preference('profile.password_manager_leak_detection', false)
+  end
 
   # The :test cable adapter never delivers messages; system tests need real Turbo Stream delivery.
   setup do
@@ -20,6 +25,14 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   teardown do
     ActionCable.server.config.cable = @original_cable_config
     ActionCable.server.restart
+  end
+
+  # Lexxy renders a contenteditable instead of a textarea
+  def fill_in_editor(text, within: nil)
+    scope = within ? find(within) : page
+    editor = scope.find('lexxy-editor [contenteditable]', match: :first)
+    editor.click
+    editor.send_keys(text)
   end
 
   def sign_in_through_form(user)

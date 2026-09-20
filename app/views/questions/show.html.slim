@@ -1,4 +1,7 @@
 = turbo_stream_from question
+script id="my-votes" type="application/json" == my_votes_json(question)
+- content_for :title, question.title
+- content_for :description, question.plain_body.truncate(160)
 
 = render 'subscriptions/subscriptions', question: question
 = render 'questions/question', question: question

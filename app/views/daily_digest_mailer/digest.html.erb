@@ -1,0 +1,20 @@
+<%= mail_heading 'New on Qna today' %>
+<%= mail_paragraph "#{@greeting}. Here #{@questions.size == 1 ? 'is the question' : "are the #{@questions.size} questions"} asked in the last day." %>
+
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:0 0 24px;">
+  <% @questions.each_with_index do |question, index| %>
+    <tr>
+      <td class="rule" style="padding:14px 0;<%= 'border-top:1px solid #dde2ec;' if index.positive? %>">
+        <%= link_to question.title, question_url(question), class: 'plain ink',
+              style: "font-family:#{MailerHelper::FONT_DISPLAY};font-size:18px;font-weight:700;line-height:1.35;color:#{MailerHelper::INK};text-decoration:none;" %>
+        <p class="muted" style="margin:4px 0 0;font-size:14px;line-height:1.5;color:<%= MailerHelper::MUTED %>;"><%= question.plain_body.truncate(140) %></p>
+        <p class="muted" style="margin:6px 0 0;font-size:13px;color:<%= MailerHelper::MUTED %>;">
+          <%= question.user.email %>
+          <% if question.tags.any? %>&nbsp;&middot;&nbsp;<%= question.tags.map(&:name).join(', ') %><% end %>
+        </p>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<%= mail_button 'See all questions', root_url %>

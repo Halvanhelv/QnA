@@ -1,71 +1,24 @@
 # frozen_string_literal: true
 
 class Question < ApplicationRecord
-  has_many :answers, dependent: :destroy
-  has_one :reward, dependent: :destroy
-  has_many :subscriptions, dependent: :destroy
-  has_many :subscribers, through: :subscriptions, source: :user
+  include Linkable, Attachable, Votable, Searchable, Taggable,
+          Listable, Subscribable, Broadcasts
+
   belongs_to :user
+  has_many :answers, dependent: :destroy
   has_many :comments, dependent: :destroy, as: :commentable
+  has_one :reward, dependent: :destroy
+  has_one :acceptance, dependent: :destroy, class_name: 'Answer::Acceptance'
+  has_one :accepted_answer, through: :acceptance, source: :answer
 
-  include Linkable
-  include Attachable
-  include Votable
-  include Searchable
-
-  searchable_by :title, :body
-
-  after_create :create_subscription
-  after_create_commit :broadcast_to_index
-  after_update_commit :broadcast_changes
-  after_destroy_commit :broadcast_removal
+  has_rich_text :body
+  searchable_by :title, rich_text: :body
 
   accepts_nested_attributes_for :reward, reject_if: :all_blank
 
   validates :body, :title, presence: true
 
-  def best_answer
-    answers.best.first
-  end
-
   def ordered_answers
-    answers.reorder(best_answer: :desc, id: :asc)
-  end
-
-  def subscribed?(user)
-    subscriptions.exists?(user: user)
-  end
-
-  def subscription(user)
-    subscriptions.find_by(user: user)
-  end
-
-  def broadcast_answers
-    broadcast_replace_to self, target: 'answers', partial: 'answers/list', locals: { question: self }
-  end
-
-  private
-
-  def broadcast_to_index
-    broadcast_append_to 'questions', target: 'questions', partial: 'questions/list_item', locals: { question: self }
-  end
-
-  def broadcast_changes
-    broadcast_replace_to 'questions', target: dom_id_for(:list_item), partial: 'questions/list_item',
-                                      locals: { question: self }
-    broadcast_replace_to self, target: self, partial: 'questions/question', locals: { question: self }
-  end
-
-  def broadcast_removal
-    broadcast_remove_to 'questions', target: dom_id_for(:list_item)
-    broadcast_remove_to self
-  end
-
-  def dom_id_for(prefix)
-    ActionView::RecordIdentifier.dom_id(self, prefix)
-  end
-
-  def create_subscription
-    subscriptions.create(user_id: user_id)
+    answers.left_joins(:acceptance).reorder(Arel.sql('answer_acceptances.id IS NULL, answers.id ASC'))
   end
 end

@@ -1,13 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="supported-color-schemes" content="light dark">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
     <style>
-      /* Email styles need to be inline */
+      @media (max-width: 620px) {
+        .container { width: 100% !important; }
+        .pad { padding: 24px 20px !important; }
+      }
+      @media (prefers-color-scheme: dark) {
+        .canvas { background: #0d1120 !important; }
+        .card { background: #151b2d !important; border-color: #252d44 !important; }
+        .ink, .ink a.plain { color: #e6eaf5 !important; }
+        .muted { color: #98a2b8 !important; }
+        .quote { background: #0d1120 !important; border-left-color: #8b98ff !important; }
+        .btn { background: #8b98ff !important; }
+        .btn-text { color: #0d1120 !important; }
+        .rule { border-color: #252d44 !important; }
+        a.link { color: #8b98ff !important; }
+      }
     </style>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="canvas" style="margin:0;padding:0;background:<%= MailerHelper::CANVAS %>;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" class="canvas" style="background:<%= MailerHelper::CANVAS %>;">
+      <tr>
+        <td align="center" style="padding:32px 12px;">
+          <table role="presentation" width="560" cellspacing="0" cellpadding="0" border="0" class="container" style="width:560px;max-width:100%;">
+            <tr>
+              <td style="padding:0 4px 16px;">
+                <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                  <tr>
+                    <td width="32" height="32" align="center" bgcolor="<%= MailerHelper::BRAND %>" style="width:32px;height:32px;background:<%= MailerHelper::BRAND %>;border-radius:8px;font-family:<%= MailerHelper::FONT_DISPLAY %>;font-size:18px;font-weight:700;line-height:32px;color:#ffffff;">?</td>
+                    <td style="padding-left:10px;font-family:<%= MailerHelper::FONT_DISPLAY %>;font-size:20px;font-weight:700;letter-spacing:-0.02em;color:<%= MailerHelper::INK %>;" class="ink">Qna</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="card pad" style="padding:32px;background:<%= MailerHelper::SURFACE %>;border:1px solid <%= MailerHelper::LINE %>;border-radius:8px;font-family:<%= MailerHelper::FONT_BODY %>;font-size:16px;line-height:1.6;color:<%= MailerHelper::INK %>;">
+                <%= yield %>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding:20px 4px 0;font-family:<%= MailerHelper::FONT_BODY %>;font-size:12px;line-height:1.6;color:<%= MailerHelper::MUTED %>;" class="muted">
+                <%= content_for?(:footer) ? yield(:footer) : "You are receiving this email because you have an account on Qna." %>
+                <br>
+                <a href="<%= root_url %>" style="color:<%= MailerHelper::MUTED %>;">Open Qna</a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>

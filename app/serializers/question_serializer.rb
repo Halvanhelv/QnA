@@ -8,6 +8,10 @@ class QuestionSerializer < ActiveModel::Serializer
   has_many :links
   has_many :comments
 
+  def body
+    object.plain_body
+  end
+
   def files
     object.files.map do |file|
       { id: file.id, url: rails_blob_url(file, only_path: true) }

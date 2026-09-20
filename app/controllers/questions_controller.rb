@@ -4,12 +4,13 @@ class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :question, except: %i[index create]
 
-  include Voted
-
   authorize_resource
 
   def index
-    @questions = Question.includes(:user)
+    @sort = Question::SORTS.include?(params[:sort]) ? params[:sort] : 'newest'
+    @tag = params[:tag].presence
+    @questions = Question.listing(sort: @sort, tag: @tag).paginate(page: params[:page], per_page: Question::PER_PAGE)
+    @popular_tags = Tag.popular
   end
 
   def show
@@ -37,10 +38,7 @@ class QuestionsController < ApplicationController
     if question.update(question_params)
       respond_to do |format|
         # The updated question reaches every viewer, the author included, through the Turbo Stream broadcast.
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.update('flash', partial: 'shared/flash',
-                                                            locals: { flash: { notice: 'Your question successfully updated.' } })
-        end
+        format.turbo_stream { render turbo_stream: turbo_stream_flash(notice: 'Your question successfully updated.') }
         format.html { redirect_to question, notice: 'Your question successfully updated.' }
       end
     else
@@ -66,7 +64,7 @@ class QuestionsController < ApplicationController
   helper_method :question
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [],
+    params.require(:question).permit(:title, :body, :tag_list, files: [],
                                                     links_attributes: %i[id name url _destroy],
                                                     reward_attributes: %i[name img])
   end

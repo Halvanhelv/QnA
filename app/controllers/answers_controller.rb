@@ -4,8 +4,6 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :answer
 
-  include Voted
-
   authorize_resource
 
   def create
@@ -39,15 +37,6 @@ class AnswersController < ApplicationController
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to answer.question, notice: 'Answer successfully deleted.' }
-    end
-  end
-
-  def best_answer
-    authorize! :best_answer, answer
-    answer.make_best_answer
-    respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.replace('answers', partial: 'answers/list', locals: { question: answer.question }) }
-      format.html { redirect_to answer.question }
     end
   end
 

@@ -17,7 +17,7 @@ class CommentsController < ApplicationController
     if @comment.save
       respond_to do |format|
         format.turbo_stream # the comment itself arrives through the question's Turbo Stream broadcast
-        format.html { redirect_to question }
+        format.html { redirect_to @comment.question }
       end
     else
       render :new, status: :unprocessable_entity
@@ -33,10 +33,6 @@ class CommentsController < ApplicationController
 
   def commentable_class
     { 'questions' => Question, 'answers' => Answer }.fetch(params[:commentable])
-  end
-
-  def question
-    commentable.is_a?(Question) ? commentable : commentable.question
   end
 
   def comment_params

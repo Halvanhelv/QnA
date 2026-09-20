@@ -1,16 +1,43 @@
-= turbo_stream_from 'questions'
+/ Live updates only make sense while the list is the plain newest-first first page
+- live = @sort == 'newest' && @tag.blank? && @questions.current_page == 1
+= turbo_stream_from 'questions' if live
+- content_for :title, (@tag ? "Questions tagged #{@tag}" : 'Questions')
 
 div class="mb-6 flex flex-wrap items-end justify-between gap-4"
   div
     h1 class="font-display text-3xl font-bold sm:text-4xl" Questions
     p class="mt-1 text-muted" Ask something, or help someone get unstuck.
-  = link_to new_question_path, class: 'btn btn-primary' do
+  = link_to new_question_path, class: "btn btn-primary #{'sm:hidden' if current_user}" do
     = icon(:plus)
     = t('.question.new_button')
+
+div class="mb-3 flex flex-wrap items-center justify-between gap-3"
+  nav class="inline-flex rounded-md border border-line-strong bg-surface p-0.5" aria-label="Sort questions"
+    - { 'newest' => 'Newest', 'unanswered' => 'Unanswered', 'top' => 'Top voted' }.each do |key, label|
+      = link_to label, questions_path(sort: (key unless key == 'newest'), tag: @tag), 'aria-current': (@sort == key ? 'page' : nil), class: "rounded-[5px] px-3 py-1.5 text-sm font-semibold no-underline transition-colors #{@sort == key ? 'bg-brand-soft text-brand' : 'text-muted hover:text-ink'}"
+
+  - if @tag
+    = link_to questions_path(sort: (@sort unless @sort == 'newest')), class: 'chip !text-ink no-underline hover:border-danger', title: 'Clear tag filter' do
+      | Tagged
+      strong = @tag
+      = icon(:x, 'size-3.5')
+
+- if @tag.blank? && @popular_tags.any?
+  ul class="mb-4 flex flex-wrap items-center gap-1.5" aria-label="Popular tags"
+    li class="mr-1 text-sm text-muted" Popular tags
+    - @popular_tags.each do |tag|
+      li= link_to tag.name, questions_path(tag: tag.name, sort: (@sort unless @sort == 'newest')), class: 'chip !text-brand no-underline hover:border-brand'
 
 ul id="questions" class="panel divide-y divide-line overflow-hidden"
   - if @questions.empty?
     li class="hidden px-5 py-10 text-center only:block"
-      p class="font-display text-lg font-semibold" No questions yet
-      p class="mt-1 text-muted" Be the first to ask one.
+      - if @tag || @sort != 'newest'
+        p class="font-display text-lg font-semibold" No questions match
+        p class="mt-1 text-muted"
+          = link_to 'Show all questions', questions_path
+      - else
+        p class="font-display text-lg font-semibold" No questions yet
+        p class="mt-1 text-muted" Be the first to ask one.
   = render partial: 'questions/list_item', collection: @questions, as: :question
+
+div class="mt-6" = will_paginate @questions

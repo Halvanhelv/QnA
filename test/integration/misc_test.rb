@@ -75,4 +75,20 @@ class MiscTest < ActionDispatch::IntegrationTest
   test 'kconv is available for letter_opener in development' do
     assert require('kconv')
   end
+
+  test 'pages set a title and the layout offers a skip link' do
+    get question_path(questions(:rails))
+
+    assert_select 'title', "#{questions(:rails).title} - Qna"
+    assert_select "a.skip-link[href='#main']"
+    assert_select 'main#main'
+  end
+
+  test 'signed in users get an ask button in the header' do
+    sign_in users(:alice)
+
+    get root_path
+
+    assert_select "header a[href='#{new_question_path}']", /Ask question/
+  end
 end
