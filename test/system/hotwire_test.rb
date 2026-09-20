@@ -89,4 +89,19 @@ class HotwireTest < ApplicationSystemTestCase
     first('.nested-fields').click_on 'Remove link'
     assert_selector '.nested-fields', count: 1
   end
+
+  test 'search scope is a Choices.js select that submits its value' do
+    visit root_path
+    find('.choices').click
+    find('.choices__item--choice', text: 'users').click
+
+    fill_in 'Search', with: 'alice', match: :first
+    find('input[type=submit]').click
+
+    assert_text '1 result'
+    assert_selector '.choices__list--single .choices__item', text: 'users'
+
+    page.go_back
+    assert_selector '.choices', count: 1
+  end
 end
