@@ -1,4 +1,0 @@
-- if question.tags.any?
-  ul class="flex flex-wrap gap-1.5" aria-label="Tags"
-    - question.tags.each do |tag|
-      li= link_to tag.name, questions_path(tag: tag.name), class: 'chip !text-brand no-underline hover:border-brand'

@@ -1,0 +1,5 @@
+<%= turbo_frame_tag dom_id(question, :edit) do %>
+  <div class="mt-3 rounded-md bg-canvas p-4">
+    <%= render 'questions/form', question: question %>
+  </div>
+<% end %>

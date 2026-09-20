@@ -1,4 +1,0 @@
-- flash.each do |key, message|
-  - tone = key.to_s == 'alert' ? 'border-danger bg-danger-soft text-danger' : 'border-brand bg-surface text-ink'
-  div class="rounded-md border-l-4 px-4 py-3 text-sm font-medium shadow-lg shadow-ink/10 #{tone}" role=(key.to_s == 'alert' ? 'alert' : 'status') data-controller="flash"
-    = message

@@ -1,9 +1,0 @@
-div class="auth-card"
-  h1 class="font-display text-2xl font-bold" One more step
-  = render 'shared/errors', resource: user
-  p class="text-muted" = t('oauth.email_blank', provider: provider)
-  = form_with url: custom_email_path, method: :post, class: 'space-y-4' do |f|
-    div class="field"
-      = f.label :email, 'Email', class: 'label'
-      = f.email_field :email, autofocus: true, class: 'input', placeholder: t('email_placeholder')
-    = f.submit t('oauth.email.send'), class: 'btn btn-primary w-full'
