@@ -2,7 +2,7 @@
 
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :answer, except: :new
+  before_action :answer
 
   include Voted
 

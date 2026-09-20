@@ -1,0 +1,4 @@
+guide:
+  name: Upgrade guide
+  url: https://guides.rubyonrails.org/upgrading_ruby_on_rails.html
+  linkable: rails (Question)

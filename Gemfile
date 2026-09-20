@@ -66,6 +66,7 @@ group :development do
 end
 
 group :test do
+  gem 'minitest-mock'
   gem 'capybara'
   gem 'selenium-webdriver'
 end

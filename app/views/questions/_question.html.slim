@@ -4,7 +4,6 @@ div id=dom_id(question)
   p= question.user.email
 
   = render 'shared/votes', resource: question
-  = render 'subscriptions/subscriptions', question: question
 
   - if question.files.attached?
     ul.list-group

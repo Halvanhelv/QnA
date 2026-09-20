@@ -1,0 +1,4 @@
+bob_likes_rails:
+  user: bob
+  votable: rails (Question)
+  score: 1

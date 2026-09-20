@@ -1,0 +1,7 @@
+alice_rails:
+  user: alice
+  question: rails
+
+bob_hotwire:
+  user: bob
+  question: hotwire

@@ -1,6 +1,7 @@
 = turbo_stream_from question
 
 = render 'questions/question', question: question
+= render 'subscriptions/subscriptions', question: question
 br
 = render 'answers/list', question: question
 = render 'answers/form', question: question, answer: answer
