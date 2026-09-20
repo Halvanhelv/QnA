@@ -7,7 +7,7 @@ class QuestionsTest < ActionDispatch::IntegrationTest
     get root_path
 
     assert_response :success
-    assert_select 'ul#questions li', Question.count
+    assert_select 'ul#questions > li', Question.count
     assert_select 'turbo-cable-stream-source'
   end
 
@@ -138,5 +138,61 @@ class QuestionsTest < ActionDispatch::IntegrationTest
     get new_question_path
 
     assert_select 'lexxy-editor'
+  end
+
+  test 'index filters by tag and shows the active filter' do
+    get questions_path(tag: 'hotwire')
+
+    assert_select 'ul#questions > li', 1
+    assert_select 'ul#questions a', text: questions(:hotwire).title
+    assert_select "a[title='Clear tag filter']"
+  end
+
+  test 'index sorts unanswered and marks the active tab' do
+    Question.create!(title: 'Nobody answered', body: 'Body', user: users(:alice))
+
+    get questions_path(sort: 'unanswered')
+
+    assert_select 'ul#questions > li', 1
+    assert_select "nav[aria-label='Sort questions'] a[aria-current='page']", 'Unanswered'
+  end
+
+  test 'live updates are only wired for the plain newest list' do
+    get questions_path
+    assert_select 'turbo-cable-stream-source'
+
+    get questions_path(sort: 'top')
+    assert_select 'turbo-cable-stream-source', 0
+
+    get questions_path(tag: 'rails')
+    assert_select 'turbo-cable-stream-source', 0
+  end
+
+  test 'index paginates' do
+    20.times { |i| Question.create!(title: "Extra #{i}", body: 'Body', user: users(:alice)) }
+
+    get questions_path
+    assert_select 'ul#questions > li', Question::PER_PAGE
+    assert_select '.pagination'
+
+    get questions_path(page: 2)
+    assert_select 'ul#questions > li', Question.count - Question::PER_PAGE
+  end
+
+  test 'creating a question saves its tags' do
+    sign_in users(:alice)
+
+    post questions_path, params: { question: { title: 'Tagged one', body: 'Body', tag_list: 'rails, kamal' } }
+
+    assert_equal %w[kamal rails], Question.last.tags.map(&:name).sort
+  end
+
+  test 'too many tags re-renders the form' do
+    sign_in users(:alice)
+
+    post questions_path, params: { question: { title: 'Tagged one', body: 'Body', tag_list: 'a b c d e f' } }
+
+    assert_response :unprocessable_entity
+    assert_select 'li', /at most 5/
   end
 end

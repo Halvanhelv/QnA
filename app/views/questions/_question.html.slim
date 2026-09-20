@@ -28,6 +28,8 @@ article id=dom_id(question) class="panel mt-3 p-5 sm:p-6"
               | Reward for the best answer
             p class="font-medium" = question.reward.name
 
+      = render 'questions/tags', question: question
+
       = render 'comments/section', commentable: question
 
       div data-controller="visibility" data-visibility-rule-value="owner" data-visibility-owner-id-value=question.user_id hidden=true

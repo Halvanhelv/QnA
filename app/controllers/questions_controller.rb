@@ -9,7 +9,10 @@ class QuestionsController < ApplicationController
   authorize_resource
 
   def index
-    @questions = Question.includes(:user)
+    @sort = Question::SORTS.include?(params[:sort]) ? params[:sort] : 'newest'
+    @tag = params[:tag].presence
+    @questions = Question.listing(sort: @sort, tag: @tag).paginate(page: params[:page], per_page: Question::PER_PAGE)
+    @popular_tags = Tag.popular
   end
 
   def show
@@ -66,7 +69,7 @@ class QuestionsController < ApplicationController
   helper_method :question
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [],
+    params.require(:question).permit(:title, :body, :tag_list, files: [],
                                                     links_attributes: %i[id name url _destroy],
                                                     reward_attributes: %i[name img])
   end

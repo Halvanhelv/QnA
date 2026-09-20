@@ -12,6 +12,7 @@ class Question < ApplicationRecord
   include Attachable
   include Votable
   include Searchable
+  include Taggable
 
   has_rich_text :body
   searchable_by :title, rich_text: :body
@@ -24,6 +25,27 @@ class Question < ApplicationRecord
   accepts_nested_attributes_for :reward, reject_if: :all_blank
 
   validates :body, :title, presence: true
+
+  SORTS = %w[newest unanswered top].freeze
+  PER_PAGE = 15
+
+  scope :with_details, -> { includes(:user, :tags).with_rich_text_body }
+
+  # Question list: filtered by tag, ordered by `sort` (newest, unanswered or top)
+  def self.listing(sort: 'newest', tag: nil)
+    questions = with_details
+    questions = questions.tagged_with(tag) if tag.present?
+
+    case sort
+    when 'unanswered'
+      questions.where.missing(:answers).reorder(id: :desc)
+    when 'top'
+      rating = "(SELECT COALESCE(SUM(score), 0) FROM votes WHERE votable_type = 'Question' AND votable_id = questions.id)"
+      questions.reorder(Arel.sql("#{rating} DESC, questions.id DESC"))
+    else
+      questions.reorder(id: :desc)
+    end
+  end
 
   def best_answer
     answers.best.first
@@ -48,7 +70,7 @@ class Question < ApplicationRecord
   private
 
   def broadcast_to_index
-    broadcast_append_to 'questions', target: 'questions', partial: 'questions/list_item', locals: { question: self }
+    broadcast_prepend_to 'questions', target: 'questions', partial: 'questions/list_item', locals: { question: self }
   end
 
   def broadcast_changes

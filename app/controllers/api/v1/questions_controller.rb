@@ -43,7 +43,7 @@ module Api
       private
 
       def question_params
-        params.require(:question).permit(:title, :body,
+        params.require(:question).permit(:title, :body, :tag_list,
                                          links_attributes: %i[name url])
       end
 

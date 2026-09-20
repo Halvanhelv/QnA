@@ -13,6 +13,14 @@
         = render 'shared/attachment', attachment: file, owner_id: question.user_id
 
   div class="field"
+    = f.label :tag_list, 'Tags', class: 'label'
+    = f.text_field :tag_list, value: question.tag_list, list: 'tag-suggestions', autocomplete: 'off', class: 'input', placeholder: 'rails, hotwire, deployment'
+    p class="text-xs text-muted" Up to 5 tags, separated by commas.
+    datalist id="tag-suggestions"
+      - Tag.popular(30).each do |tag|
+        option value=tag.name
+
+  div class="field"
     = f.label :files, 'Attachments', class: 'label'
     = f.file_field :files, multiple: true, class: 'file-input'
 

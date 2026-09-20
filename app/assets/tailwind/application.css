@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Dark theme is switched with <html data-theme="dark"> (set from the OS preference or the header toggle) */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 /*
  * Design tokens.
  * Cool paper canvas, ink text, one ultramarine for actions.
@@ -19,12 +22,36 @@
   --color-brand: #3347ff;
   --color-brand-strong: #2536d6;
   --color-brand-soft: #e8ebff;
+  --color-on-brand: #ffffff;
 
   --color-accepted: #0f8a5f;
   --color-accepted-soft: #e3f5ec;
 
   --color-danger: #c8323c;
   --color-danger-soft: #fcebec;
+}
+
+/* Dark palette: same names, deeper values. Green/red keep their meaning. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-canvas: #0d1120;
+  --color-surface: #151b2d;
+  --color-ink: #e6eaf5;
+  --color-muted: #98a2b8;
+  --color-line: #252d44;
+  --color-line-strong: #3a4562;
+
+  --color-brand: #8b98ff;
+  --color-brand-strong: #a9b3ff;
+  --color-brand-soft: #1f2650;
+  --color-on-brand: #0d1120;
+
+  --color-accepted: #45d6a3;
+  --color-accepted-soft: #10302a;
+
+  --color-danger: #ff7a84;
+  --color-danger-soft: #3b1c22;
 }
 
 @layer base {
@@ -68,9 +95,10 @@
   .btn {
     @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-3.5 py-2 text-sm font-semibold transition-colors;
   }
-  .btn-primary { @apply bg-brand text-white hover:bg-brand-strong; }
+  .btn-primary { @apply bg-brand text-on-brand hover:bg-brand-strong; }
   .btn-ghost { @apply border border-line-strong bg-surface text-ink hover:border-ink; }
   .btn-danger { @apply text-danger hover:bg-danger-soft; }
+  .btn-icon { @apply inline-flex size-9 cursor-pointer items-center justify-center rounded-md text-muted transition-colors hover:bg-canvas hover:text-ink; }
   .btn-quiet { @apply px-2 py-1 text-muted hover:bg-canvas hover:text-ink; }
   .btn-accept { @apply border border-accepted text-accepted hover:bg-accepted-soft; }
 
@@ -111,7 +139,7 @@
  */
 :root {
   --choices-radius: 0.375rem;
-  --choices-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235b6579' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  --choices-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
 
 .choices {
@@ -136,7 +164,8 @@
   width: 1rem;
   height: 1rem;
   translate: 0 -50%;
-  background: var(--choices-arrow) center / contain no-repeat;
+  background: var(--color-muted);
+  mask: var(--choices-arrow) center / contain no-repeat;
   transition: rotate 0.2s ease-in-out;
   pointer-events: none;
 }
@@ -239,3 +268,53 @@
 
 /* The search pill already shows a focus ring (focus-within) */
 .choices-bare .choices:focus-visible { outline: none; }
+
+/* Avatar tones: one hue per person, tinted from the current surface so both themes stay calm */
+.avatar { background: color-mix(in oklab, var(--tone) 16%, var(--color-surface)); color: color-mix(in oklab, var(--tone) 75%, var(--color-ink)); }
+.avatar-0 { --tone: #3347ff; }
+.avatar-1 { --tone: #0f8a5f; }
+.avatar-2 { --tone: #c47a05; }
+.avatar-3 { --tone: #d0365a; }
+.avatar-4 { --tone: #0f86c9; }
+.avatar-5 { --tone: #8443d6; }
+
+/*
+ * Lexxy (rich text editor and rendered content) follows our tokens, so it switches theme with the app.
+ * The lexxy stylesheet is loaded before this one; equal specificity, later wins.
+ */
+:root {
+  --lexxy-font-base: var(--font-sans);
+  --lexxy-color-canvas: var(--color-surface);
+  --lexxy-color-text: var(--color-ink);
+  --lexxy-color-text-subtle: var(--color-muted);
+  --lexxy-color-link: var(--color-brand);
+  --lexxy-color-ink: var(--color-ink);
+  --lexxy-color-ink-medium: var(--color-muted);
+  --lexxy-color-ink-lighter: var(--color-line-strong);
+  --lexxy-color-ink-lightest: var(--color-canvas);
+  --lexxy-color-ink-inverted: var(--color-surface);
+  --lexxy-color-code-bg: var(--color-canvas);
+  --lexxy-color-selected: var(--color-brand-soft);
+  --lexxy-color-selected-hover: color-mix(in oklab, var(--color-brand) 25%, var(--color-surface));
+  --lexxy-color-accent-dark: var(--color-brand);
+  --lexxy-color-accent-light: var(--color-brand-soft);
+  --lexxy-color-accent-lightest: var(--color-brand-soft);
+  --lexxy-focus-ring-color: var(--color-brand);
+}
+
+:root[data-theme="dark"] {
+  --lexxy-color-code-token-att: #ff7b86;
+  --lexxy-color-code-token-comment: #8b95a9;
+  --lexxy-color-code-token-function: #c4a5ff;
+  --lexxy-color-code-token-operator: #ff7b86;
+  --lexxy-color-code-token-property: #7db6ff;
+  --lexxy-color-code-token-punctuation: #d6dcec;
+  --lexxy-color-code-token-selector: #6fe3a8;
+  --lexxy-color-code-token-variable: #ffb36b;
+}
+
+/* Rendered rich text sits flush inside its column */
+.prose-body .lexxy-content > :first-child { margin-top: 0; }
+.prose-body .lexxy-content > :last-child,
+.prose-body .lexxy-content > :last-child > :last-child { margin-bottom: 0; }
+lexxy-editor { border-radius: 0.375rem; }
