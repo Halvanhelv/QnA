@@ -7,7 +7,7 @@ gem 'rails', '~> 8.1.3'
 # Core
 gem 'bootsnap', require: false
 # json 3.x breaks ActiveSupport::JSON.decode on Rails 8.1
-gem 'json', '~> 2.10'
+gem 'json', '~> 3.0'
 gem 'pg', '~> 1.5'
 gem 'puma', '>= 6.0'
 gem 'tzinfo-data', platforms: %i[windows jruby]
