@@ -1,7 +1,16 @@
 = turbo_stream_from 'questions'
 
-p.btn
-  = link_to t('.question.new_button'), new_question_path, class: 'text-success'
+div class="mb-6 flex flex-wrap items-end justify-between gap-4"
+  div
+    h1 class="font-display text-3xl font-bold sm:text-4xl" Questions
+    p class="mt-1 text-muted" Ask something, or help someone get unstuck.
+  = link_to new_question_path, class: 'btn btn-primary' do
+    = icon(:plus)
+    = t('.question.new_button')
 
-ul.list-group.question-list id="questions"
+ul id="questions" class="panel divide-y divide-line overflow-hidden"
+  - if @questions.empty?
+    li class="hidden px-5 py-10 text-center only:block"
+      p class="font-display text-lg font-semibold" No questions yet
+      p class="mt-1 text-muted" Be the first to ask one.
   = render partial: 'questions/list_item', collection: @questions, as: :question

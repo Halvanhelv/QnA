@@ -1,5 +1,5 @@
-.comments-section
-  ul.list-group.comments id=dom_id(commentable, :comments)
+section class="border-t border-line pt-3" aria-label="Comments"
+  ul id=dom_id(commentable, :comments) class="space-y-2 empty:hidden"
     = render commentable.comments
   div data-controller="visibility" data-visibility-rule-value="signed_in" hidden=true
     = render 'comments/new_link', commentable: commentable

@@ -12,11 +12,12 @@ class QuestionsTest < ActionDispatch::IntegrationTest
   end
 
   test 'show renders question, answers, comments and new answer form' do
+    sign_in users(:bob)
     get question_path(questions(:rails))
 
     assert_response :success
     assert_select 'h1', questions(:rails).title
-    assert_select '#answers > ul.list-group', questions(:rails).answers.count
+    assert_select '#answers > article', questions(:rails).answers.count
     assert_select "ul##{dom_id(questions(:rails), :comments)} li", 1
     assert_select 'form.new-answer'
   end

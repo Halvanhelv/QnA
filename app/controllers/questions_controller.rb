@@ -9,7 +9,7 @@ class QuestionsController < ApplicationController
   authorize_resource
 
   def index
-    @questions = Question.all
+    @questions = Question.includes(:user)
   end
 
   def show

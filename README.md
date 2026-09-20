@@ -3,6 +3,7 @@
 Questions and answers app built on the Hotwire stack.
 
 - **Ruby 4.0**, **Rails 8.1**, PostgreSQL
+- **Tailwind CSS 4** (`tailwindcss-rails`, no Node): design tokens live in `app/assets/tailwind/application.css`
 - **Hotwire**: Turbo Drive/Frames/Streams (live answers, comments, questions list) and Stimulus, served through importmap and Propshaft, no Node build step
 - **Solid stack**: Solid Queue (jobs and recurring digest), Solid Cache, Solid Cable, all backed by PostgreSQL
 - **Search**: PostgreSQL full text search via `pg_search`
@@ -15,7 +16,7 @@ Questions and answers app built on the Hotwire stack.
 ```bash
 cp config/database.yml.sample config/database.yml
 bin/rails db:setup
-bin/dev            # or bin/rails server
+bin/dev            # Rails server + Tailwind watcher
 ```
 
 OAuth keys and the mail account come from ENV (`GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`,

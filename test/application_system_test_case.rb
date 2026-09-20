@@ -6,6 +6,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   include Devise::Test::IntegrationHelpers
 
   Capybara.default_max_wait_time = 5
+  Capybara.enable_aria_label = true
 
   driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400]
 
@@ -25,7 +26,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     visit new_user_session_path
     fill_in 'Email', with: user.email
     fill_in 'Password', with: user_password
-    click_on 'Log in'
+    click_button 'Log in'
     assert_text 'Signed in successfully'
   end
 end

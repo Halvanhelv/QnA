@@ -1,11 +1,16 @@
+h1 class="mb-6 font-display text-3xl font-bold sm:text-4xl" = t('all rewards')
+
 - if @rewards.any?
-  - @rewards.each do |reward|
-    = reward.question.title
-    p
-    = reward.name
-    p
-    = image_tag rails_blob_path(reward.img, only_path: true), size: 200
-    p --------------------------------------------------------------------
+  ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+    - @rewards.each do |reward|
+      li class="panel flex items-center gap-4 p-4"
+        = image_tag rails_blob_path(reward.img, only_path: true), alt: '', class: 'size-20 shrink-0 rounded-md object-cover'
+        div class="min-w-0"
+          p class="flex items-center gap-1.5 text-sm font-semibold text-accepted"
+            = icon(:trophy)
+            = reward.name
+          = link_to reward.question.title, question_path(reward.question), class: 'font-display font-semibold leading-snug text-ink hover:text-brand'
 - else
-  p
-  = t('no rewards')
+  div class="panel px-5 py-12 text-center"
+    p class="font-display text-lg font-semibold" = t('no rewards')
+    p class="mt-1 text-muted" Answer a question with a reward and get picked as best to earn one.

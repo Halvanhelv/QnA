@@ -1,5 +1,5 @@
-= form_with url: search_path, scope: :search, method: :get do |f|
-  .input-group.mb-3
-    = f.text_area :body, class: 'form-control input', placeholder: 'Search', 'aria-label': 'Search'
-    = f.select :scope, Services::Search::SCOPES, {}, class: 'form-select'
-    = f.submit 'Search', class: 'button btn btn-outline-secondary'
+= form_with url: search_path, scope: :search, method: :get, class: 'flex w-full max-w-xl items-center rounded-md border border-line-strong bg-surface focus-within:border-brand focus-within:outline-2 focus-within:outline-brand/30', role: 'search' do |f|
+  span class="pl-3 text-muted" = icon(:search)
+  = f.text_field :body, value: params.dig(:search, :body), placeholder: 'Search questions, answers, people', 'aria-label': 'Search', class: 'min-w-0 flex-1 border-0 bg-transparent px-2 py-2 text-sm text-ink placeholder:text-muted focus:outline-none'
+  = f.select :scope, Services::Search::SCOPES, { selected: params.dig(:search, :scope) || 'all' }, 'aria-label': 'Search in', class: 'border-0 border-l border-line bg-transparent py-2 pl-2 pr-6 text-sm text-muted focus:outline-none'
+  = f.submit 'Search', class: 'btn btn-quiet m-0.5 rounded-[5px]'

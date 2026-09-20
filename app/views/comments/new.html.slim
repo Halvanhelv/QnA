@@ -1,9 +1,6 @@
 = turbo_frame_tag dom_id(commentable, :new_comment)
   = render 'shared/errors', resource: @comment
-  .form-group.comment-block
-    = form_with model: [commentable, @comment], namespace: dom_id(commentable) do |f|
-      .form-group
-        = f.label :body
-        = f.text_area :body, class: 'form-control col-md-3'
-        br
-        = f.submit t('save comment'), class: 'button btn btn-primary', style: 'font-size: 8pt'
+  = form_with model: [commentable, @comment], namespace: dom_id(commentable), class: 'mt-2 space-y-2' do |f|
+    = f.label :body, 'Comment', class: 'sr-only'
+    = f.text_area :body, rows: 2, placeholder: 'Add a comment (at least 10 characters)', class: 'input'
+    = f.submit t('save comment'), class: 'btn btn-primary'

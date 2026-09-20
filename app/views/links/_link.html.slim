@@ -1,8 +1,12 @@
 - if link.persisted?
-  li id=dom_id(link)
-    - if link.gist?
+  - if link.gist?
+    li id=dom_id(link) class="w-full space-y-2"
+      = link_to link.url, class: 'chip' do
+        = icon(:link, 'size-3.5')
+        = link.name
       - link.gist_files.each do |_name, content|
-        p= link_to link.name, link.url
-        p= content
-    - else
-      = link_to link.name, link.url
+        pre class="overflow-x-auto rounded-md bg-ink p-4 text-sm leading-6 text-white" = content
+  - else
+    li id=dom_id(link) class="chip"
+      = icon(:link, 'size-3.5')
+      = link_to link.name, link.url, target: '_blank', rel: 'noopener'

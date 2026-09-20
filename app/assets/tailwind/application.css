@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens.
+ * Cool paper canvas, ink text, one ultramarine for actions.
+ * Green is reserved for "accepted" (best answer, rewards), red for destructive actions and errors.
+ */
+@theme {
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+
+  --color-canvas: #f2f4f8;
+  --color-surface: #ffffff;
+  --color-ink: #141b2d;
+  --color-muted: #5b6579;
+  --color-line: #dde2ec;
+  --color-line-strong: #c3cbdb;
+
+  --color-brand: #3347ff;
+  --color-brand-strong: #2536d6;
+  --color-brand-soft: #e8ebff;
+
+  --color-accepted: #0f8a5f;
+  --color-accepted-soft: #e3f5ec;
+
+  --color-danger: #c8323c;
+  --color-danger-soft: #fcebec;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    min-height: 100dvh;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  a { text-underline-offset: 3px; }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+}
+
+@layer components {
+  /* Buttons: <button>, <a> and button_to all take these classes */
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-3.5 py-2 text-sm font-semibold transition-colors;
+  }
+  .btn-primary { @apply bg-brand text-white hover:bg-brand-strong; }
+  .btn-ghost { @apply border border-line-strong bg-surface text-ink hover:border-ink; }
+  .btn-danger { @apply text-danger hover:bg-danger-soft; }
+  .btn-quiet { @apply px-2 py-1 text-muted hover:bg-canvas hover:text-ink; }
+  .btn-accept { @apply border border-accepted text-accepted hover:bg-accepted-soft; }
+
+  /* Form controls */
+  .field { @apply space-y-1.5; }
+  .label { @apply block text-sm font-semibold text-ink; }
+  .input {
+    @apply block w-full rounded-md border border-line-strong bg-surface px-3 py-2 text-base text-ink placeholder:text-muted;
+    @apply focus:border-brand focus:outline-2 focus:outline-brand/30;
+  }
+  .file-input {
+    @apply block w-full text-sm text-muted;
+    @apply file:mr-3 file:cursor-pointer file:rounded-md file:border-0 file:bg-brand-soft file:px-3 file:py-2 file:text-sm file:font-semibold file:text-brand hover:file:bg-brand/15;
+  }
+
+  /* Surfaces */
+  .panel { @apply rounded-lg border border-line bg-surface; }
+  .auth-card { @apply mx-auto mt-10 w-full max-w-md space-y-5 rounded-lg border border-line bg-surface p-6 sm:p-8; }
+
+  /* Small labels */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs font-medium text-muted;
+  }
+  .chip a { @apply text-brand hover:underline; }
+
+  /* Long-form user text keeps its line breaks */
+  .prose-body { @apply max-w-[68ch] whitespace-pre-line text-[1.0625rem] leading-7 text-ink; }
+
+  /* Vote rail */
+  .vote-btn {
+    @apply flex size-8 cursor-pointer items-center justify-center rounded-full border border-line-strong bg-surface text-muted transition-colors hover:border-brand hover:bg-brand-soft hover:text-brand;
+  }
+}

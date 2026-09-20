@@ -1,7 +1,18 @@
 = turbo_stream_from question
 
-= render 'questions/question', question: question
 = render 'subscriptions/subscriptions', question: question
-br
+= render 'questions/question', question: question
+
+h2 class="mb-4 mt-10 font-display text-2xl font-bold" Answers
 = render 'answers/list', question: question
-= render 'answers/form', question: question, answer: answer
+
+- if current_user
+  = render 'answers/form', question: question, answer: answer
+- else
+  div id="new-answer" class="panel mt-8 p-6 text-center"
+    p class="font-display text-lg font-semibold" Know the answer?
+    p class="mt-1 text-muted"
+      = link_to 'Log in', new_user_session_path
+      |  or 
+      = link_to 'sign up', new_user_registration_path
+      |  to post an answer.

@@ -1,5 +1,5 @@
 doctype html
-html
+html lang="en"
   head
     title Qna
     meta name="viewport" content="width=device-width,initial-scale=1"
@@ -9,13 +9,17 @@ html
     = csrf_meta_tags
     = csp_meta_tag
 
-    = stylesheet_link_tag 'bootstrap.min', 'data-turbo-track': 'reload'
-    = stylesheet_link_tag 'application', 'data-turbo-track': 'reload'
+    link rel="preconnect" href="https://fonts.googleapis.com"
+    link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=true
+    link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600;700&display=swap"
+    = stylesheet_link_tag :app, 'data-turbo-track': 'reload'
     = javascript_importmap_tags
 
   body
-    .container-fluid
-      #flash
-        = render 'shared/flash'
-      = render 'layouts/shared/navbar'
+    = render 'layouts/shared/navbar'
+
+    #flash class="fixed bottom-4 right-4 z-50 w-[min(22rem,calc(100vw-2rem))] space-y-2"
+      = render 'shared/flash'
+
+    main class="mx-auto w-full max-w-5xl px-4 py-8 sm:py-10"
       = yield

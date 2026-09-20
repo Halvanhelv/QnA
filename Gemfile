@@ -16,6 +16,7 @@ gem 'tzinfo-data', platforms: %i[windows jruby]
 gem 'importmap-rails'
 gem 'propshaft'
 gem 'stimulus-rails'
+gem 'tailwindcss-rails'
 gem 'turbo-rails'
 
 # Solid stack (queue, cache, cable in the database)

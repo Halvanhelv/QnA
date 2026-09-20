@@ -1,3 +1,2 @@
 = turbo_frame_tag dom_id(commentable, :new_comment)
-  span.text-primary.comment-toggle
-    = link_to t('add comment'), polymorphic_path([:new, commentable, :comment]), style: 'text-decoration: none;'
+  = link_to t('add comment'), polymorphic_path([:new, commentable, :comment]), class: 'btn btn-quiet -ml-2 mt-1'
