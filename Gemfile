@@ -30,7 +30,7 @@ gem 'kamal', require: false
 gem 'thruster', require: false
 
 # Views
-gem 'lexxy', '~> 0.9'
+gem 'lexxy', '~> 1.0'
 gem 'will_paginate'
 
 # Active Storage variants
